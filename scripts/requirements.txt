@@ -1,0 +1,6 @@
+# Audit engine runtime deps.
+# The container/signing/native layers need nothing beyond the stdlib; androguard
+# buys us the AXML decoder and the Dalvik instruction model.
+androguard>=4.1.2
+lxml>=4.9
+cryptography>=42

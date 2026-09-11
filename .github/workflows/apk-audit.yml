@@ -1,0 +1,328 @@
+name: APK Deep Audit
+
+# One workflow, two halves:
+#   * authoritative vendor tooling (aapt2/apksigner/zipalign from the Android SDK,
+#     apktool smali dump, binutils on the native libs)
+#   * the repo's own engine (scripts/apk_audit) which is what produces the
+#     findings, scores and SARIF
+# The vendor tools cross-check the engine; where they disagree, the engine's
+# finding is upgraded to an "uncertain" note rather than silently dropped.
+
+on:
+  push:
+    paths:
+      - "**.apk"
+      - "scripts/**"
+      - ".github/workflows/apk-audit.yml"
+  pull_request:
+    paths:
+      - "**.apk"
+      - "scripts/**"
+  workflow_dispatch:
+    inputs:
+      apk:
+        description: Path to the APK inside the repo
+        default: TopFollow_v845-Beta.apk
+        type: string
+      fail_on:
+        description: Quality-gate severity floor (CRITICAL/HIGH/MEDIUM/LOW/INFO/never)
+        default: never
+        type: choice
+        options: [never, CRITICAL, HIGH, MEDIUM, LOW, INFO]
+  schedule:
+    # keep the audit current if the sample is ever replaced in-tree
+    - cron: "17 4 * * 3"
+
+permissions:
+  contents: read
+  security-events: write
+  checks: write
+  actions: read
+
+concurrency:
+  group: apk-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PY: "3.11"
+  APKTOOL_VERSION: "2.10.0"
+
+jobs:
+  audit:
+    name: Static audit (${{ matrix.depth }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        depth: [full]
+    outputs:
+      risk_score: ${{ steps.engine.outputs.risk_score }}
+      band: ${{ steps.engine.outputs.band }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+
+      - name: Locate sample
+        id: sample
+        run: |
+          APK="${{ inputs.apk || 'TopFollow_v845-Beta.apk' }}"
+          if [ ! -f "$APK" ]; then
+            APK=$(find . -maxdepth 2 -name '*.apk' -printf '%s %p\n' | sort -rn | head -1 | cut -d' ' -f2-)
+          fi
+          [ -n "$APK" ] || { echo "::error::no .apk found in repo"; exit 1; }
+          echo "path=$APK" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$APK")" >> "$GITHUB_OUTPUT"
+          ls -l "$APK"
+          {
+            echo "| sha256 | \`$(sha256sum "$APK" | cut -d' ' -f1)\` |"
+            echo "| sha1 | \`$(sha1sum "$APK" | cut -d' ' -f1)\` |"
+            echo "| md5 | \`$(md5sum "$APK" | cut -d' ' -f1)\` |"
+            echo "| bytes | $(stat -c%s "$APK") |"
+          } > "$RUNNER_TEMP"/hashes.md
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PY }}
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+
+      - name: Set up Java (for apktool / apksigner)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install audit engine dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Detector controls (self-test)
+        run: |
+          # Fail fast if the spoof/rotation/overlay detectors stop firing.
+          PYTHONPATH=$PWD/scripts python scripts/selftest.py
+
+      - name: Install apktool
+        run: |
+          set -euo pipefail
+          curl -fsSL -o /tmp/apktool.jar \
+            "https://github.com/iBotPeaches/Apktool/releases/download/v${APKTOOL_VERSION}/apktool_${APKTOOL_VERSION}.jar"
+          printf '#!/bin/sh\nexec java -jar /tmp/apktool.jar "$@"\n' > /usr/local/bin/apktool
+          chmod +x /usr/local/bin/apktool
+          apktool --version
+
+      - name: Locate Android SDK build tools
+        id: sdk
+        run: |
+          set -uo pipefail
+          D=${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}
+          echo "home=$D" >> "$GITHUB_OUTPUT"
+          A=$(ls -d "$D"/build-tools/*/ 2>/dev/null | sort -V | tail -1)
+          echo "buildtools=$A" >> "$GITHUB_OUTPUT"
+          if [ -n "$A" ]; then
+            echo "apksigner=$A/apksigner" >> "$GITHUB_OUTPUT"
+            echo "aapt2=$A/aapt2" >> "$GITHUB_OUTPUT"
+            echo "zipalign=$A/zipalign" >> "$GITHUB_OUTPUT"
+          else
+            echo "apksigner=" >> "$GITHUB_OUTPUT"; echo "aapt2=" >> "$GITHUB_OUTPUT"; echo "zipalign=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: "Vendor check: aapt2 badging (manifest truth)"
+        continue-on-error: true
+        run: |
+          mkdir -p tools-out
+          A="${{ steps.sdk.outputs.aapt2 }}"
+          if [ -x "$A" ]; then
+            "$A" dump badging "${{ steps.sample.outputs.path }}" > tools-out/aapt2-badging.txt
+            "$A" dump xmltree "${{ steps.sample.outputs.path }}" --file AndroidManifest.xml > tools-out/aapt2-manifest-xmltree.txt || true
+            "$A" dump resources "${{ steps.sample.outputs.path }}" > tools-out/aapt2-resources.txt || true
+            head -60 tools-out/aapt2-badging.txt
+          else
+            echo "build-tools not present on this runner image; skipping" | tee tools-out/aapt2-badging.txt
+          fi
+
+      - name: "Vendor check: apksigner verify --print-certs"
+        id: apksigner
+        continue-on-error: true
+        run: |
+          mkdir -p tools-out
+          A="${{ steps.sdk.outputs.apksigner }}"
+          if [ -x "$A" ]; then
+            "$A" verify --verbose --print-certs "${{ steps.sample.outputs.path }}" \
+              > tools-out/apksigner-verify.txt 2>&1; rc=$?
+            echo "exit=$rc" >> "$GITHUB_OUTPUT"
+            cat tools-out/apksigner-verify.txt | head -80
+            grep -q "DOES NOT VERIFY" tools-out/apksigner-verify.txt && \
+              echo "::error title=Signature invalid::apksigner reports the package does NOT verify"
+          else
+            echo "no apksigner on runner; the engine's own DER parse is the only source" | tee tools-out/apksigner-verify.txt
+            echo "exit=-1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: "Vendor check: zipalign 4-byte verification"
+        continue-on-error: true
+        run: |
+          A="${{ steps.sdk.outputs.zipalign }}"
+          if [ -x "$A" ]; then
+            "$A" -c -v 4 "${{ steps.sample.outputs.path }}" > tools-out/zipalign.txt 2>&1 || true
+            tail -5 tools-out/zipalign.txt
+          fi
+
+      - name: "Vendor check: apktool smali + framework decode"
+        id: apktool
+        continue-on-error: true
+        run: |
+          apktool d -f -o apktool-out "${{ steps.sample.outputs.path }}" \
+            > tools-out/apktool.log 2>&1 || true
+          tail -5 tools-out/apktool.log || true
+          find apktool-out -name '*.smali' | wc -l | sed 's/^/smali files: /'
+          # keep the decoded manifest + a raw smali inventory as evidence
+          cp apktool-out/AndroidManifest.xml tools-out/apktool-manifest.xml 2>/dev/null || true
+          find apktool-out/smali* -name '*.smali' 2>/dev/null | sed 's|.*/smali[^/]*||' | sort > tools-out/smali-inventory.txt || true
+          wc -l tools-out/smali-inventory.txt 2>/dev/null || true
+
+      - name: "Native: binutils on every shipped ELF"
+        continue-on-error: true
+        run: |
+          mkdir -p native-out x
+          unzip -o -q "${{ steps.sample.outputs.path }}" 'lib/*' -d x || true
+          for f in $(find x -name '*.so' | sort); do
+            b=$(basename "$f").$(uname -m)
+            {
+              echo "=== $f ==="
+              readelf -h -d -l "$f" 2>&1
+              echo "--- sections ---"; readelf -S -W "$f" 2>&1
+              echo "--- dynamic deps ---"; readelf -d "$f" 2>&1 | grep NEEDED || true
+              echo "--- exported (GLOBAL) ---"; readelf --dyn-syms -W "$f" 2>&1 | awk '$5=="GLOBAL" && $7!="UND"'
+              echo "--- undefined imports ---"; readelf --dyn-syms -W "$f" 2>&1 | awk '$7=="UND" {print $8}' | sed 's/@.*//' | sort -u
+            } > "native-out/$(basename "$f").readelf.txt" 2>&1
+            strings -n 6 "$f" > "native-out/$(basename "$f").strings.txt" 2>&1 || true
+            grep -Eo 'https?://[^"[:space:]]{6,200}' "native-out/$(basename "$f").strings.txt" | sort -u \
+              > "native-out/$(basename "$f").urls.txt" 2>&1 || true
+            grep -aiE 'ptrace|/proc/self/(maps|status)|TracerPid|frida|xposed|magisk|/system/xbin/su|ro\.kernel\.qemu|SSL_CTX|graph\.instagram|i\.instagram' \
+              "native-out/$(basename "$f").strings.txt" | sort -u | head -80 \
+              > "native-out/$(basename "$f").redflags.txt" 2>&1 || true
+          done
+          ls -la native-out/ | head -30
+
+      - name: Run audit engine
+        id: engine
+        continue-on-error: true
+        run: |
+          mkdir -p audit-out
+          PYTHONPATH=$PWD/scripts python -m apk_audit "${{ steps.sample.outputs.path }}" \
+            -o audit-out --extract "$RUNNER_TEMP/unpacked" \
+            --fail-on ${{ inputs.fail_on || 'never' }} \
+            > audit-out/engine.log 2>&1
+          rc=$?
+          echo "engine_exit=$rc" >> "$GITHUB_OUTPUT"
+          if [ -f audit-out/findings.json ]; then
+            python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          try:
+              d = json.load(open('audit-out/findings.json'))
+              print(f"risk_score={d['score']}")
+              print(f"band={d['band']}")
+          except Exception as e:
+              print(f"risk_score=NA\nband=NA")
+          PY
+          fi
+          tail -25 audit-out/engine.log || true
+          exit 0
+
+      - name: Merge vendor verdicts into the report
+        if: always()
+        run: |
+          python scripts/merge_vendor.py \
+            --report audit-out/report.md \
+            --apksigner tools-out/apksigner-verify.txt \
+            --zipalign tools-out/zipalign.txt \
+            --aapt2 tools-out/aapt2-badging.txt \
+            --hashes "$RUNNER_TEMP"/hashes.md \
+            || true
+
+      - name: Upload SARIF to code scanning
+        if: always() && hashFiles('audit-out/audit.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: audit-out/audit.sarif
+          category: apk-audit
+
+      - name: Job summary
+        if: always()
+        run: |
+          echo "# APK deep audit — ${{ steps.sample.outputs.name }}" >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP"/hashes.md >> "$GITHUB_STEP_SUMMARY" || true
+          echo >> "$GITHUB_STEP_SUMMARY"
+          [ -f audit-out/summary.md ] && cat audit-out/summary.md >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo "## Vendor cross-checks" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          head -25 tools-out/apksigner-verify.txt >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || echo "apksigner: unavailable" >> "$GITHUB_STEP_SUMMARY"
+          tail -3 tools-out/zipalign.txt >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          echo >> "$GITHUB_STEP_SUMMARY"
+          echo "\`audit-out\` = report.md + findings.json + audit.sarif; \`tools-out\` = aapt2/apksigner/zipalign/apktool logs; \`native-out\` = readelf+strings per .so. The full smali tree stays in the job workspace (too large to upload) - see apktool.log for its inventory." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-${{ github.run_number }}
+          path: |
+            audit-out/
+            tools-out/
+            native-out/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Quality gate
+        if: ${{ inputs.fail_on != 'never' && inputs.fail_on != '' }}
+        run: |
+          if [ "${{ steps.engine.outputs.engine_exit }}" = "" ]; then echo "engine step did not run"; exit 0; fi
+          exit ${{ steps.engine.outputs.engine_exit }}
+
+  reputation:
+    name: Hash reputation lookups
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 1}
+      - name: Query by hash only (no sample uploaded)
+        env:
+          VT_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+        run: |
+          APK=$(find . -maxdepth 2 -name '*.apk' | head -1)
+          H=$(sha256sum "$APK" | cut -d' ' -f1)
+          mkdir -p rep
+          echo "sha256=$H" | tee rep/hashes.txt
+          echo "- VirusTotal: https://www.virustotal.com/gui/file/$H" | tee -a rep/links.txt
+          echo "- Koodous: https://koodous.com/apks/$H" | tee -a rep/links.txt
+          echo "- MalwareBazaar search by hash is via bazaar.abuse.ch/sample/$H" | tee -a rep/links.txt
+          if [ -n "${VT_KEY:-}" ]; then
+            curl -s -H "x-apikey: $VT_KEY" "https://www.virustotal.com/api/v3/files/$H" \
+              > rep/vt.json || true
+            python - <<'PY' | tee -a rep/links.txt || true
+          import json
+          try:
+              a = json.load(open('rep/vt.json'))['data']['attributes']
+              s = a.get('last_analysis_stats', {})
+              print(f"VT verdict: {s.get('malicious','-')} malicious / {s.get('suspicious','-')} suspicious "
+                    f"/ {s.get('undetected','-')} clean; names={a.get('names') or a.get('detection_names')!r}")
+              print(f"type_tag={a.get('type_tag')} size={a.get('size')}")
+          except Exception as e:
+              print('VT lookup unavailable:', e)
+          PY
+          else
+            echo "VIRUSTOTAL_API_KEY secret not configured - hash links only (nothing uploaded)." > rep/vt.txt
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reputation
+          path: rep/
+          retention-days: 30

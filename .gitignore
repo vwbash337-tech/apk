@@ -1,0 +1,12 @@
+# audit scratch / generated artifacts stay out of the repo
+audit-out/
+out/
+x/
+apktool-out/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# unpacked sample trees (large, regenerable)
+work/
+unpacked/
