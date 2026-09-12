@@ -1,0 +1,48 @@
+total relocations: 2814
+.data.rel.ro vaddr=0x1b6160 off=0x1b2160 size=0x4490 -> 2194 qwords
+
+=== 22 JNINativeMethod entries recovered ===
+#  0 slot=0x1b6198 name='x0011a4c2'                              sig='()J'
+      fnPtr=0x3eab4
+#  1 slot=0x1b61b0 name='x0014e2e9'                              sig='()Ljava/lang/String;'
+      fnPtr=0x3f034
+#  2 slot=0x1b61c8 name='x0016d3b9'                              sig='()Ljava/lang/String;'
+      fnPtr=0x3f3c8
+#  3 slot=0x1b61e0 name='x0012d3e0'                              sig='(Ljava/lang/String;)Ljava/lang/String;'
+      fnPtr=0x3f688
+#  4 slot=0x1b61f8 name='x0011e28b'                              sig='(Ljava/lang/String;)Ljava/lang/String;'
+      fnPtr=0x4110c
+#  5 slot=0x1b6210 name='x00120b1e'                              sig='(Lcom/google/gson/JsonObject;Ljava/lang/String;)V'
+      fnPtr=0x435b8
+#  6 slot=0x1b6228 name='x0012e5a1'                              sig='(Lcom/google/gson/JsonObject;)V'
+      fnPtr=0x4f078
+#  7 slot=0x1b6240 name='x00135e2a'                              sig='(Lcom/google/gson/JsonObject;Lcom/nivaroid/topfollow/models/InstagramAccount;Ljava/lang/String;)V'
+      fnPtr=0x76508
+#  8 slot=0x1b6258 name='x00105e9b'                              sig='(Ljava/lang/String;)Ljava/lang/String;'
+      fnPtr=0x7f82c
+#  9 slot=0x1b6270 name='x0015b1e9'                              sig='(Lcom/google/gson/JsonObject;Ljava/lang/String;Ljava/lang/String;)V'
+      fnPtr=0x81c58
+# 10 slot=0x1b6288 name='x0015a3b7'                              sig='(Lcom/google/gson/JsonObject;Lcom/nivaroid/topfollow/models/InstagramAccount;Lcom/nivaroid/topfollow/models/Order;)V'
+      fnPtr=0xadacc
+# 11 slot=0x1b62a0 name='x0017b62c'                              sig='(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;'
+      fnPtr=0xbf7fc
+# 12 slot=0x1b62b8 name='x0011f42b'                              sig='()Ljava/lang/String;'
+      fnPtr=0xc67a4
+# 13 slot=0x1b62d0 name='x0012f5b7'                              sig='()Ljava/lang/String;'
+      fnPtr=0xcbeac
+# 14 slot=0x1b62e8 name='x0014b4f3'                              sig='(Ljava/lang/String;)Ljava/lang/String;'
+      fnPtr=0xd46a8
+# 15 slot=0x1b6300 name='x0011f1a2'                              sig='(Lcom/nivaroid/topfollow/models/Order;)Ljava/lang/String;'
+      fnPtr=0xd80e8
+# 16 slot=0x1b6318 name='x0015e49c'                              sig='(Lretrofit2/Response;Lcom/nivaroid/topfollow/models/Order;Lcom/nivaroid/topfollow/models/InstagramAccount;)Ljava/lang/String;'
+      fnPtr=0xe01e4
+# 17 slot=0x1b6330 name='x0010e27f'                              sig='()Ljava/lang/String;'
+      fnPtr=0xfcd60
+# 18 slot=0x1b6348 name='x00113f7a'                              sig='()Ljava/lang/String;'
+      fnPtr=0xfd010
+# 19 slot=0x1b6360 name='x0014c1f9'                              sig='(Lretrofit2/Response;)Ljava/lang/String;'
+      fnPtr=0xfd540
+# 20 slot=0x1b6378 name='x00126f7c'                              sig='(ZLjava/lang/String;)Lretrofit2/Retrofit;'
+      fnPtr=0xfe268
+# 21 slot=0x1b6390 name='x0018d3f7'                              sig='(I)Lretrofit2/Retrofit;'
+      fnPtr=0x1013b8

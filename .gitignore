@@ -1,0 +1,12 @@
+# --- tooling / scratch (regenerable) ---
+.venv/
+
+# --- unzip output of TopFollow_v845-Beta.apk (17 MB, reproducer below) ---
+work/apk_extracted/
+
+# --- raw Capstone dumps (38 MB combined); regenerate with analysis/disasm.py ---
+work/analysis/annotated_arm64.txt
+work/analysis/full_disasm_arm64.txt
+
+# --- bulky machine-readable index (2.4 MB); regenerate with analysis/funcmap.py ---
+work/analysis/funcmap.json
