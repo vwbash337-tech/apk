@@ -1,0 +1,516 @@
+################ LAYER 1: PLAINTEXT STRINGS (non-libc/libunwind) ################
+0x014b35 | (Lretrofit2/Response;)Ljava/lang/String;
+0x014b5e | (ZLjava/lang/String;)Lretrofit2/Retrofit;
+0x014b88 | digest
+0x014b8f | com/nivaroid/topfollow/helper/T
+0x014baf | setup
+0x014bb5 | ()Lcom/nivaroid/topfollow/models/InstagramAccount;
+0x014be8 | media_count
+0x014bf4 | V1ROS2JGbFlVbXhZTWpWMlpFZFZkbVJxU1hZPQ==
+0x014c1d | %.0Lf
+0x014c23 | Mon
+0x014cba | x18
+0x014cc4 | ([B)[B
+0x014ccb | %a %b %d %H:%M:%S %Y
+0x014ce0 | decltype(
+0x014d0e | long
+0x014d13 | char32_t
+0x014da2 | com/nivaroid/topfollow/helper/q
+0x014dc2 | getContentResolver
+0x014dd5 | android/os/Build
+0x014de8 | TDNOaGRtVXY=
+0x014df5 | (Lcom/nivaroid/topfollow/models/DeviceModel;)V
+0x014e24 | build
+0x014e2a | Thu
+0x014e2e | Apr
+0x014e32 | Nov
+0x014e3b | throw
+0x014e41 | wchar_t
+0x014e71 | decltype(auto)
+0x014e80 | signatures
+0x014e8b | null
+0x014e92 | u_a
+0x014e96 | order_stamp
+0x014ea2 | raw
+0x014ea6 | getPath
+0x014eae | V1ZWb1UwMUhUa2xVVkZwTlpWUm5PUT09
+0x014ecf | sign
+0x014ed4 | java/lang/String
+0x014ee5 | (JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;
+0x014f26 | Jun
+0x014f53 | const_cast
+0x014f61 | unsigned __int128
+0x014ff6 | getSLEB128
+0x015001 | getSavedRegister
+0x015012 | d11
+0x015016 | d25
+0x01501a | ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
+0x01505b | (Ljava/lang/String;)Ljava/lang/String;
+0x015084 | WkRnME5UVTVNV1V3T0RZd016TmhPVEF6Tldaa05tSTJObU16WXpOa056TmhZVE16WVdZNU1EYzVOR1EyWWprNE5tVTJORGMzT1dWbFlUWmlaV00xWlE9PQ==
+0x0150fd | (Ljava/lang/String;)V
+0x015113 | okhttp3/CertificatePinner$Builder
+0x015135 | (Lokhttp3/OkHttpClient;)Lretrofit2/Retrofit$Builder;
+0x01516a | Tuesday
+0x015172 | Sat
+0x015176 | March
+0x01519c |  [enable_if:
+0x0151b8 | objc_object
+0x0151d3 | getEncodedP
+0x0151df | x22
+0x0151e6 | getPackageName
+0x0151f5 | nonce
+0x0151fb | mid
+0x0151ff | MODEL
+0x015205 | 0123456789
+0x01524e | unsigned char
+0x0152bb | getSavedFloatRegister
+0x0152d1 | d13
+0x0152d5 | Unknown error %d
+0x0152e6 | std
+0x015311 | d16
+0x015315 | x0011a4c2
+0x01531f | ()Ljava/lang/String;
+0x015334 | x0018d3f7
+0x01533e | getContext
+0x015349 | getPackageInfo
+0x015358 | ()[B
+0x01535d | <init>
+0x01536c | (Ljava/lang/String;[Ljava/lang/String;)Lokhttp3/CertificatePinner$Builder;
+0x0153b7 | baseUrl
+0x0153cf | auto
+0x0153d4 | unsigned short
+0x0153e3 | false
+0x0153e9 | %LaL
+0x015450 | x26
+0x01547c | x0011e28b
+0x0154ca | ()Landroid/content/ContentResolver;
+0x0154ee | ()Lcom/nivaroid/topfollow/models/DeviceModel;
+0x01551c | interop_messaging_user_fbid
+0x015538 | username
+0x015541 | bGliYnJpZGdlLnNv
+0x015555 | setHash_key
+0x015561 | Sun
+0x015565 | Wed
+0x015569 | Jul
+0x01558c | int
+0x01561f | (Lcom/nivaroid/topfollow/models/Order;)Ljava/lang/String;
+0x015659 | (Lretrofit2/Response;Lcom/nivaroid/topfollow/models/Order;Lcom/nivaroid/topfollow/models/InstagramAccount;)Ljava/lang/String;
+0x0156df | cmlydQ==
+0x0156e8 | bGliY3NvX3N1YnN0cmF0ZQ==
+0x015701 | ()Lokhttp3/Response;
+0x015716 | Saturday
+0x01571f | April
+0x015725 | August
+0x015754 | signed char
+0x015763 | sizeof...(
+0x015797 | long long
+0x0157a1 | noexcept(
+0x0157d5 | x16
+0x0157df | getPackageManager
+0x0157f1 | com/nivaroid/topfollow/helper/a0
+0x015812 | (Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;
+0x01585a | retrofit2/Retrofit$Builder
+0x0158fb | __float128
+0x015906 | char16_t
+0x0159c9 | d10
+0x0159cd | d30
+0x0159d1 | d31
+0x0159d5 | fcm_token
+0x0159df | isSuccessful
+0x0159ec | WVVoU01HTklUVFpNZVRsd1RHMXNkV016VW1oYU0wcG9ZbE0xYW1JeU1IWlpXRUp3VEROWmVVeDNQVDA9
+0x015a3d | (I)V
+0x015a42 | "nonce"
+0x015a4a | readTimeout
+0x015a66 | Fri
+0x015a6a | January
+0x015a72 | October
+0x015a7d | ->*
+0x015a81 | typename 
+0x015ab6 | unsigned long
+0x015ad2 | setRegister
+0x015b28 | ()J
+0x015b2c | x0014e2e9
+0x015b36 | x0017b62c
+0x015b40 | (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+0x015b8b | com/nivaroid/topfollow/application/G
+0x015bb0 | ()Lcom/nivaroid/topfollow/application/G;
+0x015bd9 | coin
+0x015be1 | ZnJpZGE=
+0x015bea | profile_pic_url
+0x015bfa | getHost
+0x015c02 | YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzg9
+0x015c33 | Sep
+0x015c37 | > typename 
+0x015c43 | (anonymous namespace)
+0x015c64 |  complex
+0x015c6d | CIE version is not 1 or 3
+0x015c87 | x24
+0x015c8b | d29
+0x015c8f | ()V
+0x015c95 | BOARD
+0x015c9b | web
+0x015c9f | setNonce
+0x015ccb | VTT for 
+0x015cd4 | alignof (
+0x015ce0 | noexcept (
+0x015ceb | char
+0x015d08 | unsigned int
+0x015d73 | d20
+0x015d77 | (Lcom/google/gson/JsonObject;Ljava/lang/String;)V
+0x015da9 | x00126f7c
+0x015db5 | L3Byb2Mvc2VsZi9tYXBz
+0x015dca | req_id
+0x015dd4 | c3Vic3RyYXRl
+0x015de3 | WVVoU01HTklUVFpNZVRrelpETmpkV0ZYTlhwa1IwWnVZMjFHZEV4dFRuWmlVemx1WTIxR2QyRklSbk5NTTBZeFdsaEtOUT09
+0x015e44 | string
+0x015e4b | ()Lokhttp3/OkHttpClient;
+0x015e64 | %Lf
+0x015e68 | Friday
+0x015e6f | : out of range
+0x015e92 | libc++abi
+0x015e9c | dynamic_cast
+0x015eaf | short
+0x015eb5 | ostream
+0x015ebd | long double
+0x015ec9 | x13
+0x015ed0 | x0015a3b7
+0x015eda | (Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+0x015f10 | profile_pic_id
+0x015f1f | client
+0x015f26 | Thursday
+0x015f2f | Feb
+0x015f33 | Mar
+0x015f37 | unexpected
+0x015f42 | guard variable for 
+0x015f59 | true
+0x015f7f | x15
+0x015f83 | [Landroid/content/pm/Signature;
+0x015fa3 | toByteArray
+0x015fb1 | unspecified iostream_category error
+0x015fd5 | virtual thunk to 
+0x015fea | >>=
+0x015ff1 | %af
+0x01600a | istream
+0x016012 | char8_t
+0x016039 | Unknown DWARF encoding for search table.
+0x016062 | x11
+0x016066 | x12
+0x01606a | U0dKR01FNW9OV3h3
+0x01607b | gem
+0x01607f | cmUuZnJpZGEuc2VydmVy
+0x016094 | ()Ljava/lang/Object;
+0x0160a9 | ()Ljava/net/URL;
+0x0160ba | Monday
+0x0160c1 | February
+0x0160ca | unexpected_handler unexpectedly returned
+0x0160f3 | construction vtable for 
+0x016111 | __int128
+0x01611a | template<
+0x01614f | string literal
+0x01615e | unsigned long long
+0x016171 |  imaginary
+0x0161be | x25
+0x0161c2 | d14
+0x0161c6 | d19
+0x0161ca | 0123456789abcdef
+0x0161db | x0012d3e0
+0x0161eb | Z3VtLWpzLWxvb3A=
+0x0161fc | fbid_v2
+0x016204 | ZWR4cG9zZWQ=
+0x016211 | DEVICE
+0x016218 | ERROR
+0x01621e | media_id
+0x016227 | body
+0x01622c | ()Lokhttp3/Request;
+0x016240 | (Lokhttp3/CertificatePinner;)Lokhttp3/OkHttpClient$Builder;
+0x01627c | Sunday
+0x016283 | Oct
+0x01628a | : no conversion
+0x0162b8 | bool
+0x0162bd | evaluateExpression
+0x0162d3 | d23
+0x0162d7 | x0010e27f
+0x0162e1 | ()Z
+0x0162e5 | com/nivaroid/topfollow/db/MyDatabase
+0x01630a | currentInstagram
+0x01631b | account_type
+0x016328 | request
+0x016330 | 1.2.8
+0x016336 | cnd4cA==
+0x01633f | writeTimeout
+0x01634c | %I:%M:%S %p
+0x016358 | Wednesday
+0x016362 | July
+0x016367 | <<=
+0x016375 |  restrict
+0x01637f | decimal64
+0x0163ca | x27
+0x0163ce | x28
+0x0163d5 | d17
+0x0163d9 | Error!
+0x0163e0 | (Lcom/google/gson/JsonObject;)V
+0x016400 | x0011f1a2
+0x01640a | (Ljava/lang/String;)Ljava/security/MessageDigest;
+0x01643c | android/provider/Settings$Secure
+0x01645d | ANDROID_ID
+0x016468 | getString
+0x016472 | getDevice
+0x01647c | family_device_id
+0x01648d | order_stamp2
+0x01649a | add
+0x01649e | certificatePinner
+0x0164b0 | ()Lretrofit2/Retrofit;
+0x0164c7 | iostream
+0x0164d3 | May
+0x016504 | non-virtual thunk to 
+0x01651d | ...
+0x016553 | pixel vector[
+0x016561 | union
+0x016567 | _Unwind_Resume() can't return
+0x0165c7 | order_id
+0x0165d3 | yptn
+0x0165ff | x19
+0x016603 | d22
+0x016607 | x0016d3b9
+0x016611 | (I)Lretrofit2/Retrofit;
+0x016629 | java/security/MessageDigest
+0x016645 | SHA-256
+0x016650 | follower_count
+0x01665f | bytes
+0x016665 | "hash_key"
+0x016670 | Ljava/util/concurrent/TimeUnit;
+0x0166b6 | June
+0x0166e1 | uncaught
+0x016736 | _Unwind_Resume
+0x01678a | d12
+0x01678e | getInstance
+0x01679a | hash_type
+0x0167a9 | bHNwb3NlZA==
+0x0167b6 | HARDWARE
+0x0167bf | ()Lokhttp3/ResponseBody;
+0x0167d8 | okhttp3/OkHttpClient$Builder
+0x0167f5 | java/util/concurrent/TimeUnit
+0x016813 | SECONDS
+0x016821 | 'block-literal'
+0x016856 | double
+0x01685d | x0015b1e9
+0x016867 | x0014b4f3
+0x016871 | x0015e49c
+0x01687b | x0014c1f9
+0x016885 | ()Landroid/content/pm/PackageManager;
+0x0168ab | hash_key
+0x0168b4 | ()Lcom/nivaroid/topfollow/db/MyDatabase;
+0x0168dd | November
+0x016901 | invocation function for block in 
+0x016923 | static_cast
+0x01692f | sizeof... (
+0x01693b | ull
+0x016996 | getULEB128
+0x0169a1 | malformed uleb128 expression
+0x0169be | DWARF opcode not implemented
+0x0169db | x14
+0x0169df | x20
+0x0169e3 | (Lcom/google/gson/JsonObject;Lcom/nivaroid/topfollow/models/InstagramAccount;Ljava/lang/String;)V
+0x016a45 | x0011f42b
+0x016a4f | x0012f5b7
+0x016a59 | x00113f7a
+0x016a63 | Ljava/lang/String;
+0x016a7e | ()Lokhttp3/CertificatePinner;
+0x016a9c | September
+0x016aa6 | Dec
+0x016ac8 | nullptr
+0x016adc | ::operator 
+0x016ae8 | enum
+0x016b36 | x23
+0x016b3a | x0012e5a1
+0x016b44 | addProperty
+0x016b50 | following_count
+0x016b60 | WXpKV2JHSnBPRDA9
+0x016b71 | url
+0x016b75 | bGliYXJ0LnNvIChkZWxldGVkKQ==
+0x016b92 | vector
+0x016ba9 | reinterpret_cast
+0x016c0c | x21
+0x016c11 | eHBvc2Vk
+0x016c1a | BRAND
+0x016c20 | "hash_type"
+0x016c2c | Tue
+0x016c30 | Aug
+0x016c4b | void
+0x016c50 | float
+0x016c56 | decimal128
+0x016ca9 | getTableEntrySize
+0x016cbe | d18
+0x016cc2 | d21
+0x016cc6 | d24
+0x016cca | x00120b1e
+0x016cd4 | x00135e2a
+0x016cde | (Lcom/google/gson/JsonObject;Ljava/lang/String;Ljava/lang/String;)V
+0x016d22 | (Lcom/google/gson/JsonObject;Lcom/nivaroid/topfollow/models/InstagramAccount;Lcom/nivaroid/topfollow/models/Order;)V
+0x016d97 | bGliZnJpZGEtZ2FkZ2V0
+0x016dac | type
+0x016db1 | December
+0x016dcc | decimal32
+0x016dd6 | CIE ID is not zero
+0x016de9 | d15
+0x016ded | d28
+0x016df1 | ()I
+0x016df5 | MANUFACTURER
+0x016e02 | ()Lokhttp3/HttpUrl;
+0x016e16 | (Ljava/lang/String;)Lretrofit2/Retrofit$Builder;
+0x016e47 | thread-local wrapper routine for 
+0x016e69 | thread-local initialization routine for 
+0x016e92 | sizeof (
+0x016ea6 | __uuidof(
+0x016ec9 | struct
+0x016f4d | d26
+0x016f51 | d27
+0x016f5a | token
+0x016f60 | eWdzaWs=
+0x016f69 | bGliYy5zbyAoZGVsZXRlZCk=
+0x016f82 | setHash_type
+0x016f8f | addDevice
+0x016fae | Jan
+0x016ff1 | decimal16
+0x016ffb | noexcept
+0x017004 | getRegister
+0x017044 | x17
+0x01705c | x00105e9b
+0x017066 | ()Landroid/content/Context;
+0x017082 | (Ljava/lang/String;Ljava/lang/String;)V
+0x0170aa | errorBody
+0x0170c5 |  volatile
+0x0170cf | Pure virtual function called!
+0x01711f | x10
+0x017ae0 | 0123456789abcdefABCDEFxX+-pPiInN
+0x017b01 | %I:%M:%S %p%
+0x019844 | N12_GLOBAL__N_116itanium_demangle4NodeE
+0x01986c | N12_GLOBAL__N_116itanium_demangle21CtorVtableSpecialNameE
+0x0198a6 | N12_GLOBAL__N_116itanium_demangle8NameTypeE
+0x0198d2 | N12_GLOBAL__N_116itanium_demangle10NestedNameE
+0x019901 | N12_GLOBAL__N_116itanium_demangle24ForwardTemplateReferenceE
+0x01993e | N12_GLOBAL__N_116itanium_demangle14IntegerLiteralE
+0x019971 | N12_GLOBAL__N_116itanium_demangle8BoolExprE
+0x01999d | N12_GLOBAL__N_116itanium_demangle16FloatLiteralImplIfEE
+0x0199d5 | N12_GLOBAL__N_116itanium_demangle16FloatLiteralImplIdEE
+0x019a0d | N12_GLOBAL__N_116itanium_demangle16FloatLiteralImplIeEE
+0x019a45 | N12_GLOBAL__N_116itanium_demangle13StringLiteralE
+0x019a77 | N12_GLOBAL__N_116itanium_demangle15UnnamedTypeNameE
+0x019aab | N12_GLOBAL__N_116itanium_demangle26SyntheticTemplateParamNameE
+0x019aea | N12_GLOBAL__N_116itanium_demangle21TypeTemplateParamDeclE
+0x019b24 | N12_GLOBAL__N_116itanium_demangle24NonTypeTemplateParamDeclE
+0x019b61 | N12_GLOBAL__N_116itanium_demangle25TemplateTemplateParamDeclE
+0x019b9f | N12_GLOBAL__N_116itanium_demangle21TemplateParamPackDeclE
+0x019bd9 | N12_GLOBAL__N_116itanium_demangle15ClosureTypeNameE
+0x019c0d | N12_GLOBAL__N_116itanium_demangle10LambdaExprE
+0x019c3c | N12_GLOBAL__N_116itanium_demangle15IntegerCastExprE
+0x019c70 | N12_GLOBAL__N_116itanium_demangle13FunctionParamE
+0x019ca2 | N12_GLOBAL__N_116itanium_demangle8FoldExprE
+0x019cce | N12_GLOBAL__N_116itanium_demangle22ParameterPackExpansionE
+0x019d09 | N12_GLOBAL__N_116itanium_demangle10BinaryExprE
+0x019d38 | N12_GLOBAL__N_116itanium_demangle10PrefixExprE
+0x019d67 | N12_GLOBAL__N_116itanium_demangle8CastExprE
+0x019d93 | N12_GLOBAL__N_116itanium_demangle8CallExprE
+0x019dbf | N12_GLOBAL__N_116itanium_demangle14ConversionExprE
+0x019df2 | N12_GLOBAL__N_116itanium_demangle10DeleteExprE
+0x019e21 | N12_GLOBAL__N_116itanium_demangle13QualifiedNameE
+0x019e53 | N12_GLOBAL__N_116itanium_demangle8DtorNameE
+0x019e7f | N12_GLOBAL__N_116itanium_demangle22ConversionOperatorTypeE
+0x019eba | N12_GLOBAL__N_116itanium_demangle15LiteralOperatorE
+0x019eee | N12_GLOBAL__N_116itanium_demangle19GlobalQualifiedNameE
+0x019f26 | N12_GLOBAL__N_116itanium_demangle10MemberExprE
+0x019f55 | N12_GLOBAL__N_116itanium_demangle18ArraySubscriptExprE
+0x019f8c | N12_GLOBAL__N_116itanium_demangle10BracedExprE
+0x019fbb | N12_GLOBAL__N_116itanium_demangle15BracedRangeExprE
+0x019fef | N12_GLOBAL__N_116itanium_demangle12InitListExprE
+0x01a020 | N12_GLOBAL__N_116itanium_demangle11PostfixExprE
+0x01a050 | N12_GLOBAL__N_116itanium_demangle7NewExprE
+0x01a07b | N12_GLOBAL__N_116itanium_demangle13EnclosingExprE
+0x01a0ad | N12_GLOBAL__N_116itanium_demangle15ConditionalExprE
+0x01a0e1 | N12_GLOBAL__N_116itanium_demangle19SizeofParamPackExprE
+0x01a119 | N12_GLOBAL__N_116itanium_demangle13NodeArrayNodeE
+0x01a14b | N12_GLOBAL__N_116itanium_demangle9ThrowExprE
+0x01a178 | N12_GLOBAL__N_116itanium_demangle10UUIDOfExprE
+0x01a1a7 | N12_GLOBAL__N_116itanium_demangle27ExpandedSpecialSubstitutionE
+0x01a1e7 | N12_GLOBAL__N_116itanium_demangle12CtorDtorNameE
+0x01a218 | N12_GLOBAL__N_116itanium_demangle10AbiTagAttrE
+0x01a247 | N12_GLOBAL__N_116itanium_demangle21StructuredBindingNameE
+0x01a281 | N12_GLOBAL__N_116itanium_demangle9LocalNameE
+0x01a2ae | N12_GLOBAL__N_116itanium_demangle19SpecialSubstitutionE
+0x01a2e6 | N12_GLOBAL__N_116itanium_demangle13ParameterPackE
+0x01a318 | N12_GLOBAL__N_116itanium_demangle12TemplateArgsE
+0x01a349 | N12_GLOBAL__N_116itanium_demangle20NameWithTemplateArgsE
+0x01a382 | N12_GLOBAL__N_116itanium_demangle16StdQualifiedNameE
+0x01a3b7 | N12_GLOBAL__N_116itanium_demangle20TemplateArgumentPackE
+0x01a3f0 | N12_GLOBAL__N_116itanium_demangle12EnableIfAttrE
+0x01a421 | N12_GLOBAL__N_116itanium_demangle16FunctionEncodingE
+0x01a456 | N12_GLOBAL__N_116itanium_demangle9DotSuffixE
+0x01a483 | N12_GLOBAL__N_116itanium_demangle12NoexceptSpecE
+0x01a4b4 | N12_GLOBAL__N_116itanium_demangle20DynamicExceptionSpecE
+0x01a4ed | N12_GLOBAL__N_116itanium_demangle12FunctionTypeE
+0x01a51e | N12_GLOBAL__N_116itanium_demangle13ObjCProtoNameE
+0x01a550 | N12_GLOBAL__N_116itanium_demangle17VendorExtQualTypeE
+0x01a586 | N12_GLOBAL__N_116itanium_demangle8QualTypeE
+0x01a5b2 | N12_GLOBAL__N_116itanium_demangle15PixelVectorTypeE
+0x01a5e6 | N12_GLOBAL__N_116itanium_demangle10VectorTypeE
+0x01a615 | N12_GLOBAL__N_116itanium_demangle9ArrayTypeE
+0x01a642 | N12_GLOBAL__N_116itanium_demangle19PointerToMemberTypeE
+0x01a67a | N12_GLOBAL__N_116itanium_demangle22ElaboratedTypeSpefTypeE
+0x01a6b5 | N12_GLOBAL__N_116itanium_demangle11PointerTypeE
+0x01a6e5 | N12_GLOBAL__N_116itanium_demangle13ReferenceTypeE
+0x01a717 | N12_GLOBAL__N_116itanium_demangle20PostfixQualifiedTypeE
+0x01a9dc | xxxx 6:
+
+################ LAYER 2: BASE64 (1x/2x/3x nested) ################
+0x014bf4 | 'V1ROS2JGbFlVbXhZTWpWMlpFZFZkbVJxU1hZPQ=='  ==>  'WTNKbFlYUmxYMjV2ZEdVdmRqSXY='  ==>  'Y3JlYXRlX25vdGUvdjIv'  ==>  'create_note/v2/'
+0x014de8 | 'TDNOaGRtVXY='  ==>  'L3NhdmUv'  ==>  '/save/'
+0x014eae | 'V1ZWb1UwMUhUa2xVVkZwTlpWUm5PUT09'  ==>  'WVVoU01HTklUVFpNZVRnOQ=='  ==>  'YUhSMGNITTZMeTg9'  ==>  'aHR0cHM6Ly8='  ==>  'https://'
+0x015084 | 'WkRnME5UVTVNV1V3T0RZd016TmhPVEF6Tldaa05tSTJObU16WXpOa056TmhZVE16WVdZNU1EYzVOR1EyWWprNE5tVTJORGMzT1dWbFlUWmlaV00xWlE9PQ=='  ==>  'ZDg0NTU5MWUwODYwMzNhOTAzNWZkNmI2NmMzYzNkNzNhYTMzYWY5MDc5NGQ2Yjk4NmU2NDc3OWVlYTZiZWM1ZQ=='  ==>  'd845591e086033a9035fd6b66c3c3d73aa33af90794d6b986e64779eea6bec5e'
+0x015541 | 'bGliYnJpZGdlLnNv'  ==>  'libbridge.so'
+0x0156df | 'cmlydQ=='  ==>  'riru'
+0x0156e8 | 'bGliY3NvX3N1YnN0cmF0ZQ=='  ==>  'libcso_substrate'
+0x0159ec | 'WVVoU01HTklUVFpNZVRsd1RHMXNkV016VW1oYU0wcG9ZbE0xYW1JeU1IWlpXRUp3VEROWmVVeDNQVDA9'  ==>  'YUhSMGNITTZMeTlwTG1sdWMzUmhaM0poYlM1amIyMHZZWEJwTDNZeUx3PT0='  ==>  'aHR0cHM6Ly9pLmluc3RhZ3JhbS5jb20vYXBpL3YyLw=='  ==>  'https://i.instagram.com/api/v2/'
+0x015be1 | 'ZnJpZGE='  ==>  'frida'
+0x015c02 | 'YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzg9'  ==>  'aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS8='  ==>  'https://www.instagram.com/'
+0x015db5 | 'L3Byb2Mvc2VsZi9tYXBz'  ==>  '/proc/self/maps'
+0x015dd4 | 'c3Vic3RyYXRl'  ==>  'substrate'
+0x015de3 | 'WVVoU01HTklUVFpNZVRrelpETmpkV0ZYTlhwa1IwWnVZMjFHZEV4dFRuWmlVemx1WTIxR2QyRklSbk5NTTBZeFdsaEtOUT09'  ==>  'YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzluY21Gd2FIRnNMM0YxWlhKNQ=='  ==>  'aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS9ncmFwaHFsL3F1ZXJ5'  ==>  'https://www.instagram.com/graphql/query'
+0x01606a | 'U0dKR01FNW9OV3h3'  ==>  'SGJGME5oNWxw'  ==>  'HbF0Nh5lp'
+0x01607f | 'cmUuZnJpZGEuc2VydmVy'  ==>  're.frida.server'
+0x0161eb | 'Z3VtLWpzLWxvb3A='  ==>  'gum-js-loop'
+0x016204 | 'ZWR4cG9zZWQ='  ==>  'edxposed'
+0x016336 | 'cnd4cA=='  ==>  'rwxp'
+0x0167a9 | 'bHNwb3NlZA=='  ==>  'lsposed'
+0x016b60 | 'WXpKV2JHSnBPRDA9'  ==>  'YzJWbGJpOD0='  ==>  'c2Vlbi8='  ==>  'seen/'
+0x016b75 | 'bGliYXJ0LnNvIChkZWxldGVkKQ=='  ==>  'libart.so (deleted)'
+0x016c11 | 'eHBvc2Vk'  ==>  'xposed'
+0x016d97 | 'bGliZnJpZGEtZ2FkZ2V0'  ==>  'libfrida-gadget'
+0x016f60 | 'eWdzaWs='  ==>  'ygsik'
+0x016f69 | 'bGliYy5zbyAoZGVsZXRlZCk='  ==>  'libc.so (deleted)'
+
+################ LAYER 3: SINGLE-BYTE XOR BLOBS (recovered) ################
+0x01738e len= 25 key=0x5a  root path 1
+      decoded : b'/system/app/Superuser.apk'
+0x0173a7 len=  8 key=0x5a  root path 2
+      decoded : b'/sbin/su'
+0x0173af len= 14 key=0x5a  root path 3
+      decoded : b'/system/bin/su'
+0x0173bd len= 15 key=0x5a  root path 4
+      decoded : b'/system/xbin/su'
+0x0173cc len= 19 key=0x5a  root path 5
+      decoded : b'/data/local/xbin/su'
+0x0173df len= 18 key=0x5a  root path 6
+      decoded : b'/data/local/bin/su'
+0x0173f1 len= 18 key=0x5a  root path 7
+      decoded : b'/system/sd/xbin/su'
+0x017403 len= 23 key=0x5a  root path 8
+      decoded : b'/system/bin/failsafe/su'
+0x01741a len= 14 key=0x5a  root path 9
+      decoded : b'/data/local/su'
+0x01746f len= 85 key=0x5a  hook-framework scan list (func#60)
+      decoded : b'U/proc/self/mapsxposedlsposededxposedrirusubstratelibcso_substratelibbridge.sozygiskZ'
+0x017366 len= 40 key=0x37  frida scan list (func#162)
+      decoded : b'um-js-looplibfrida-gadgetre.frida.server'
+0x01742b len= 68 key=0x1b  func#157 blob
+      decoded : b'p\x089\x17/\x13\x12#\x0711\x17q\x149\x0f\x07%\x14\x12/1-\x15\x16t\x0e\x0f\x00\x16\x0c\x17\x046\x17\x06qs$\x06\x07-\x17,\x13\x0cq\x17\x046\x17\x065q \x17\x0b4\x10+\x07\x16w\x17r\x13\x0e\x1b'
+      tokens  : ['p\x089\x17/\x13\x12#\x0711\x17q\x149\x0f\x07%\x14\x12/1-\x15\x16t\x0e\x0f', '\x16\x0c\x17\x046\x17\x06qs$\x06\x07-\x17,\x13\x0cq\x17\x046\x17\x065q \x17\x0b4\x10+\x07\x16w\x17r\x13\x0e\x1b']

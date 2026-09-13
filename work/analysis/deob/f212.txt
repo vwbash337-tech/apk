@@ -1,0 +1,411 @@
+# func#212 @0x1509cc sz=5276 disp=0x150a94 sreg=w25 blocks=250
+
+; ===== real block 0x1509cc  (50 insns -> 50 meaningful)
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x200
+    str      x1, [sp, #0x48]
+    str      wzr, [sp, #0x54]
+    mrs      x8, tpidr_el0
+    str      x8, [sp]
+    ldr      x8, [x8, #0x28]
+    add      x28, sp, #0xf0
+    add      x9, x0, #4
+    adrp     x30, #0x1bb000
+    stur     x8, [x29, #-0x10]
+    str      x28, [sp, #0x60]
+    ldr      x8, [sp, #0x60]
+    add      x8, x0, #8
+    stp      x8, x9, [sp, #0x30]
+    add      x9, x0, #0xc
+    add      x8, x0, #0x10
+    stp      x8, x9, [sp, #0x20]
+    add      x9, x0, #0x14
+    add      x8, x0, #0x18
+    stp      x8, x9, [sp, #0x10]
+    add      x8, x0, #0x1c
+    str      x0, [sp, #0x40]
+    str      x8, [sp, #8]
+    ldr      x30, [x30, #0x948]
+    mov      w4, #0xfd28
+    mov      w7, #0x31c7
+    mov      w22, #0xd8c4
+    mov      w27, #0x441e
+    mov      w13, #0x3d5f
+    mov      w23, #0xe163
+    mov      w1, #0xe28f
+    mov      w5, #0x441d
+    mov      w9, #0x2a7f
+    movk     w4, #0x9077, lsl #16
+    movk     w7, #0x8384, lsl #16
+    movk     w22, #0x6ccb, lsl #16
+    movk     w27, #0x12b, lsl #16
+    movk     w13, #0x24a1, lsl #16
+    movk     w23, #0xead2, lsl #16
+    movk     w1, #0xaba8, lsl #16
+    movk     w5, #0x12b, lsl #16
+    movk     w9, #0x4942, lsl #16
+    b        #0x151d40
+
+; ===== real block 0x151d40  (3 insns -> 3 meaningful)
+    mov      w25, #0x9219
+    movk     w25, #0x1358, lsl #16
+    b        #0x150a94
+
+; ===== real block 0x150de4  (4 insns -> 3 meaningful)
+    mov      w10, #0x2a80
+    movk     w10, #0x4942, lsl #16
+    b.eq     #0x15169c
+    ;; BR @[('b.eq', 1382044), ('else', 1379828)]
+
+; ===== real block 0x15169c  (28 insns -> 26 meaningful)
+    adrp     x10, #0x1bb000
+    ldr      w8, [sp, #0xe4]
+    ldr      x10, [x10, #0x958]
+    adrp     x11, #0x1bb000
+    ror      w12, w8, #6
+    ldr      w10, [x10]
+    ldr      x11, [x11, #0x960]
+    sub      w14, w10, #1
+    ldr      w11, [x11]
+    mul      w8, w14, w10
+    eor      w10, w8, #0xfffffffe
+    ands     w16, w10, w8
+    cset     w8, ne
+    cset     w10, eq
+    strb     w10, [sp, #0xea]
+    cset     w10, gt
+    eor      w14, w10, w8
+    orr      w8, w10, w8
+    eor      w8, w8, #1
+    orr      w8, w14, w8
+    cset     w10, lt
+    cmp      w8, #0
+    mov      w14, #0xd8c4
+    strb     w10, [sp, #0xeb]
+    csel     w8, w27, w4, ne
+    movk     w14, #0x6ccb, lsl #16
+
+; ===== real block 0x15170c  (2 insns -> 1 meaningful)
+    b.gt     #0x151730
+    ;; BR @[('b.gt', 1382192), ('else', 1382164)]
+
+; ===== real block 0x151730  (2 insns -> 1 meaningful)
+    b.eq     #0x151774
+    ;; BR @[('b.eq', 1382260), ('else', 1382200)]
+
+; ===== real block 0x151774  (11 insns -> 10 meaningful)
+    ldr      w12, [sp, #0xec]
+    ldr      w10, [sp, #0xe4]
+    cset     w14, lt
+    cmp      w16, #0
+    cset     w15, eq
+    strb     w14, [sp, #0xeb]
+    mov      w14, #0xd8c4
+    strb     w15, [sp, #0xea]
+    ror      w17, w10, #0xb
+    movk     w14, #0x6ccb, lsl #16
+
+; ===== real block 0x1517a0  (2 insns -> 1 meaningful)
+    b.gt     #0x1517c4
+    ;; BR @[('b.gt', 1382340), ('else', 1382312)]
+
+; ===== real block 0x1517c4  (2 insns -> 1 meaningful)
+    b.eq     #0x151808
+    ;; BR @[('b.eq', 1382408), ('else', 1382348)]
+
+; ===== real block 0x151808  (11 insns -> 10 meaningful)
+    ldr      w17, [sp, #0xec]
+    ldr      w10, [sp, #0xe4]
+    cset     w14, lt
+    cmp      w16, #0
+    cset     w15, eq
+    mov      w0, #0xd8c4
+    strb     w14, [sp, #0xeb]
+    strb     w15, [sp, #0xea]
+    ror      w14, w10, #0x19
+    movk     w0, #0x6ccb, lsl #16
+
+; ===== real block 0x151834  (2 insns -> 1 meaningful)
+    b.gt     #0x151858
+    ;; BR @[('b.gt', 1382488), ('else', 1382460)]
+
+; ===== real block 0x151858  (2 insns -> 1 meaningful)
+    b.eq     #0x151894
+    ;; BR @[('b.eq', 1382548), ('else', 1382496)]
+
+; ===== real block 0x151894  (3 insns -> 3 meaningful)
+    mov      w0, #0xdc13
+    movk     w0, #0x4de1, lsl #16
+    bic      w10, w0, w17
+
+; ===== real block 0x1518a0  (1 insns -> 1 meaningful)
+    bic      w14, w17, w0
+
+; ===== real block 0x1518a4  (1 insns -> 1 meaningful)
+    bic      w15, w0, w12
+
+; ===== real block 0x1518a8  (1 insns -> 1 meaningful)
+    bic      w12, w12, w0
+
+; ===== real block 0x1518ac  (17 insns -> 16 meaningful)
+    ldr      w1, [sp, #0xec]
+    ldr      w17, [sp, #0xe0]
+    ldr      w0, [sp, #0xe4]
+    ldr      w2, [sp, #0xe4]
+    ldr      w6, [sp, #0xdc]
+    ldr      w3, [sp, #0xd8]
+    ldrsw    x19, [sp, #0xd4]
+    orr      w10, w10, w14
+    orr      w12, w15, w12
+    mov      w21, #0x650b
+    eor      w10, w10, w12
+    movk     w21, #0xd4d0, lsl #16
+    mov      w24, #0x6e46
+    cset     w20, lt
+    cmp      w16, #0
+    bic      w12, w21, w10
+
+; ===== real block 0x1518f0  (1 insns -> 1 meaningful)
+    bic      w10, w10, w21
+
+; ===== real block 0x1518f4  (3 insns -> 3 meaningful)
+    movk     w24, #0x4f4c, lsl #16
+    cset     w14, eq
+    bic      w15, w21, w1
+
+; ===== real block 0x151900  (1 insns -> 1 meaningful)
+    bic      w1, w1, w21
+
+; ===== real block 0x151904  (2 insns -> 2 meaningful)
+    orr      w10, w12, w10
+    bic      w12, w24, w2
+
+; ===== real block 0x15190c  (1 insns -> 1 meaningful)
+    bic      w2, w2, w24
+
+; ===== real block 0x151910  (16 insns -> 16 meaningful)
+    lsl      x19, x19, #2
+    orr      w15, w15, w1
+    orr      w1, w12, w2
+    ldr      w12, [x28, x19]
+    ldr      w21, [sp, #0xc4]
+    strb     w14, [sp, #0xea]
+    adrp     x14, #0x17000
+    add      x14, x14, #0x4c4
+    ldr      w2, [x14, x19]
+    eon      w14, w24, w1
+    eor      w10, w10, w15
+    eor      w14, w14, w6
+    mov      w19, #0xd8c4
+    strb     w20, [sp, #0xeb]
+    add      w3, w3, w10
+    bic      w6, w6, w14
+
+; ===== real block 0x151950  (2 insns -> 2 meaningful)
+    ror      w14, w21, #2
+    movk     w19, #0x6ccb, lsl #16
+
+; ===== real block 0x151958  (2 insns -> 1 meaningful)
+    b.gt     #0x15197c
+    ;; BR @[('b.gt', 1382780), ('else', 1382752)]
+
+; ===== real block 0x15197c  (2 insns -> 1 meaningful)
+    b.eq     #0x1519c0
+    ;; BR @[('b.eq', 1382848), ('else', 1382788)]
+
+; ===== real block 0x1519c0  (5 insns -> 4 meaningful)
+    eor      w10, w17, w0
+    mov      w19, #0x9ead
+    movk     w19, #0xbe47, lsl #16
+    bic      w10, w0, w10
+
+; ===== real block 0x1519d4  (2 insns -> 2 meaningful)
+    cset     w0, lt
+    bic      w14, w19, w6
+
+; ===== real block 0x1519dc  (1 insns -> 1 meaningful)
+    bic      w15, w6, w19
+
+; ===== real block 0x1519e0  (4 insns -> 4 meaningful)
+    ldr      w17, [sp, #0xec]
+    ldr      w1, [sp, #0xc4]
+    strb     w0, [sp, #0xeb]
+    bic      w0, w19, w10
+
+; ===== real block 0x1519f0  (1 insns -> 1 meaningful)
+    bic      w10, w10, w19
+
+; ===== real block 0x1519f4  (11 insns -> 11 meaningful)
+    orr      w14, w14, w15
+    orr      w10, w0, w10
+    eor      w10, w14, w10
+    cmp      w16, #0
+    add      w10, w3, w10
+    cset     w15, eq
+    add      w0, w10, w2
+    mov      w2, #0xd8c4
+    strb     w15, [sp, #0xea]
+    ror      w14, w1, #0xd
+    movk     w2, #0x6ccb, lsl #16
+
+; ===== real block 0x151a20  (2 insns -> 1 meaningful)
+    b.gt     #0x151a44
+    ;; BR @[('b.gt', 1382980), ('else', 1382952)]
+
+; ===== real block 0x151a44  (2 insns -> 1 meaningful)
+    b.eq     #0x151a84
+    ;; BR @[('b.eq', 1383044), ('else', 1382988)]
+
+; ===== real block 0x151a84  (11 insns -> 10 meaningful)
+    ldr      w11, [sp, #0xec]
+    ldr      w10, [sp, #0xc4]
+    cset     w14, lt
+    cmp      w16, #0
+    cset     w15, eq
+    strb     w14, [sp, #0xeb]
+    mov      w14, #0xd8c4
+    strb     w15, [sp, #0xea]
+    ror      w16, w10, #0x16
+    movk     w14, #0x6ccb, lsl #16
+
+; ===== real block 0x151ab0  (2 insns -> 1 meaningful)
+    b.gt     #0x151ad4
+    ;; BR @[('b.gt', 1383124), ('else', 1383096)]
+
+; ===== real block 0x151ad4  (2 insns -> 1 meaningful)
+    b.eq     #0x151b18
+    ;; BR @[('b.eq', 1383192), ('else', 1383132)]
+
+; ===== real block 0x151b18  (3 insns -> 3 meaningful)
+    add      w8, w12, w0
+    ldr      w12, [sp, #0xec]
+    bic      w10, w17, w11
+
+; ===== real block 0x151b24  (1 insns -> 1 meaningful)
+    bic      w11, w11, w17
+
+; ===== real block 0x151b28  (10 insns -> 10 meaningful)
+    ldr      w14, [sp, #0xc4]
+    ldr      w15, [sp, #0xc8]
+    mov      w2, #0x83a5
+    ldr      w16, [sp, #0xc4]
+    ldr      w17, [sp, #0xcc]
+    orr      w10, w10, w11
+    movk     w2, #0x86d7, lsl #16
+    ldr      w0, [sp, #0xc8]
+    ldr      w1, [sp, #0xcc]
+    bic      w11, w2, w10
+
+; ===== real block 0x151b50  (1 insns -> 1 meaningful)
+    bic      w10, w10, w2
+
+; ===== real block 0x151b54  (2 insns -> 2 meaningful)
+    orr      w10, w11, w10
+    bic      w11, w2, w12
+
+; ===== real block 0x151b5c  (1 insns -> 1 meaningful)
+    bic      w12, w12, w2
+
+; ===== real block 0x151b60  (3 insns -> 3 meaningful)
+    orr      w12, w11, w12
+    eor      w11, w14, w15
+    bic      w14, w15, w11
+
+; ===== real block 0x151b6c  (2 insns -> 2 meaningful)
+    eor      w11, w16, w17
+    bic      w16, w17, w11
+
+; ===== real block 0x151b74  (3 insns -> 3 meaningful)
+    eor      w11, w0, w1
+    mov      w0, #0xc39d
+    bic      w17, w1, w11
+
+; ===== real block 0x151b80  (2 insns -> 2 meaningful)
+    eor      w10, w10, w12
+    bic      w12, w14, w16
+
+; ===== real block 0x151b88  (1 insns -> 1 meaningful)
+    bic      w14, w16, w14
+
+; ===== real block 0x151b8c  (4 insns -> 4 meaningful)
+    movk     w0, #0xc157, lsl #16
+    ldr      w6, [sp, #0xd0]
+    orr      w12, w12, w14
+    bic      w14, w0, w17
+
+; ===== real block 0x151b9c  (1 insns -> 1 meaningful)
+    bic      w16, w17, w0
+
+; ===== real block 0x151ba0  (8 insns -> 8 meaningful)
+    orr      w14, w14, w16
+    mov      w16, #0x9407
+    ldr      w15, [sp, #0xd4]
+    movk     w16, #0x941c, lsl #16
+    sub      w10, w10, w16
+    add      w17, w6, w8
+    add      w10, w10, w8
+    bic      w8, w0, w12
+
+; ===== real block 0x151bc0  (1 insns -> 1 meaningful)
+    bic      w12, w12, w0
+
+; ===== real block 0x151bc4  (21 insns -> 21 meaningful)
+    orr      w12, w8, w12
+    eor      w12, w12, w14
+    add      w14, w15, #1
+    ldr      w2, [sp, #0xe4]
+    ldr      w11, [sp, #0xe0]
+    ldr      w21, [sp, #0xdc]
+    ldr      w3, [sp, #0xcc]
+    ldr      w8, [sp, #0xc8]
+    ldr      w26, [sp, #0xc4]
+    str      w14, [sp, #0x58]
+    mov      w14, #0x2390
+    add      w10, w10, w16
+    movk     w14, #0xeeb, lsl #16
+    add      w10, w10, w14
+    add      w10, w10, w12
+    mov      w25, #0xd27e
+    mov      w1, #0xe28f
+    sub      w6, w10, w14
+    movk     w25, #0x5eef, lsl #16
+    movk     w1, #0xaba8, lsl #16
+    b        #0x150a94
+
+; ===== real block 0x151624  (30 insns -> 28 meaningful)
+    ldr      w10, [sp, #0x58]
+    stp      w6, w26, [sp, #0xc4]
+    stp      w8, w3, [sp, #0xcc]
+    stp      w11, w2, [sp, #0xdc]
+    stp      w10, w21, [sp, #0xd4]
+    ldr      w10, [x30]
+    str      w17, [sp, #0xe4]
+    adrp     x12, #0x1bb000
+    ldr      x12, [x12, #0x950]
+    sub      w14, w10, #1
+    mul      w10, w14, w10
+    mov      w14, #0x7c6c
+    ldr      w12, [x12]
+    movk     w14, #0x6ed4, lsl #16
+    orn      w14, w14, w14
+    and      w10, w10, w14
+    cset     w10, eq
+    cset     w12, lt
+    and      w14, w12, w10
+    eor      w10, w12, w10
+    orr      w10, w14, w10
+    cmp      w10, #0
+    mov      w10, #0x192
+    mov      w12, #0x4edb
+    movk     w10, #0xd5c0, lsl #16
+    movk     w12, #0x3941, lsl #16
+    csel     w25, w10, w12, ne
+    b        #0x150a94
+
+<<UNRESOLVED [('go', None)]>>

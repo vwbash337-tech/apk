@@ -1,0 +1,49 @@
+# func#159 @0x134d40 sz=2524 disp=0x134e84 sreg=w14 blocks=103
+
+; ===== real block 0x134d40  (44 insns -> 41 meaningful)
+    sub      sp, sp, #0xb0
+    stp      x29, x30, [sp, #0x50]
+    str      x27, [sp, #0x60]
+    stp      x26, x25, [sp, #0x70]
+    stp      x24, x23, [sp, #0x80]
+    stp      x22, x21, [sp, #0x90]
+    stp      x20, x19, [sp, #0xa0]
+    add      x29, sp, #0x50
+    mrs      x20, tpidr_el0
+    mov      x19, x8
+    ldr      x8, [x20, #0x28]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc70]
+    mov      x9, #0xf1e8
+    stur     x8, [x29, #-8]
+    movk     x9, #0xdfca, lsl #16
+    ldr      w8, [x10]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc78]
+    movk     x9, #0x9597, lsl #32
+    movk     x9, #0xead0, lsl #48
+    stur     x9, [x29, #-0x10]
+    sub      w9, w8, #1
+    ldr      w10, [x10]
+    mul      w8, w9, w8
+    mvn      w8, w8
+    orr      w8, w8, #0xfffffffe
+    cset     w8, ne
+    cset     w11, eq
+    cset     w9, gt
+    cset     w10, lt
+    eor      w10, w10, w11
+    mov      x11, #0xf5e1
+    movk     x11, #0xf091, lsl #16
+    movk     x11, #0xe0c6, lsl #32
+    movk     x11, #0xf0d3, lsl #48
+    stur     x11, [x29, #-0x18]
+    tbnz     w10, #0, #0x134df4
+    orr      w8, w9, w8
+    eor      w8, w8, #1
+    tbnz     w8, #0, #0x134df4
+
+; ===== real block 0x134df0  (1 insns -> 1 meaningful)
+    b        #0x134df0
+
+<<LOOP back to 0x134df0>>

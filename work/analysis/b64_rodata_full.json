@@ -1,0 +1,164 @@
+[
+ {
+  "addr": "0x14bf4",
+  "b64": "V1ROS2JGbFlVbXhZTWpWMlpFZFZkbVJxU1hZPQ==",
+  "chain": [
+   "WTNKbFlYUmxYMjV2ZEdVdmRqSXY=",
+   "Y3JlYXRlX25vdGUvdjIv",
+   "create_note/v2/"
+  ]
+ },
+ {
+  "addr": "0x14de8",
+  "b64": "TDNOaGRtVXY=",
+  "chain": [
+   "L3NhdmUv",
+   "/save/"
+  ]
+ },
+ {
+  "addr": "0x14eae",
+  "b64": "V1ZWb1UwMUhUa2xVVkZwTlpWUm5PUT09",
+  "chain": [
+   "WVVoU01HTklUVFpNZVRnOQ==",
+   "YUhSMGNITTZMeTg9",
+   "aHR0cHM6Ly8=",
+   "https://"
+  ]
+ },
+ {
+  "addr": "0x15084",
+  "b64": "WkRnME5UVTVNV1V3T0RZd016TmhPVEF6Tldaa05tSTJObU16WXpOa056TmhZVE16WVdZNU1EYzVOR1EyWWprNE5tVTJORGMzT1dWbFlUWmlaV00xWlE9PQ==",
+  "chain": [
+   "ZDg0NTU5MWUwODYwMzNhOTAzNWZkNmI2NmMzYzNkNzNhYTMzYWY5MDc5NGQ2Yjk4NmU2NDc3OWVlYTZiZWM1ZQ==",
+   "d845591e086033a9035fd6b66c3c3d73aa33af90794d6b986e64779eea6bec5e"
+  ]
+ },
+ {
+  "addr": "0x15541",
+  "b64": "bGliYnJpZGdlLnNv",
+  "chain": [
+   "libbridge.so"
+  ]
+ },
+ {
+  "addr": "0x156e8",
+  "b64": "bGliY3NvX3N1YnN0cmF0ZQ==",
+  "chain": [
+   "libcso_substrate"
+  ]
+ },
+ {
+  "addr": "0x159ec",
+  "b64": "WVVoU01HTklUVFpNZVRsd1RHMXNkV016VW1oYU0wcG9ZbE0xYW1JeU1IWlpXRUp3VEROWmVVeDNQVDA9",
+  "chain": [
+   "YUhSMGNITTZMeTlwTG1sdWMzUmhaM0poYlM1amIyMHZZWEJwTDNZeUx3PT0=",
+   "aHR0cHM6Ly9pLmluc3RhZ3JhbS5jb20vYXBpL3YyLw==",
+   "https://i.instagram.com/api/v2/"
+  ]
+ },
+ {
+  "addr": "0x15c02",
+  "b64": "YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzg9",
+  "chain": [
+   "aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS8=",
+   "https://www.instagram.com/"
+  ]
+ },
+ {
+  "addr": "0x15db5",
+  "b64": "L3Byb2Mvc2VsZi9tYXBz",
+  "chain": [
+   "/proc/self/maps"
+  ]
+ },
+ {
+  "addr": "0x15dd4",
+  "b64": "c3Vic3RyYXRl",
+  "chain": [
+   "substrate"
+  ]
+ },
+ {
+  "addr": "0x15de3",
+  "b64": "WVVoU01HTklUVFpNZVRrelpETmpkV0ZYTlhwa1IwWnVZMjFHZEV4dFRuWmlVemx1WTIxR2QyRklSbk5NTTBZeFdsaEtOUT09",
+  "chain": [
+   "YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzluY21Gd2FIRnNMM0YxWlhKNQ==",
+   "aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS9ncmFwaHFsL3F1ZXJ5",
+   "https://www.instagram.com/graphql/query"
+  ]
+ },
+ {
+  "addr": "0x1606a",
+  "b64": "U0dKR01FNW9OV3h3",
+  "chain": [
+   "SGJGME5oNWxw",
+   "HbF0Nh5lp"
+  ]
+ },
+ {
+  "addr": "0x1607f",
+  "b64": "cmUuZnJpZGEuc2VydmVy",
+  "chain": [
+   "re.frida.server"
+  ]
+ },
+ {
+  "addr": "0x161eb",
+  "b64": "Z3VtLWpzLWxvb3A=",
+  "chain": [
+   "gum-js-loop"
+  ]
+ },
+ {
+  "addr": "0x16204",
+  "b64": "ZWR4cG9zZWQ=",
+  "chain": [
+   "edxposed"
+  ]
+ },
+ {
+  "addr": "0x167a9",
+  "b64": "bHNwb3NlZA==",
+  "chain": [
+   "lsposed"
+  ]
+ },
+ {
+  "addr": "0x16b60",
+  "b64": "WXpKV2JHSnBPRDA9",
+  "chain": [
+   "YzJWbGJpOD0=",
+   "c2Vlbi8=",
+   "seen/"
+  ]
+ },
+ {
+  "addr": "0x16b75",
+  "b64": "bGliYXJ0LnNvIChkZWxldGVkKQ==",
+  "chain": [
+   "libart.so (deleted)"
+  ]
+ },
+ {
+  "addr": "0x16c11",
+  "b64": "eHBvc2Vk",
+  "chain": [
+   "xposed"
+  ]
+ },
+ {
+  "addr": "0x16d97",
+  "b64": "bGliZnJpZGEtZ2FkZ2V0",
+  "chain": [
+   "libfrida-gadget"
+  ]
+ },
+ {
+  "addr": "0x16f69",
+  "b64": "bGliYy5zbyAoZGVsZXRlZCk=",
+  "chain": [
+   "libc.so (deleted)"
+  ]
+ }
+]

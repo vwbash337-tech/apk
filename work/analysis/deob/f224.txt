@@ -1,0 +1,40 @@
+# func#224 @0x157628 sz=2320 disp=0x157730 sreg=w14 blocks=86
+
+; ===== real block 0x157628  (33 insns -> 32 meaningful)
+    sub      sp, sp, #0xb0
+    stp      x29, x30, [sp, #0x50]
+    stp      x28, x27, [sp, #0x60]
+    stp      x26, x25, [sp, #0x70]
+    stp      x24, x23, [sp, #0x80]
+    stp      x22, x21, [sp, #0x90]
+    stp      x20, x19, [sp, #0xa0]
+    add      x29, sp, #0x50
+    mrs      x20, tpidr_el0
+    mov      x19, x8
+    ldr      x8, [x20, #0x28]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc70]
+    adrp     x9, #0x17000
+    stur     x8, [x29, #-8]
+    add      x9, x9, #0x240
+    ldr      w8, [x10]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc78]
+    ldr      q0, [x9]
+    ldr      w9, [x10]
+    sub      w10, w8, #1
+    mul      w8, w10, w8
+    eor      w10, w8, #0xfffffffe
+    tst      w10, w8
+    cset     w8, eq
+    cset     w9, lt
+    and      w10, w9, w8
+    stur     q0, [x29, #-0x20]
+    tbnz     w10, #0, #0x1576b0
+    eor      w8, w9, w8
+    tbnz     w8, #0, #0x1576b0
+
+; ===== real block 0x1576ac  (1 insns -> 1 meaningful)
+    b        #0x1576ac
+
+<<LOOP back to 0x1576ac>>

@@ -1,0 +1,90 @@
+// ===== func#178  @0x13d634  size=352  dispatcher=0x13d6c4 statereg=w8 blocks=14 =====
+
+L0:  // block 0x13d634
+    sub      sp, sp, #0x60
+    stp      x29, x30, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    add      x29, sp, #0x10
+    adrp     x22, #0x1bb000
+    ldr      x22, [x22, #0x6a8]
+    adrp     x23, #0x1bb000
+    mov      w20, #0x37f4
+    mov      w21, #0xf071
+    ldr      w8, [x22]
+    ldr      x23, [x23, #0x6b0]
+    mov      w24, #0xab1c
+    mov      w25, #0xab1b
+    ldr      w9, [x23]
+    sturb    w8, [x29, #-2]
+    mov      w26, #0xd696
+    sturb    w8, [x29, #-1]
+    mov      w8, #0xab1c
+    mov      x19, x0
+    ; SUCC: fall->L1
+
+L1:  // block 0x13d6c4
+    b.gt     #0x13d6f8
+    ; SUCC: b.gt->L2 , else->L3
+
+L2:  // block 0x13d6f8
+    b.eq     #0x13d778
+    ; SUCC: b.eq->L4 , else->L5
+
+L3:  // block 0x13d6cc
+    b.eq     #0x13d728
+    ; SUCC: b.eq->L6 , else->L7
+
+L4:  // block 0x13d778
+    ldp      x20, x19, [sp, #0x50]
+    ldp      x22, x21, [sp, #0x40]
+    ldp      x24, x23, [sp, #0x30]
+    ldp      x26, x25, [sp, #0x20]
+    ldp      x29, x30, [sp, #0x10]
+    add      sp, sp, #0x60
+    ret      
+    ; SUCC: ret->None
+
+L5:  // block 0x13d700
+    b.ne     #0x13d6c4
+    ; SUCC: b.ne->None , else->None
+
+L6:  // block 0x13d728
+    mov      x0, x19
+    bl       #0x1411f4   ; -> func#192
+    ; SUCC: fall->L8
+
+L7:  // block 0x13d6d4
+    b.ne     #0x13d6c4
+    ; SUCC: b.ne->None , else->L9
+
+L8:  // block 0x13d730
+    mov      x0, x19
+    bl       #0x13dd1c   ; -> func#181
+    ; SUCC: fall->L10
+
+L9:  // block 0x13d6dc
+    mov      x0, x19
+    bl       #0x1411f4   ; -> func#192
+    ; SUCC: fall->L11
+
+L10:  // block 0x13d738
+    ldr      w8, [x22]
+    ldr      w9, [x23]
+    tst      w10, w8
+    eor      w8, w8, #1
+    cmp      w8, #0
+    b        #0x13d6c4   ; -> DISPATCHER
+    ; SUCC: go->None
+
+L11:  // block 0x13d6e4
+    mov      x0, x19
+    bl       #0x13dd1c   ; -> func#181
+    ; SUCC: fall->L12
+
+L12:  // block 0x13d6ec
+    mov      w8, #0x37f4
+    b        #0x13d6c4   ; -> DISPATCHER
+    ; SUCC: go->None

@@ -1,0 +1,162 @@
+// ===== func#30  @0x38fa4  size=4508  dispatcher=0x390fc statereg=w8 blocks=237 =====
+
+L0:  // block 0x038fa4
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x570
+    str      w1, [sp, #0x24]
+    str      x8, [sp, #8]
+    mrs      x8, tpidr_el0
+    str      x8, [sp, #0x10]
+    ldr      x8, [x8, #0x28]
+    mov      w27, #0xc347
+    mov      w28, #0x3515
+    mov      x21, x0
+    stur     x8, [x29, #-0x10]
+    bl       #0x36e88   ; -> func#20
+    ; SUCC: fall->L1
+
+L1:  // block 0x038ff4
+    add      w8, w0, #0x10
+    mov      w9, #0xdb37
+    eor      w10, w8, #0xf
+    ; SUCC: fall->L2
+
+L2:  // block 0x03900c
+    ; SUCC: fall->L3
+
+L3:  // block 0x039010
+    mov      w9, #0xdb36
+    and      w9, w10, #1
+    sxtw     x24, w8
+    cmp      x24, #0
+    csinv    x25, x24, xzr, ge
+    str      x0, [sp, #0x28]
+    mov      x0, x25
+    str      x10, [sp, #0x18]
+    bl       #0x194168   ; -> func#675
+    ; SUCC: fall->L4
+
+L4:  // block 0x039044
+    mov      w1, wzr
+    mov      x2, x24
+    mov      x22, x0
+    bl       #0x1b1c40   ; -> memset@plt
+    ; SUCC: fall->L5
+
+L5:  // block 0x039054
+    mov      x0, x21
+    bl       #0x383b8   ; -> func#24
+    ; SUCC: fall->L6
+
+L6:  // block 0x03905c
+    adrp     x8, #0x1ba000
+    ldr      x8, [x8, #0x850]
+    adrp     x9, #0x1ba000
+    mov      w23, #0x8b3b
+    ldr      w8, [x8]
+    ldr      x9, [x9, #0x858]
+    mov      w26, #0x8ea4
+    mov      w19, #0x8b3a
+    tst      w12, w11
+    mov      w11, #0xfc1c
+    ldr      w9, [x9]
+    add      w10, w10, w11
+    strb     w10, [sp, #0xb8]
+    strb     w10, [sp, #0xd0]
+    eor      w8, w8, #1
+    cmp      w8, #0
+    mov      w8, #0x8ea4
+    mov      x21, x0
+    ; SUCC: fall->L7
+
+L7:  // block 0x0390fc
+    b.gt     #0x3912c
+    ; SUCC: b.gt->L8 , else->L9
+
+L8:  // block 0x03912c
+    b.eq     #0x39174
+    ; SUCC: b.eq->L10 , else->L11
+
+L9:  // block 0x039104
+    b.eq     #0x39154
+    ; SUCC: b.eq->L12 , else->L13
+
+L10:  // block 0x039174
+    adrp     x27, #0x1ba000
+    ldr      x8, [sp, #0xe8]
+    ldr      x27, [x27, #0x820]
+    adrp     x28, #0x1ba000
+    ldr      x28, [x28, #0x828]
+    mov      w9, #0x7d62
+    ldr      w8, [x27]
+    ldr      w10, [x28]
+    add      w11, w11, w8
+    add      w9, w11, w9
+    tst      w9, w8
+    eor      w8, w8, #1
+    cmp      w8, #1
+    b.ne     #0x3920c
+    ; SUCC: b.ne->L14 , else->L15
+
+L11:  // block 0x039134
+    b.ne     #0x390fc
+    ; SUCC: b.ne->None , else->L16
+
+L12:  // block 0x039154
+    ldrb     w8, [sp, #0xb8]
+    ldrb     w9, [sp, #0xd0]
+    b        #0x390fc   ; -> DISPATCHER
+    ; SUCC: go->None
+
+L13:  // block 0x03910c
+    b.ne     #0x390fc
+    ; SUCC: b.ne->None , else->L17
+
+L14:  // block 0x03920c
+    b        #0x3920c   ; -> L14
+    ; SUCC: go->L14
+
+L15:  // block 0x0391d4
+    ldr      x11, [sp, #0x28]
+    mov      x26, x22
+    mov      x9, xzr
+    orr      w10, w10, #0xfffffff0
+    add      w10, w10, #0x11
+    sxtw     x11, w11
+    mov      x12, x10
+    cbz      x12, #0x39210
+    strb     w10, [x26, x11]
+    add      x9, x9, #1
+    add      x11, x11, #1
+    sub      x12, x12, #1
+    tbnz     w8, #0, #0x391f4
+    ; SUCC: fall->L14
+
+L16:  // block 0x03913c
+    mov      x0, x22
+    mov      x1, x21
+    bl       #0x1b1c50   ; -> strcpy@plt
+    ; SUCC: fall->L18
+
+L17:  // block 0x039114
+    mov      x0, x22
+    mov      x1, x21
+    bl       #0x1b1c50   ; -> strcpy@plt
+    ; SUCC: fall->L19
+
+L18:  // block 0x039148
+    str      x22, [sp, #0xe8]
+    mov      w8, w20
+    b        #0x390fc   ; -> DISPATCHER
+    ; SUCC: go->None
+
+L19:  // block 0x039120
+    mov      w8, #0x3515
+    b        #0x390fc   ; -> DISPATCHER
+    ; SUCC: go->L14

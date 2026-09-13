@@ -1,0 +1,87 @@
+// ===== func#162  @0x136cb8  size=10468  dispatcher=0x136ee0 statereg=w10 blocks=414 =====
+
+L0:  // block 0x136cb8
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x60
+    mrs      x8, tpidr_el0
+    stur     x8, [x29, #-0x58]
+    ldr      x8, [x8, #0x28]
+    adrp     x22, #0x1bb000
+    ldr      x22, [x22, #0x5b8]
+    adrp     x26, #0x1bb000
+    stur     x8, [x29, #-8]
+    mov      w21, #0xb8a5
+    ldr      w8, [x22]
+    ldr      x26, [x26, #0x5c0]
+    ldr      w9, [x26]
+    b.ne     #0x136d48
+    ; SUCC: b.ne->L1 , else->L2
+
+L1:  // block 0x136d48
+    sub      x27, sp, #0x20
+    mov      sp, x27
+    sub      x25, sp, #0x20
+    mov      sp, x25
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x30]
+    mov      sp, x8
+    sub      x20, sp, #0x20
+    mov      sp, x20
+    sub      x19, sp, #0x20
+    mov      sp, x19
+    sub      x28, sp, #0x20
+    mov      sp, x28
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x38]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x48]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x40]
+    mov      sp, x8
+    sub      x24, sp, #0x20
+    mov      sp, x24
+    sub      x23, sp, #0x20
+    mov      sp, x23
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x28]
+    mov      sp, x8
+    sub      x8, sp, #0x10
+    stur     x8, [x29, #-0x20]
+    mov      sp, x8
+    adrp     x1, #0x15000
+    add      x1, x1, #0xdb5
+    mov      x0, x25
+    bl       #0x35d58   ; -> func#17
+    ; SUCC: fall->L3
+
+L2:  // block 0x136d3c
+    eor      w8, w8, #1
+    cbz      w8, #0x136e14
+    ; SUCC: fall->L1
+
+L3:  // block 0x136dd8
+    ldr      w8, [x22]
+    ldr      w9, [x26]
+    add      w11, w8, w21
+    add      w10, w10, w11
+    tst      w10, w8
+    tbnz     w10, #0, #0x136e2c
+    cbnz     w8, #0x136e2c
+    sub      x0, sp, #0x20
+    mov      sp, x0
+    adrp     x1, #0x15000
+    add      x1, x1, #0xdb5
+    bl       #0x35d58   ; -> func#17
+    ; SUCC: fall->L4
+
+L4:  // block 0x136e28
+    b        #0x136d48   ; -> L1
+    ; SUCC: go->L1

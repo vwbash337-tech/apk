@@ -1,0 +1,252 @@
+==============================================================================
+§11 DYNAMIC VERIFICATION — libtopfollow.so (arm64-v8a) under Unicorn AArch64
+run at: 2026-09-13 07:00:40   emulator: analysis/emu.py  reference: analysis/aesref.py
+==============================================================================
+
+### 11.1  func#193 @0x14193c — XOR-0x5A string decoder (3-arg: x0=src, x1=len, x8=dst)
+  KEY_CT  @0x17428 len=32
+      emulated  : 'At91IxVnRSbFppV0UxNFdUSnplTW5ONA'
+      static^0x5A: 'At91IxVnRSbFppV0UxNFdUSnplTW5ONA'   agree=True
+      base64 -> 24 bytes  02df752315674526c5a695745313457544a7a654d6e4e340
+  IV_CT   @0x17448 len=16
+      emulated  : 'WMVEwVG02eGFlVmR'
+      static^0x5A: 'WMVEwVG02eGFlVmR'   agree=True
+      base64 -> 12 bytes  58c544c151b4d9e185955991
+  IV2_CT  @0x17458 len=16
+      emulated  : 'M0VEwVGt0aVJuQjF'
+      static^0x5A: 'M0VEwVGt0aVJuQjF'   agree=True
+      base64 -> 12 bytes  334544c151add1a549b908c5
+
+### 11.2  func#85 @0x10c470 = AES-ECB + PKCS#7 -> lowercase hex ; func#94 @0x110b70 = exact inverse
+  reference used: FIPS-197 AES, self-checked against the standard vectors:
+    AES-128 00112233445566778899aabbccddeeff / key 000102..0f -> 69c4e0d86a7b0430d8cdb78070b4c55a (expect 69c4e0d86a7b0430d8cdb78070b4c55a)
+    AES-256 same pt / key 000102..1f                            -> 8ea2b7ca516745bfeafc49904b496089 (expect 8ea2b7ca516745bfeafc49904b496089)
+  --- key 16 bytes = 30313233343536373839616263646566
+    pt[  5]=b'hello'                       -> 674c7ef38e78cabd9cec9c125823a639
+           ref                               MATCH
+           #94(ct) -> b'hello'                       round-trip OK
+    pt[ 15]=b'AAAAAAAAAAAAAAA'             -> 8c22b46ae5492fada678b79e2bdbd0eb
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAA'             round-trip OK
+    pt[ 16]=b'AAAAAAAAAAAAAAAA'            -> 3bfd04cc0d7ed55358e2cbe19de21383377222e061a924c591cd9c27ea163ed4
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAA'            round-trip OK
+    pt[ 31]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> 3bfd04cc0d7ed55358e2cbe19de213838c22b46ae5492fada678b79e2bdbd0eb
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[ 32]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> 3bfd04cc0d7ed55358e2cbe19de213833bfd04cc0d7ed55358e2cbe19de21383377222e061a924c591cd9c27ea163ed4
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[  0]=b''                            -> null
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+    pt[ 27]=b'{"user":"abc","pass":"xyz"}' -> 473f9aa1dd7694a1f39c613225cce529a588c9e9d7c7f8f9cb801491e4a2acd5
+           ref                               MATCH
+           #94(ct) -> b'{"user":"abc","pass":"xyz"}' round-trip OK
+    pt[ 43]=b'The quick brown fox jumps ov' -> 08eaec72a2775e8a412e92731f4a4a2e4d8b9161a0f6411f4f7d0970100abbb0fba1ae2433a9674ca3f58a8f2efdfba9
+           ref                               MATCH
+           #94(ct) -> b'The quick brown fox jumps ov' round-trip OK
+    pt[256]=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b' -> a07999f0e2bfbe16f99593e984a449b7cada65093bdfede24f6df5db60ae4e184801ff0ccc51c2e84494f8e3eeea8f12edda6332cc273dd7d0480ed5c1f6cb29a2fdb3d7d2718d5d066a71dc6f7d3bcb888a3703f578557618fbede78320559c0162a72e5f718022e280e9efa10bbc2bf2d6d06e69db486d13cc01dadb0c46736a944a2883a7aa8c765c254aaa117405da259d34690a46c1d152e335b51962a8406871f93a854a151391cc3b39c48b8067dbe00fbd18606d8c59d8a722b4a456d052b3c8ed70c935b647ab89d8ffe348ff6538f106f769c6910cd97a563ec66327ed9ce14508dadf4011c3745bece709bb3dfc3bd2dea72ff18c5157d9ee6894377222e061a924c591cd9c27ea163ed4
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+  --- key 24 bytes = 000102030405060708090a0b0c0d0e0f1011121314151617
+    pt[  5]=b'hello'                       -> 12056740635d5dd4124b24264bb8a00a
+           ref                               MATCH
+           #94(ct) -> b'hello'                       round-trip OK
+    pt[ 15]=b'AAAAAAAAAAAAAAA'             -> ec5d2d547e33a54929942d92b82f5a12
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAA'             round-trip OK
+    pt[ 16]=b'AAAAAAAAAAAAAAAA'            -> c51bf22accab14551af68176aa1838bc3fe7286abde5f03943d5777020259626
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAA'            round-trip OK
+    pt[ 31]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> c51bf22accab14551af68176aa1838bcec5d2d547e33a54929942d92b82f5a12
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[ 32]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> c51bf22accab14551af68176aa1838bcc51bf22accab14551af68176aa1838bc3fe7286abde5f03943d5777020259626
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[  0]=b''                            -> null
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+    pt[ 27]=b'{"user":"abc","pass":"xyz"}' -> c9fe34b4551d8209ae8f71fcb85913b0f38602a4434b3d120ec761271f0cb71e
+           ref                               MATCH
+           #94(ct) -> b'{"user":"abc","pass":"xyz"}' round-trip OK
+    pt[ 43]=b'The quick brown fox jumps ov' -> 1b552b0889c43585651a0457afa907f021c3a4a95e85042d230671311c748b2f60904bdca5abbf95935f6d2d285587cb
+           ref                               MATCH
+           #94(ct) -> b'The quick brown fox jumps ov' round-trip OK
+    pt[256]=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b' -> 0060bffe46834bb8da5cf9a61ff220ae93ae3b7f9fc2e8159d05a6a9f5e24f2d779fe44f29fffa2c25d3464fc3db3c496825f06f75185d483b2153786312819e27549e3127592d93f091608d27e966d4b8e995e46d584b742b7a77657bc41337487b23423d1929187ac259d64525940a1d13017a6ee63be44dd76b378c0ab7359663ffed026374d6ba0a66e481d7bc0b7540aaa1671129970121d1bb82467469fec3d1e6cf6b44390890a54d8add853073ee240742a2255b5cafa898b8c7b09896617a47a98d5b4fd04753f4fe8a53cffa4fb1415e71e60eb174b4b713dad98d52a617776bd278a1a7e08ade0aa1c22a2b82485254f26990b3d93602f0e5a8f33fe7286abde5f03943d5777020259626
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+  --- key 32 bytes = 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+    pt[  5]=b'hello'                       -> 91684487c34c3456eb4e901cef884a1e
+           ref                               MATCH
+           #94(ct) -> b'hello'                       round-trip OK
+    pt[ 15]=b'AAAAAAAAAAAAAAA'             -> a6645bda9cf50c7d34fe04b5b48f62cc
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAA'             round-trip OK
+    pt[ 16]=b'AAAAAAAAAAAAAAAA'            -> 72ada3664473c418c917a496fcc370669f3b7504926f8bd36e3118e903a4cd4a
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAA'            round-trip OK
+    pt[ 31]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> 72ada3664473c418c917a496fcc37066a6645bda9cf50c7d34fe04b5b48f62cc
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[ 32]=b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' -> 72ada3664473c418c917a496fcc3706672ada3664473c418c917a496fcc370669f3b7504926f8bd36e3118e903a4cd4a
+           ref                               MATCH
+           #94(ct) -> b'AAAAAAAAAAAAAAAAAAAAAAAAAAAA' round-trip OK
+    pt[  0]=b''                            -> null
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+    pt[ 27]=b'{"user":"abc","pass":"xyz"}' -> 68a3e982b7c16233ed49ef6ac32b74806fa5613dbb06f406369682c564e36f94
+           ref                               MATCH
+           #94(ct) -> b'{"user":"abc","pass":"xyz"}' round-trip OK
+    pt[ 43]=b'The quick brown fox jumps ov' -> bce46469e2f7ab6b7ea767bd3252529afc8479b8d96cc17664e5f0b76b9550ea96c5a7d26b0c9efd694a096a46971a46
+           ref                               MATCH
+           #94(ct) -> b'The quick brown fox jumps ov' round-trip OK
+    pt[256]=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b' -> 5a6e045708fb7196f02e553d02c3a692e9c3ef8ab23453e6f0749cd636e7a88e61a6936e4e8f101c1cc1f993b542a0d4e2740e8afad4e4d15d0d661b382eca89a37edf3f975abaef937b62c78d5bb157974b412738e50f45c7f9db25413f274bd0a200fef46924a4b82dfff8538ec1b6c777f1a7552d560722ae165c4a051e67b0b0f57bcb97b783a1538ff78e9a68c2fba987594e8d0f4714056b674877eb39dc9f01fd76b87c0d0f4be8850b0bece0600d07a3b9b2c4e4082153d6d1707aa6d7c2553f461ff0400505a8b1cf83409372632bc60108c6c58c17fb67ab63ab95edaf9e57d045ac857f023f9dc238b14e9200cd8d239680cb5a69e654403263149f3b7504926f8bd36e3118e903a4cd4a
+           ref                               MATCH
+           #94(ct) -> b'null'                        round-trip n/a
+  TOTAL known-answer tests: 27/27 exact matches vs FIPS-197 AES-ECB/PKCS7/hex
+  ECB block-equality leak  #85('A'*32) = 3bfd04cc0d7ed55358e2cbe19de213833bfd04cc0d7ed55358e2cbe19de21383377222e061a924c591cd9c27ea163ed4
+      ct[0:32] == ct[32:64]  ->  True
+      trailing pad block of a 46-byte pt = 37158a170356aae288a994d0dbf285b1
+      identical to #85(pad-only)         = 37158a170356aae288a994d0dbf285b1
+  #85('hello', keylen= 5) -> b'null'
+  #85('hello', keylen=17) -> b'null'
+  #85('hello', keylen=20) -> b'null'
+  #85('hello', keylen=31) -> b'null'
+  #85('hello', keylen= 0) -> b'null'
+
+### 11.3  func#30 @0x38fa4 = AES-128-CBC, key=0x00*16, IV=0x00*16 (key argument IGNORED)
+  pt[5] = b'hello'
+     keyarg=b''              -> 9834ed518cbc8fbe9af3c6ecb75eb8c0
+        MATCH zero-key CBC
+     keyarg=b'0123456789abcd' -> 9834ed518cbc8fbe9af3c6ecb75eb8c0
+        MATCH zero-key CBC
+     keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r' -> 9834ed518cbc8fbe9af3c6ecb75eb8c0
+        MATCH zero-key CBC
+     keyarg=b'whatever-key!!' -> 9834ed518cbc8fbe9af3c6ecb75eb8c0
+        MATCH zero-key CBC
+     keyarg=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' -> 9834ed518cbc8fbe9af3c6ecb75eb8c0
+        MATCH zero-key CBC
+  pt[16] = b'AAAAAAAAAAAAAAAA'
+     keyarg=b''              -> b49cbf19d357e6e1f6845c30fd5b63e30c747680a9e9970389a2bdd752b4b1c3
+        MATCH zero-key CBC
+     keyarg=b'0123456789abcd' -> b49cbf19d357e6e1f6845c30fd5b63e30c747680a9e9970389a2bdd752b4b1c3
+        MATCH zero-key CBC
+     keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r' -> b49cbf19d357e6e1f6845c30fd5b63e30c747680a9e9970389a2bdd752b4b1c3
+        MATCH zero-key CBC
+     keyarg=b'whatever-key!!' -> b49cbf19d357e6e1f6845c30fd5b63e30c747680a9e9970389a2bdd752b4b1c3
+        MATCH zero-key CBC
+     keyarg=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' -> b49cbf19d357e6e1f6845c30fd5b63e30c747680a9e9970389a2bdd752b4b1c3
+        MATCH zero-key CBC
+  pt[0] = b''
+     keyarg=b''              -> 0143db63ee66b0cdff9f69917680151e
+        MATCH zero-key CBC
+     keyarg=b'0123456789abcd' -> 0143db63ee66b0cdff9f69917680151e
+        MATCH zero-key CBC
+     keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r' -> 0143db63ee66b0cdff9f69917680151e
+        MATCH zero-key CBC
+     keyarg=b'whatever-key!!' -> 0143db63ee66b0cdff9f69917680151e
+        MATCH zero-key CBC
+     keyarg=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' -> 0143db63ee66b0cdff9f69917680151e
+        MATCH zero-key CBC
+  pt[64] = b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+'
+     keyarg=b''              -> 66e94bd4ef8a2c3b884cfa59ca342b2ef795bd4a52e29ed713d313fa20e98dbca10cf66d0fddf3405370b4bf8df5bfb347c78395e0d8ae2194da0a90abc9888a05233140921a8043275d66d6ec40cec0
+        DIFF ref=7aca0fd9bcd6ec7c9f97466616e6a282ecc9b00fdb4e6b30e0a7fcf1c08a892c269ae5fc8c530ff76bd9ec0540f73513c97fed6a658b5d60a931d9df9ba92d0365208da5035c7c5d1843a08ea631b47e
+     keyarg=b'0123456789abcd' -> 66e94bd4ef8a2c3b884cfa59ca342b2ef795bd4a52e29ed713d313fa20e98dbca10cf66d0fddf3405370b4bf8df5bfb347c78395e0d8ae2194da0a90abc9888a05233140921a8043275d66d6ec40cec0
+        DIFF ref=7aca0fd9bcd6ec7c9f97466616e6a282ecc9b00fdb4e6b30e0a7fcf1c08a892c269ae5fc8c530ff76bd9ec0540f73513c97fed6a658b5d60a931d9df9ba92d0365208da5035c7c5d1843a08ea631b47e
+     keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r' -> 66e94bd4ef8a2c3b884cfa59ca342b2ef795bd4a52e29ed713d313fa20e98dbca10cf66d0fddf3405370b4bf8df5bfb347c78395e0d8ae2194da0a90abc9888a05233140921a8043275d66d6ec40cec0
+        DIFF ref=7aca0fd9bcd6ec7c9f97466616e6a282ecc9b00fdb4e6b30e0a7fcf1c08a892c269ae5fc8c530ff76bd9ec0540f73513c97fed6a658b5d60a931d9df9ba92d0365208da5035c7c5d1843a08ea631b47e
+     keyarg=b'whatever-key!!' -> 66e94bd4ef8a2c3b884cfa59ca342b2ef795bd4a52e29ed713d313fa20e98dbca10cf66d0fddf3405370b4bf8df5bfb347c78395e0d8ae2194da0a90abc9888a05233140921a8043275d66d6ec40cec0
+        DIFF ref=7aca0fd9bcd6ec7c9f97466616e6a282ecc9b00fdb4e6b30e0a7fcf1c08a892c269ae5fc8c530ff76bd9ec0540f73513c97fed6a658b5d60a931d9df9ba92d0365208da5035c7c5d1843a08ea631b47e
+     keyarg=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' -> 66e94bd4ef8a2c3b884cfa59ca342b2ef795bd4a52e29ed713d313fa20e98dbca10cf66d0fddf3405370b4bf8df5bfb347c78395e0d8ae2194da0a90abc9888a05233140921a8043275d66d6ec40cec0
+        DIFF ref=7aca0fd9bcd6ec7c9f97466616e6a282ecc9b00fdb4e6b30e0a7fcf1c08a892c269ae5fc8c530ff76bd9ec0540f73513c97fed6a658b5d60a931d9df9ba92d0365208da5035c7c5d1843a08ea631b47e
+  pt[36] = b'{"order_id":12345,"type":"follower"}'
+     keyarg=b''              -> f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549cfc144d3ce97d67ecc55475f0dfeec781
+        MATCH zero-key CBC
+     keyarg=b'0123456789abcd' -> f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549cfc144d3ce97d67ecc55475f0dfeec781
+        MATCH zero-key CBC
+     keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r' -> f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549cfc144d3ce97d67ecc55475f0dfeec781
+        MATCH zero-key CBC
+     keyarg=b'whatever-key!!' -> f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549cfc144d3ce97d67ecc55475f0dfeec781
+        MATCH zero-key CBC
+     keyarg=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' -> f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549cfc144d3ce97d67ecc55475f0dfeec781
+        MATCH zero-key CBC
+  --- exhaustive length sweep (fresh emulator per length) ---
+    first divergence at ptlen=221 (padded=224, 14 blocks); ciphertext byte 208
+      got 09047eeee8a8545826f14be63407b8fe2ad55093a172f06150fd7addc1580b23
+      exp 09047eeee8a8545826f14be63407b8fe2ad55093a172f06150fd7addc1580b23
+    exact matches: 221 lengths (0..220 contiguous, then divergent from 221 upward)
+  NOTE func#85 (ECB) is exact for every length tested up to 20000 bytes -> the divergence
+       is specific to func#30's CBC chaining scratch, not to the emulator's std::string ABI.
+
+### 11.4  func#36 @0x3a838 — hex-in -> binary-out, key argument IGNORED, NOT the inverse of #30
+  #36(9834ed518cbc8fbe…, keyarg=b''           ) -> b'\x07Q\xeeSc\xa1\xf5\xd8'
+  #36(9834ed518cbc8fbe…, keyarg=b'0123456789ab') -> b'\x07Q\xeeSc\xa1\xf5\xd8'
+  #36(9834ed518cbc8fbe…, keyarg=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00') -> b'\x07Q\xeeSc\xa1\xf5\xd8'
+  #36(9834ed518cbc8fbe…, keyarg=b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b') -> b'\x07Q\xeeSc\xa1\xf5\xd8'
+  => identical for every key argument; and != b'hello', so it is not #30's inverse
+
+### 11.5  Constant key / nonce getters — return the same value for every argument
+  func#86   @0x10de0c -> ['5VEJK9Uk4d0elpVT']
+        base64 -> 12 bytes e551092bd524e1dd1e969553
+  func#87   @0x10df84 -> ['<Invalid memory read (UC_ERR_READ_UNMAPPE>', '<Invalid memory fetch (UC_ERR_FETCH_UNMAP>']
+  func#90   @0x11044c -> ['<heap exhausted>']
+  func#159  @0x134d40 -> ['OVmx02wMFR6WaGtW']
+        base64 -> 12 bytes 3959b1d36c0c151e96686b56
+  func#160  @0x13571c -> ['V0V4V2pOa1ptZGsl']
+        base64 -> 12 bytes 574578576a4e6b5a6d646b25
+  func#161  @0x136134 -> ['xV2xKTlZsBUVk1He']
+        base64 -> 12 bytes c55db1293959b015159351de
+
+### 11.6  func#157 / func#158 — cipher-context builders; key+nonce install observed live
+  (a) which blobs each builder feeds to the decoder, captured at every func#193 entry:
+    func#157 sret -> b'\x00\x00\x00\x00\x00\x00\x00='
+        bl func#193(src=0x17428, len=32, dst=0x81eff78)
+        bl func#193(src=0x17448, len=16, dst=0x81eff60)
+    func#158 sret -> b''
+  (b) the decoded content of each of those blobs, obtained by calling func#193 on it directly:
+    KEY_CT  (func#157) @0x17428 len=32 -> 'At91IxVnRSbFppV0UxNFdUSnplTW5ONA'
+        base64 -> 24 bytes  02df752315674526c5a695745313457544a7a654d6e4e340
+    IV_CT   (func#157) @0x17448 len=16 -> 'WMVEwVG02eGFlVmR'
+        base64 -> 12 bytes  58c544c151b4d9e185955991
+    IV2_CT  (func#158) @0x17458 len=16 -> 'M0VEwVGt0aVJuQjF'
+        base64 -> 12 bytes  334544c151add1a549b908c5
+  (c) the 16-byte slot inside func#157's frame IS reused as the cipher-context struct right
+      after the second decode; the surviving tail of the decoded nonce is still visible there:
+      slot[0] @0x81eff78 after func#157 = 310000000000000020000000000000004000201000000000
+      slot[1] @0x81eff60 after func#157 = 78ff1e080000000030326547466c566d5200000000000000
+      (slot[1] keeps the ASCII tail '02eGFlVmR' of 'WMVEwVG02eGFlVmR' at +7, i.e. the
+       context constructor overwrote only the first 7 bytes with its own 24-byte header)
+
+### 11.7  func#14 @0x32158 — LibTomCrypt symmetric_key layout, probed live from func#85
+  keylen=16  x0=0x81efb18 (skey)  x1=0x10001041 (userkey)  x2=0x16c10 (a .rodata string ptr, unused)  x3=0x10 (keylen)  x4=0x10
+      *x1 = b'0123456789abcdef'   <- the key bytes verbatim
+      *x2 = b'\x00eHBvc2Vk\x00BR'   <- NOT a table (0x16c10 is .rodata string data)
+      round keys found at struct+0xc, stride 32, 11/11 rows == FIPS-197 (LE words): True
+  keylen=24  x0=0x81efb18 (skey)  x1=0x10001060 (userkey)  x2=0x16c10 (a .rodata string ptr, unused)  x3=0x18 (keylen)  x4=0x10
+      *x1 = b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17'   <- the key bytes verbatim
+      *x2 = b'\x00eHBvc2Vk\x00BR'   <- NOT a table (0x16c10 is .rodata string data)
+      round keys found at struct+0xc, stride 32, 13/13 rows == FIPS-197 (LE words): True
+  keylen=32  x0=0x81efb18 (skey)  x1=0x10001060 (userkey)  x2=0x16c10 (a .rodata string ptr, unused)  x3=0x20 (keylen)  x4=0x10
+      *x1 = b'\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f'   <- the key bytes verbatim
+      *x2 = b'\x00eHBvc2Vk\x00BR'   <- NOT a table (0x16c10 is .rodata string data)
+      round keys found at struct+0xc, stride 32, 15/15 rows == FIPS-197 (LE words): True
+
+### 11.8  AES table identification — every table regenerated and compared byte-for-byte
+  setup_Sbox  @0x128b0 == FIPS-197 S-box            : True
+  setup_RSbox @0x139b0 == inverse S-box (S.index(i)): True
+  Te0         @0x118b0 == generated Te0             : True (256/256 words)
+  Te1         @0x11cb0 == Te0 rotated right 1 byte : True
+  Te2         @0x120b0 == Te0 rotated right 2 byte : True
+  Te3         @0x124b0 == Te0 rotated right 3 byte : True
+  Td1         @0x12db0 == Td0 rotated right 1 byte : True
+  Td2         @0x131b0 == Td0 rotated right 2 byte : True
+  Td3         @0x135b0 == Td0 rotated right 3 byte : True
+  Td0         @0x129b0 first word = 0x51f4a750 (LibTomCrypt Td0[0]=0x51f4a750)
+  setup_rc (Rcon) located by searching for [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77] -> 0x13b10
+      256 bytes there = 01020408102040801b366cd8ab4d9a2f ...
+      LibTomCrypt extended Rcon (powers of 3 in GF(2^8)); OpenSSL ships only 10 entries.
+  setup_log / setup_alog present anywhere in the file : False / False
+
+DONE

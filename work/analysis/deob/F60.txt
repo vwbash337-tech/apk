@@ -1,0 +1,511 @@
+// ===== func#60  @0x81c58  size=179828  dispatcher=0x9deb0 statereg=None blocks=6649 =====
+
+L0:  // block 0x081c58
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x490
+    sub      x8, x29, #0x308
+    stur     x4, [x8, #-0x100]
+    sub      x8, x29, #0x310
+    stur     x3, [x8, #-0x100]
+    sub      x8, x29, #0x318
+    stur     x2, [x8, #-0x100]
+    stur     x0, [x29, #-0x88]
+    mrs      x8, tpidr_el0
+    sub      x9, x29, #0x300
+    stur     x8, [x9, #-0x100]
+    ldr      x8, [x8, #0x28]
+    adrp     x9, #0x1ba000
+    ldr      x9, [x9, #0xd20]
+    mov      w20, #0x883a
+    stur     x8, [x29, #-0x10]
+    ldr      w8, [x9]
+    adrp     x9, #0x1ba000
+    ldr      x9, [x9, #0xd28]
+    ldr      w9, [x9]
+    b.ne     #0x81d08
+    ; SUCC: b.ne->L1 , else->L2
+
+L1:  // block 0x081d08
+    sub      x22, sp, #0x20
+    mov      sp, x22
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x98]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xb0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xc0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xc8]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xd0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xf0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xf8]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x20
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x18
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x30
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x10
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x80
+    sub      x9, x29, #0x38
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x90]
+    mov      sp, x8
+    sub      x27, sp, #0x20
+    mov      sp, x27
+    sub      x28, sp, #0x20
+    mov      sp, x28
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x40
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x24, sp, #0x20
+    mov      sp, x24
+    sub      x23, sp, #0x20
+    mov      sp, x23
+    sub      x21, sp, #0x20
+    mov      sp, x21
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xa0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xa8]
+    mov      sp, x8
+    sub      x25, sp, #0x20
+    mov      sp, x25
+    sub      x26, sp, #0x20
+    mov      sp, x26
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x28
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2c8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x250
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x258
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x240
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x230
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x220
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x238
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x218
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1d0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1c0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x210
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1b0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x208
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1a8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x200
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x198
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1f8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x190
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1f0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x188
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1e8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x178
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1e0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x170
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1d8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x160
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x140
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x138
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x158
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x130
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x148
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x120
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x118
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x110
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x100
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xf0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xf8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xd0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xe8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xc8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xe0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xc0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x98
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x90
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xb0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x88
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xa0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x80
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x78
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x70
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x48
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xe8]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x60
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xe0]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x50
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xb8]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0xd8]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x58
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x68
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xa8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xb8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0xd8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x108
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x128
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x150
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x168
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x180
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1a0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1b8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x1c8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x228
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x248
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2d0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2a0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x278
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x270
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x260
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x268
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2d8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x298
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x290
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x280
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x288
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2e0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2e8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2b8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2a8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2b0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2c0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2f8
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    sub      x9, x29, #0x2f0
+    stur     x8, [x9, #-0x100]
+    mov      sp, x8
+    ldur     x0, [x29, #-0x88]
+    adrp     x1, #0x16000
+    add      x1, x1, #0x2e5
+    ldr      x8, [x0]
+    ldr      x8, [x8, #0x30]   ; [0x16030] plain='bad size' xor5a='8;>z)3 ?Z'
+    blr      x8
+    ; SUCC: fall->L3
+
+L2:  // block 0x081cfc
+    eor      w8, w8, #1
+    cbz      w8, #0x8245c
+    ; SUCC: fall->L1
+
+L3:  // block 0x082404
+    adrp     x8, #0x1ba000
+    ldr      x8, [x8, #0xd20]
+    adrp     x9, #0x1ba000
+    mov      x19, x0
+    ldr      w8, [x8]
+    ldr      x9, [x9, #0xd28]
+    ldr      w10, [x9]
+    ands     w8, w8, #1
+    tbnz     w10, #0, #0x82478
+    eor      w8, w8, #1
+    tbnz     w8, #0, #0x82478
+    ldur     x0, [x29, #-0x88]
+    adrp     x1, #0x16000
+    add      x1, x1, #0x2e5
+    ldr      x8, [x0]
+    ldr      x8, [x8, #0x30]   ; [0x16030] plain='bad size' xor5a='8;>z)3 ?Z'
+    blr      x8
+    ; SUCC: fall->L4
+
+L4:  // block 0x082474
+    b        #0x81d08   ; -> L1
+    ; SUCC: go->L1

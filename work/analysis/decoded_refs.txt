@@ -1,0 +1,312 @@
+
+==========================================================================================
+func#10 @0x2dc00 size=3988 insns=997  :: AES
+  PLT imports used: {}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#11 @0x2eb94 size=4664 insns=1166  :: AES
+  PLT imports used: {}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#12 @0x2fdcc size=4428 insns=1107  :: AES
+  PLT imports used: {'memcpy': 2}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#13 @0x30f18 size=4672 insns=1168  :: AES
+  PLT imports used: {'memcpy': 4}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#14 @0x32158 size=8908 insns=2227  :: AES key sched
+  PLT imports used: {'memcpy': 4}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#26 @0x3896c size=68 insns=17  :: base64
+  PLT imports used: {}
+  --- 2 decoded string refs ---
+   0x01501a  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+   0x1c0320  'Linker: LLD 12.0.9 (/home/anttree/dev_sda3/llvm-toolchain/out/llvm-project/lld c935d99d7cf2016289302412d708641d52d2f7ee)'
+
+==========================================================================================
+func#50 @0x3e1d4 size=2272 insns=568  :: JNI_OnLoad
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 1 decoded string refs ---
+   0x014da2  'com/nivaroid/topfollow/helper/q'
+
+==========================================================================================
+func#56 @0x435b8 size=47808 insns=11952  :: JNI x00120b1e
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 6 decoded string refs ---
+   0x014b8f  'com/nivaroid/topfollow/helper/T'
+   0x01505b  '(Ljava/lang/String;)Ljava/lang/String;'
+   0x01535d  '<init>'
+   0x015c8f  '()V'
+   0x016b44  'addProperty'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#57 @0x4f078 size=160912 insns=40228  :: JNI x0012e5a1
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 2 decoded string refs ---
+   0x016b44  'addProperty'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#58 @0x76508 size=37668 insns=9417  :: JNI x00135e2a
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 10 decoded string refs ---
+   0x01551c  'interop_messaging_user_fbid'
+   0x015dca  'req_id'
+   0x015f10  'profile_pic_id'
+   0x0161fc  'fbid_v2'
+   0x01647c  'family_device_id'
+   0x016650  'follower_count'
+   0x016a63  'Ljava/lang/String;'
+   0x016b44  'addProperty'
+   0x016b50  'following_count'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#59 @0x7f82c size=9260 insns=2315  :: JNI x00105e9b
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#60 @0x81c58 size=179828 insns=44957  :: ANTI-TAMPER  (JNI x0015b1e9)
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 28 decoded string refs ---
+   0x014baf  'setup'
+   0x014bb5  '()Lcom/nivaroid/topfollow/models/InstagramAccount;'
+   0x014e92  'u_a'
+   0x0151fb  'mid'
+   0x01551c  'interop_messaging_user_fbid'
+   0x015538  'username'
+   0x015541  'bGliYnJpZGdlLnNv'
+             b64-> 'libbridge.so'
+   0x0156df  'cmlydQ=='
+             b64-> 'riru'
+   0x0156e8  'bGliY3NvX3N1YnN0cmF0ZQ=='
+             b64-> 'libcso_substrate'
+   0x015bea  'profile_pic_url'
+   0x015db5  'L3Byb2Mvc2VsZi9tYXBz'
+             b64-> '/proc/self/maps'
+   0x015dd4  'c3Vic3RyYXRl'
+             b64-> 'substrate'
+   0x015f10  'profile_pic_id'
+   0x0161fc  'fbid_v2'
+   0x016204  'ZWR4cG9zZWQ='
+             b64-> 'edxposed'
+   0x0162e5  'com/nivaroid/topfollow/db/MyDatabase'
+   0x01630a  'currentInstagram'
+   0x01631b  'account_type'
+   0x01647c  'family_device_id'
+   0x016650  'follower_count'
+   0x0167a9  'bHNwb3NlZA=='
+             b64-> 'lsposed'
+   0x0168b4  '()Lcom/nivaroid/topfollow/db/MyDatabase;'
+   0x016a63  'Ljava/lang/String;'
+   0x016b44  'addProperty'
+   0x016b50  'following_count'
+   0x016c11  'eHBvc2Vk'
+             b64-> 'xposed'
+   0x016f60  'eWdzaWs='
+             b64-> 'ygsik'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#61 @0xadacc size=73008 insns=18252  :: JNI x0015a3b7
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 7 decoded string refs ---
+   0x01551c  'interop_messaging_user_fbid'
+   0x015538  'username'
+   0x0161fc  'fbid_v2'
+   0x0165c7  'order_id'
+   0x016a63  'Ljava/lang/String;'
+   0x016b44  'addProperty'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#62 @0xbf7fc size=28584 insns=7146  :: JNI x0017b62c
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#63 @0xc67a4 size=22280 insns=5570  :: JNI x0011f42b
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 7 decoded string refs ---
+   0x014baf  'setup'
+   0x014bb5  '()Lcom/nivaroid/topfollow/models/InstagramAccount;'
+   0x014be8  'media_count'
+   0x0162e5  'com/nivaroid/topfollow/db/MyDatabase'
+   0x01630a  'currentInstagram'
+   0x0168b4  '()Lcom/nivaroid/topfollow/db/MyDatabase;'
+   0x016a63  'Ljava/lang/String;'
+
+==========================================================================================
+func#64 @0xcbeac size=34812 insns=8703  :: JNI x0012f5b7
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 7 decoded string refs ---
+   0x014dd5  'android/os/Build'
+   0x0151ff  'MODEL'
+   0x015c95  'BOARD'
+   0x016211  'DEVICE'
+   0x0167b6  'HARDWARE'
+   0x016c1a  'BRAND'
+   0x016df5  'MANUFACTURER'
+
+==========================================================================================
+func#65 @0xd46a8 size=14912 insns=3728  :: JNI x0014b4f3
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#66 @0xd80e8 size=33020 insns=8255  :: JNI x0011f1a2
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 3 decoded string refs ---
+   0x01621e  'media_id'
+   0x016a63  'Ljava/lang/String;'
+   0x016dac  'type'
+
+==========================================================================================
+func#67 @0xe01e4 size=117628 insns=29407  :: JNI x0015e49c
+  PLT imports used: {'__stack_chk_fail': 1, 'inflateInit2_': 1, 'inflate': 1, 'inflateEnd': 2}
+  --- 28 decoded string refs ---
+   0x014e96  'order_stamp'
+   0x014ea2  'raw'
+   0x014ea6  'getPath'
+   0x014eae  'V1ZWb1UwMUhUa2xVVkZwTlpWUm5PUT09'
+             b64-> 'WVVoU01HTklUVFpNZVRnOQ=='
+             b64-> b64-> ('YUhSMGNITTZMeTg9', ('aHR0cHM6Ly8=', ('https://', None)))
+   0x01531f  '()Ljava/lang/String;'
+   0x015358  '()[B'
+   0x015538  'username'
+   0x015701  '()Lokhttp3/Response;'
+   0x0159df  'isSuccessful'
+   0x015bfa  'getHost'
+   0x015c9b  'web'
+   0x016094  '()Ljava/lang/Object;'
+   0x0160a9  '()Ljava/net/URL;'
+   0x01621e  'media_id'
+   0x016227  'body'
+   0x01622c  '()Lokhttp3/Request;'
+   0x0162e1  '()Z'
+   0x01631b  'account_type'
+   0x016328  'request'
+   0x016330  '1.2.8'
+   0x0165c7  'order_id'
+   0x01665f  'bytes'
+   0x0167bf  '()Lokhttp3/ResponseBody;'
+   0x016a63  'Ljava/lang/String;'
+   0x016b71  'url'
+   0x016dac  'type'
+   0x016e02  '()Lokhttp3/HttpUrl;'
+   0x0170aa  'errorBody'
+
+==========================================================================================
+func#71 @0xfe268 size=12624 insns=3156  :: JNI x00126f7c
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 14 decoded string refs ---
+   0x014e24  'build'
+   0x014ee5  '(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;'
+   0x01535d  '<init>'
+   0x015a4a  'readTimeout'
+   0x015c8f  '()V'
+   0x015e4b  '()Lokhttp3/OkHttpClient;'
+   0x016240  '(Lokhttp3/CertificatePinner;)Lokhttp3/OkHttpClient$Builder;'
+   0x01633f  'writeTimeout'
+   0x01649e  'certificatePinner'
+   0x016670  'Ljava/util/concurrent/TimeUnit;'
+   0x0167d8  'okhttp3/OkHttpClient$Builder'
+   0x0167f5  'java/util/concurrent/TimeUnit'
+   0x016813  'SECONDS'
+   0x0176de  '=!!%&ozz!:%{;<#43:99:"0\'{4%%z#maez=!!%&ozz7{<{<;&!42\'48{6:8z4%<z#dzNSt6__ndk18ios_baseE'
+
+==========================================================================================
+func#72 @0x1013b8 size=10016 insns=2504  :: JNI x0018d3f7
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 14 decoded string refs ---
+   0x014e24  'build'
+   0x014ee5  '(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;'
+   0x01535d  '<init>'
+   0x015a4a  'readTimeout'
+   0x015c8f  '()V'
+   0x015e4b  '()Lokhttp3/OkHttpClient;'
+   0x016240  '(Lokhttp3/CertificatePinner;)Lokhttp3/OkHttpClient$Builder;'
+   0x01633f  'writeTimeout'
+   0x01649e  'certificatePinner'
+   0x016670  'Ljava/util/concurrent/TimeUnit;'
+   0x0167d8  'okhttp3/OkHttpClient$Builder'
+   0x0167f5  'java/util/concurrent/TimeUnit'
+   0x016813  'SECONDS'
+   0x017700  "=!!%&ozz7{<{<;&!42'48{6:8z4%<z#dzNSt6__ndk18ios_baseE"
+
+==========================================================================================
+func#98 @0x114fbc size=1972 insns=493  :: clock() timing
+  PLT imports used: {'clock': 1, '__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#154 @0x12a068 size=20976 insns=5244  :: caller of access()
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 6 decoded string refs ---
+   0x014b8f  'com/nivaroid/topfollow/helper/T'
+   0x01505b  '(Ljava/lang/String;)Ljava/lang/String;'
+   0x01535d  '<init>'
+   0x015c8f  '()V'
+   0x016b44  'addProperty'
+   0x017082  '(Ljava/lang/String;Ljava/lang/String;)V'
+
+==========================================================================================
+func#162 @0x136cb8 size=10468 insns=2617  :: ANTI-FRIDA /proc/maps
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 5 decoded string refs ---
+   0x015be1  'ZnJpZGE='
+             b64-> 'frida'
+   0x015db5  'L3Byb2Mvc2VsZi9tYXBz'
+             b64-> '/proc/self/maps'
+   0x01607f  'cmUuZnJpZGEuc2VydmVy'
+             b64-> 're.frida.server'
+   0x0161eb  'Z3VtLWpzLWxvb3A='
+             b64-> 'gum-js-loop'
+   0x016d97  'bGliZnJpZGEtZ2FkZ2V0'
+             b64-> 'libfrida-gadget'
+
+==========================================================================================
+func#169 @0x13ba30 size=576 insns=144  :: access() probe
+  PLT imports used: {'access': 1, '__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#212 @0x1509cc size=5276 insns=1319  :: SHA-256
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 0 decoded string refs ---
+
+==========================================================================================
+func#225 @0x157f38 size=7384 insns=1846  :: MAPS integrity (deleted)
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 4 decoded string refs ---
+   0x015db5  'L3Byb2Mvc2VsZi9tYXBz'
+             b64-> '/proc/self/maps'
+   0x016336  'cnd4cA=='
+             b64-> 'rwxp'
+   0x016b75  'bGliYXJ0LnNvIChkZWxldGVkKQ=='
+             b64-> 'libart.so (deleted)'
+   0x016f69  'bGliYy5zbyAoZGVsZXRlZCk='
+             b64-> 'libc.so (deleted)'
+
+==========================================================================================
+func#245 @0x16bbdc size=2076 insns=519  :: pin-sha256
+  PLT imports used: {'__stack_chk_fail': 1}
+  --- 1 decoded string refs ---
+   0x015084  'WkRnME5UVTVNV1V3T0RZd016TmhPVEF6Tldaa05tSTJObU16WXpOa056TmhZVE16WVdZNU1EYzVOR1EyWWprNE5tVTJORGMzT1dWbFlUWmlaV00xWlE9PQ=='
+             b64-> 'ZDg0NTU5MWUwODYwMzNhOTAzNWZkNmI2NmMzYzNkNzNhYTMzYWY5MDc5NGQ2Yjk4NmU2NDc3OWVlYTZiZWM1ZQ=='
+             b64-> b64-> ('d845591e086033a9035fd6b66c3c3d73aa33af90794d6b986e64779eea6bec5e', None)
+
+==========================================================================================
+func#1074 @0x1ae54c size=496 insns=124  :: dl_iterate_phdr
+  PLT imports used: {'dl_iterate_phdr': 1, 'pthread_rwlock_rdlock': 1, 'pthread_rwlock_unlock': 2, 'memset': 1}
+  --- 0 decoded string refs ---
