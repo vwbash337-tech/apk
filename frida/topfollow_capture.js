@@ -50,7 +50,7 @@
  *   Rooted phone with frida-server:
  *       frida -U -f com.nivaroid.topfollow -l frida/topfollow_capture.js
  *   Through the bundled runner (adds a REPL over the rpc exports):
- *       python frida/run_capture.py
+ *       python frida/run_frida.py --script frida/topfollow_capture.js
  *
  *   In the REPL:
  *       cfg()                      what is on, where the file is
@@ -110,9 +110,15 @@ const DEFAULT_CFG = {
     hookTrapFunc224: false
 };
 
-const CFG = (typeof TF_CAPTURE_CFG !== 'undefined' && TF_CAPTURE_CFG)
-    ? Object.assign({}, DEFAULT_CFG, TF_CAPTURE_CFG)
-    : Object.assign({}, DEFAULT_CFG);
+/* Two override names are honoured: TF_CAPTURE_CFG (what `frida -e` / a loader
+   preamble sets for this script specifically) and TF_CONFIG (what the bundled
+   runner frida/run_frida.py injects for BOTH scripts, via --mode / --set). */
+const _TF_CFG_OVERRIDE =
+    (typeof TF_CAPTURE_CFG !== 'undefined' && TF_CAPTURE_CFG) ||
+    (typeof globalThis !== 'undefined' && globalThis.TF_CAPTURE_CFG) ||
+    (typeof globalThis !== 'undefined' && globalThis.TF_CONFIG) ||
+    null;
+const CFG = Object.assign({}, DEFAULT_CFG, _TF_CFG_OVERRIDE || {});
 
 const MODULE     = 'libtopfollow.so';
 const JNI_CLASS  = 'helper.q';

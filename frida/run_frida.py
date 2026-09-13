@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-run_frida.py — topfollow_agent.js ko chalane wala runner (frida-python)
-=======================================================================
+run_frida.py — topfollow_agent.js / topfollow_capture.js chalane wala runner
+============================================================================
 
 Gadget (non-rooted) aur frida-server (rooted) dono ke saath kaam karta hai.
+
+Do script hain, `--script` se chuno:
+
+    agent    (default) topfollow_agent.js  — bypass + self-test + offline decrypt
+    capture            topfollow_capture.js — sirf dekhna, kuch change nahi karta:
+                        poora AES chain, string layer, JNI_OnLoad, 22 natives,
+                        okhttp3/retrofit2 request+response, JSONL file mein
 
 Sabse aam istemaal
 ------------------
@@ -19,6 +26,22 @@ Sabse aam istemaal
 
     # sab kuch JSON mein save karo:
     python3 frida/run_frida.py --save capture.json
+
+    # read-only capture script chalao (bypass nahi, sirf observe):
+    python3 frida/run_frida.py --script capture
+    python3 frida/run_frida.py --script capture --rpc calibrate
+    python3 frida/run_frida.py --script capture --set captureAesLayer=true
+
+REPL commands — `--script capture` ke extra exports
+---------------------------------------------------
+    cfg / stats / tail / find / flush / dumpAll
+    strings <n>         func#17/#21/#23 se nikle saare runtime strings
+    nestedStrings <n>   4-layer Base64 decode chain, live
+    keyschedule <n>     func#14 ke round keys (return ke BAAD padhe gaye)
+    cbc <n>             func#15/#16 CBC enc/dec, ctx + IV chaining
+    blocks <n>          func#10..#13 ke per-block AES events
+    regNatives          JNI_OnLoad ka live RegisterNatives table (VM jaisa dekhta hai)
+    onload / jniMap / blobs
 
 REPL commands (script ke rpc.exports par jaate hain)
 ----------------------------------------------------
@@ -60,6 +83,8 @@ except ImportError:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 AGENT = os.path.join(HERE, 'topfollow_agent.js')
+CAPTURE = os.path.join(HERE, 'topfollow_capture.js')
+SCRIPT_CHOICES = {'agent': AGENT, 'capture': CAPTURE}
 
 MODE_PRESETS = {
     # mode : extra CONFIG overrides
@@ -495,7 +520,7 @@ async def repl(script, sink):
 
 # --------------------------------------------------------------------------- #
 async def run(args):
-    with open(AGENT, 'r', encoding='utf-8') as f:
+    with open(args.script, 'r', encoding='utf-8') as f:
         src = f.read()
 
     cfg = dict(MODE_PRESETS.get(args.mode, {}))
@@ -507,7 +532,7 @@ async def run(args):
         cfg[k] = json.loads(v)
     runtime = 'const globalThis_TF = 1; globalThis.TF_CONFIG = %s;\n' % json.dumps(cfg)
     log(BANNER % {'mode': args.mode, 'device': args.device,
-                  'target': args.package or args.name, 'agent': AGENT})
+                  'target': args.package or args.name, 'agent': args.script})
     log('[config] %s' % json.dumps(cfg))
 
     device = get_device(args.device, args.host)
@@ -558,6 +583,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--mode', default='crypto', choices=sorted(MODE_PRESETS))
+    ap.add_argument('--script', default=AGENT,
+                    help='inject hone wala JS: %s (default: agent), ya koi bhi '
+                         'path. "capture" = topfollow_capture.js'
+                    % ' / '.join(sorted(SCRIPT_CHOICES)))
     ap.add_argument('--device', default='usb', choices=['usb', 'local', 'remote'])
     ap.add_argument('--host', default='127.0.0.1:27042', help='--device remote ke liye')
     ap.add_argument('--name', default='Gadget', help='attach karne wala process naam')
@@ -576,6 +605,12 @@ def main():
                     help='bina phone ke: agent ke JS AES se ciphertext decrypt karo')
     ap.add_argument('--offline-key', default=None, help='--offline-decrypt ke saath ASCII key')
     a = ap.parse_args()
+    if a.script in SCRIPT_CHOICES:
+        a.script = SCRIPT_CHOICES[a.script]
+    elif not os.path.isabs(a.script):
+        a.script = os.path.join(HERE, a.script)
+    if not os.path.isfile(a.script):
+        ap.error('script nahi mila: %s' % a.script)
 
     if a.offline_decrypt:
         r = offline_decrypt(a.offline_decrypt, a.offline_key)

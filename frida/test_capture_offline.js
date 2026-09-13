@@ -460,6 +460,63 @@ Buffer.from('hello world').copy(img, 0x200);
 t('long-form std::string', H.readStdString(mkLong), 'hello world');
 t('null pointer -> null', JSON.stringify(H.readStdString(P(0))), 'null');
 
+/* Regression for the revision-6 bug: readULong() hands back a UInt64 OBJECT in
+   Frida (modelled here as a BigInt), and Math.min() on one throws. Add a second
+   stub whose readULong returns a valueOf()-able object, the way frida's UInt64
+   does, so BOTH shapes are covered. Also pin the SSO boundary: libc++ keeps up
+   to 22 bytes inline, so the 22-byte string is short-form and the 23-byte one is
+   heap-allocated — and the heap one is exactly the case that used to be null. */
+function UInt64Like(v) { return { valueOf: () => v, toString: () => String(v) }; }
+const P64 = (n) => {
+    const o = () => off(Number(n - BASE));
+    return {
+        isNull: () => o() === 0,
+        add: (k) => P64(n + BigInt(k)),
+        readU8: () => img[o()],
+        readULong: () => UInt64Like(Number(img.readBigUInt64LE(o()))),
+        readPointer: () => P64(img.readBigUInt64LE(o())),
+        readUtf8String: (k) => img.toString('utf8', o(), o() + k),
+        toString: () => '0x' + o().toString(16)
+    };
+};
+const sso22 = 'x'.repeat(22), heap23 = 'y'.repeat(23);
+const shortP = P(BASE + 0x300n);
+img[0x300] = 22 * 2; Buffer.from(sso22).copy(img, 0x301);
+t('22-byte string is short-form (SSO limit)', H.readStdString(shortP), sso22);
+const longP = P(BASE + 0x340n);
+img.writeBigUInt64LE(0x71n, 0x340);            /* cap, odd -> long form */
+img.writeBigUInt64LE(23n, 0x348);              /* size */
+img.writeBigUInt64LE(BASE + 0x400n, 0x350);    /* data */
+Buffer.from(heap23).copy(img, 0x400);
+t('23-byte string is heap-form and reads back', H.readStdString(longP), heap23);
+const longObj = P64(BASE + 0x340n);
+t('  ...also when readULong returns a UInt64 OBJECT, not a BigInt',
+  H.readStdString(longObj), heap23);
+img.writeBigUInt64LE(0n, 0x348);
+t('heap-form with size 0 -> empty string', H.readStdString(longP), '');
+img.writeBigUInt64LE(99999999n, 0x348);
+t('implausible size is reported, not followed',
+  String(H.readStdString(longP).indexOf('implausible') >= 0), 'true');
+
+/* Regression for the other revision-6 bug: jtypeToJava() used to pass raw JNI
+   descriptors through unchanged, so Java.use(...).overload('Z', ...) would throw
+   and hookJava() would silently skip that native. Slots 0, 20 and 21 all have a
+   'Z' in their signature. */
+const PRIM_SIGS = H.JNI_EXPECT.filter(e => /[ZBCSIJFD]/.test(e[2]));
+t('some JNI signatures really do contain primitive descriptors',
+  String(PRIM_SIGS.length > 0), 'true');
+t('none of them would produce a raw descriptor as an overload name',
+  String(PRIM_SIGS.every(e => H.parseSigParams(e[2]).map(H.jtypeToJava)
+        .every(x => !/^[ZBCSIJFD]$/.test(x)))), 'true');
+/* parseSigParams turns '[Ljava/lang/String;' into 'java/lang/String[]' and '[B'
+   into 'B[]'; jtypeToJava has to carry the dimensions over AND map the element. */
+t('a String array survives parse + map',
+  H.jtypeToJava(H.parseSigParams('([Ljava/lang/String;)V')[0]), 'java.lang.String[]');
+t('a byte array survives parse + map',
+  H.jtypeToJava(H.parseSigParams('([B)V')[0]), 'byte[]');
+t('a 2-D int array survives parse + map',
+  H.jtypeToJava(H.parseSigParams('([[I)V')[0]), 'int[][]');
+
 console.log('\n== 11. the event sink writes valid JSONL ==');
 H.SINK.ring.length = 0; WRITTEN.length = 0;
 const wrBefore = WRITTEN.length;

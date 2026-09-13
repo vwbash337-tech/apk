@@ -1,7 +1,7 @@
 # `libtopfollow.so` — Reverse Engineering Report
 
 **Target:** `TopFollow_v845-Beta.apk` → `lib/arm64-v8a/libtopfollow.so`
-**Analysed:** 2026-09-12 → 2026-09-13 (revision 4) · **static analysis + full AArch64 emulation** (Unicorn harness, `work/analysis/emu.py`) · no debugger on a device
+**Analysed:** 2026-09-12 → 2026-09-13 (revision 6) · **static analysis + full AArch64 emulation** (Unicorn harness, `work/analysis/emu.py`) · no debugger on a device
 **Scope:** obfuscation techniques · detection mechanisms · all encryption (AES + everything else) · request/response crypto path end-to-end
 
 > **Revision 2 — everything in §4, §7.7, §7.9 and §11 is backed by _executing_ the code.**
@@ -17,6 +17,21 @@
 > `stat` or `lstat`, so the maps-hiding strategy documented in revisions 1–3 could never have
 > fired; it now filters the `read()` buffer instead. All superseded conclusions are listed in
 > **§10 Corrections, items 1–40**, with the new evidence in **§11.11** and **§11.12**.
+>
+> **Revision 5 — the native AES chain resolved end to end, and `JNI_OnLoad` read instruction by
+> instruction** (§11.13). The real key schedule is `func#14 @0x32158` (not `#222`); `func#172` is an
+> MBA opaque predicate, *not* a GF(2¹²⁸) core; exactly **five** functions in the whole library touch
+> the Rijndael tables; and the full 22-row `JNINativeMethod` table was recovered by applying the 66
+> `R_AARCH64_RELATIVE` relocations to `0x1b6198`, which is what fixes the `q.b` / `q.k` / `q.p`
+> slot numbers.
+>
+> **Revision 6 — the harness itself was tested against the ELF, and two real bugs fell out** (§11.14).
+> `readULong()` returns a `UInt64` *object*, so `Math.min()` threw and **every `std::string` longer
+> than the 22-byte SSO limit was captured as `null`** — in both scripts. `jtypeToJava()` did not map
+> the raw JNI descriptors `Z B C S I J F D`, so `overload()` would have thrown and silently skipped
+> slots 0, 20 and 21. The GCM *path list* in item 35 was wrong too (`#241` is `#191`'s sibling, not
+> its caller); the slot list was right. `frida/test_capture_offline.js` now asserts **324** checks
+> against the real `.so` bytes and passes with 0 failures.
 
 ---
 
@@ -32,7 +47,7 @@
 | Crypto | **AES (LibTomCrypt, T-table — all 9 tables regenerated and matched bit-for-bit, §11.8)** + **SHA-256 (LibTomCrypt)** + **SHA-1** (`func#199`/`#201`/`#202`) + **Base64 (two engines, up to 4 nested layers)** + **single-byte XOR `0x5A` string encryption** (`func#193`, §11.1) |
 | **Cipher #1 (proven)** | `func#85` / `func#94` = **AES-ECB + PKCS#7 + lowercase-hex output**, key taken *verbatim* from the caller. Accepts 16/24/32-byte keys (AES-128/192/256). **Byte-exact match** against FIPS-197. §11.2 |
 | **Cipher #2 (proven)** | `func#30` = **AES-128-CBC, key = 16 × `0x00`, IV = 16 × `0x00`, PKCS#7, lowercase-hex output**. The key argument is **ignored**. §11.3 |
-| **Cipher #3 (rev 4)** | `func#36` = **AES-256-ECB decrypt + PKCS#7 unpad over hex-decoded input** — and its key is **not a constant**: `rijndael_setup` is entered with `keylen = 32` and a user-key pointer into `func#36`'s own stack frame. Non-hex input returns empty; a length that is not a multiple of 16 is echoed verbatim; valid padding is stripped. It is a **padding oracle**, reachable as `q.k` (slot 15) → `#252` → `#36`. §11.11(a), §10 item 34 |
+| **Cipher #3 (rev 4)** | `func#36` = **AES-256-ECB decrypt + PKCS#7 unpad over hex-decoded input** — and its key is **not a constant**: `rijndael_setup` is entered with `keylen = 32` and a user-key pointer into `func#36`'s own stack frame. Non-hex input returns empty; a length that is not a multiple of 16 is echoed verbatim; valid padding is stripped. It is a **padding oracle**, reachable as `q.k` (**slot 20**, corrected in revision 5 — §11.13(d); the old "slot 15" was wrong, slot 15 is `q.h`) → `#252` → `#36`. §11.11(a), §10 item 34 |
 | Hardcoded secrets | **`0123456789abcdef`** — a literal AES-128 key in plaintext `.rodata` (`0x161ca`, `0x17ae0`), used by the cert-pinner `func#226`/`func#73` and the OkHttp builders `func#71`/`func#72`. §4.2A |
 | | **`At91IxVnRSbFppV0UxNFdUSnplTW5ONA`** (32 ch → Base64 → **24 B = AES-192**) and **`WMVEwVG02eGFlVmR`** (16 ch → Base64 → **12 B = GCM 96-bit nonce**), stored XOR-0x5A at `0x17428`/`0x17448`, recovered *and re-verified by emulation*. §4.2 |
 | | **Four more 12-byte secrets** returned by argument-independent getters — `func#86` → `5VEJK9Uk4d0elpVT`, `func#159` → `OVmx02wMFR6WaGtW`, `func#160` → `V0V4V2pOa1ptZGsl`, `func#161` → `xV2xKTlZsBUVk1He`; plus a second GCM nonce at `0x17458` (`func#158`). One emulated call each recovers them all. §11.5 |
@@ -654,7 +669,7 @@ GCM nonces/keys the app rotates between:
 | *(runtime const)* | `xV2xKTlZsBUVk1He` | `c55db1293959b015159351de` | `func#161` (blob `0x17250`) |
 | `0x17448` | `WMVEwVG02eGFlVmR` | `58c544c151b4d9e185955991` | `func#157` (encrypt nonce) |
 | `0x17458` | `M0VEwVGt0aVJuQjF` | `334544c151add1a549b908c5` | `func#158` (decrypt nonce) |
-| `0x1606a` | `U0dKR01FNW9OV3h3` | → `SGJGME5oNWxw` → `HbF0Nh5lp` (2 layers) | `func#30` |
+| `0x1606a` | `U0dKR01FNW9OV3h3` | → `SGJGME5oNWxw` → **`HbF0Nh5lp`** (2 layers, 9 chars) | `func#30` |
 | `0x16b60` | `WXpKV2JHSnBPRDA9` | → `YzJWbGJpOD0=` → `c2Vlbi8=` → **`seen/`** (3 layers) | `func#218` |
 
 `func#159`, `func#160`, `func#161` were executed and return their constant **regardless of
@@ -912,7 +927,7 @@ Note the blob starts at `0x17365`, not `0x17366` — the leading `g` sits one by
 | `0x16d97` | 1 | `libfrida-gadget` |
 | `0x16f60` | 1 | `ygsik` (anagram of *kyigi* / *zygisk*-adjacent marker) |
 | `0x16f69` | 1 | `libc.so (deleted)` |
-| `0x1606a` | 3 | `HbF0Nh5lp` (opaque app token) |
+| `0x1606a` | 2 | `HbF0Nh5lp` (opaque app token) |
 
 Full corpus: `work/analysis/all_decoded_strings.txt`.
 
@@ -2036,12 +2051,14 @@ including on a **non-rooted** one. Full walkthrough: `frida/README_frida_gadget.
 
 | File | Content |
 |---|---|
-| **`frida/topfollow_agent.js`** | the Frida agent (1,989 lines). Module-wait via `dlopen`/`android_dlopen_ext` hooks + polling; sanity anchors (JNI_OnLoad export, S-box `@0x128b0`, Rcon `@0x13b10`, plaintext key `@0x161ca`); runtime self-calibration against the 22-entry `JNINativeMethod` table `@0x1b6198`; **entry-only** `Interceptor.attach` on `func#85/#94/#30/#36/#14/#193`, the 5 key getters and `func#157/#158`; read-only detection layer — **`/proc/*/maps` fd tracking on `__open_2`/`open` plus a length-preserving rewrite of every `read`/`__read_chk` buffer** (the library imports no `fopen`/`fgets`/`strstr`, item 39), `access()` su-path `ENOENT`, and a 30-token suppression list derived from the Base64-hidden strings — none of which ever touches a flattened body; Java hooks for the 22 natives, `CertificatePinner` neutralisation, trust-all TLS, and the §6.5C **signature forgery**; a from-scratch JS AES-128/192/256 (ECB+CBC, PKCS#7) and SHA-256 for offline decryption and self-verification; 17 `rpc.exports` |
+| **`frida/topfollow_agent.js`** | the Frida agent (1,995 lines). Module-wait via `dlopen`/`android_dlopen_ext` hooks + polling; sanity anchors (JNI_OnLoad export, S-box `@0x128b0`, Rcon `@0x13b10`, plaintext key `@0x161ca`); runtime self-calibration against the 22-entry `JNINativeMethod` table `@0x1b6198`; **entry-only** `Interceptor.attach` on `func#85/#94/#30/#36/#14/#193`, the 5 key getters and `func#157/#158`; read-only detection layer — **`/proc/*/maps` fd tracking on `__open_2`/`open` plus a length-preserving rewrite of every `read`/`__read_chk` buffer** (the library imports no `fopen`/`fgets`/`strstr`, item 39), `access()` su-path `ENOENT`, and a 30-token suppression list derived from the Base64-hidden strings — none of which ever touches a flattened body; Java hooks for the 22 natives, `CertificatePinner` neutralisation, trust-all TLS, and the §6.5C **signature forgery**; a from-scratch JS AES-128/192/256 (ECB+CBC, PKCS#7) and SHA-256 for offline decryption and self-verification; 17 `rpc.exports` |
+| **`frida/topfollow_capture.js`** | **(revision 5-6) the read-only capture script, 2,305 lines.** A *separate* script from the agent, deliberately: it hooks and **observes only** - not one `Interceptor.replace`, not one `retval.replace`, not one rewritten buffer (the offline test asserts this against the stripped source, §11.14). It covers the full AES chain (`#14` key schedule with the round keys read *after* return, `#15`/`#16` CBC drivers, `#12`/`#13` ECB dispatchers, `#10`/`#11` `Nr`-leaves), the public ciphers (`#85`/`#94`/`#30`/`#36`), the XOR-`0x5A` decoder `#193`, the string layer (`#17`/`#21`/`#23`, including the 4-layer Base64 chains), `JNI_OnLoad` (`GetEnv` -> `FindClass` -> `RegisterNatives`, dumping the table **as the VM sees it**), all 22 natives on both the native and the Java side, okhttp3 / retrofit2 / Gson request+response, the detection scanners, and `__open_2`/`read`/`__read_chk`/`access`. Every event is appended to a JSONL file (three fallback paths) and kept in a 20,000-event ring; **25 `rpc.exports`**. `func#224` is excluded on purpose (§3.8 trap). The 21-blob Base64 chain table and the 22-row `JNINativeMethod` expectation table are inlined, so `calibrate()` diffs the live table against the static recovery on the phone |
+| **`frida/test_capture_offline.js`** | **(revision 6) `node frida/test_capture_offline.js` -> `PASS 324 FAIL 0`, no phone and no Frida.** Loads the capture script into a Node VM whose `NativePointer` is backed by the **real `libtopfollow.so` bytes**, applies the 66 `R_AARCH64_RELATIVE` relocations into the JNI-table region, and folds the `.data.rel.ro` `VA - 0x4000` file-offset delta *into the pointer itself* - so the script's own table reads see exactly what the kernel would have mapped. Asserts all 22 slots (name, signature, wrapper `func#`, RVA), all 21 Base64 blobs **byte-for-byte against `.rodata`** plus their full decode chains, the `std::string` SSO and heap readers, the JSONL ring, the read-only contract, and the whole `rpc` surface. **This test is what caught the two real bugs in §11.14** |
 | **`frida/test_agent_offline.js`** | `node frida/test_agent_offline.js` — loads the agent into a Node VM with the Frida API stubbed and asserts **138 known-answer checks**: FIPS-197 AES vectors, all 11 `func#85` vectors of §11.2, `func#94` round-trips, all 5 `func#30` vectors of §11.3, `rpc.exports.decrypt`, the 3-layer `.rodata` secret decoding against the *real* `libtopfollow.so` bytes, the 9 AES table anchors, all 22 `JNINativeMethod` slots re-derived from `analysis/relocs.json`, **every Base64-hidden detection token decoded live out of the binary and asserted covered by `MAPS_NOISE`**, the Base64 endpoint/pin decodes, and `filterMapsBuffer`'s length-preserving rewrite (§11.12) |
 | **`frida/selftest_real_so.js`** | `node frida/selftest_real_so.js` — runs `rpc.exports.selfTest()` and `rpc.exports.signature()` with the agent's `MOD` resolved against the **real `libtopfollow.so` bytes on disk**: `NativePointer.read*` is backed by the file buffer and `Process.findModuleByName` is stubbed, so the agent resolves `MOD` through its own `findModule()` and the six *live* `.rodata` vectors run exactly as on a device. Exits non-zero unless **26/26 pass with 0 skipped** and `liveMatchesPin == true` |
 | **`frida/clone_signer.py`** | proves and exploits §6.5B: reads the signer certificate out of the APK's v2 Signing Block, reads the pin blob out of `libtopfollow.so @0x15084`, double-Base64-decodes it and asserts `SHA-256(cert DER) == pin`; then rebuilds a structurally identical certificate with a fresh RSA-2048 key and emits `frida/keys/topfollow_clone.p12` + PEMs for `apksigner` |
 | **`frida/repack_apk.py`** | pure-Python APK surgery — **no Java, no apktool, no zipalign, no apksigner**. Copies all 1,266 entries raw (verified: *zero* payload or compression-method changes), injects `lib/arm64-v8a/libgadget.so` + `libgadget.config.so` STORED and **4096-byte aligned** via the `0xd935` extra field (the same trick `zipalign -p 4` uses), drops stale `META-INF` signature files and the APK Signing Block, and re-verifies alignment and CRCs on the result |
-| `frida/run_frida.py` | the runner: USB/remote/local device, attach-by-name (`Gadget`) or spawn-by-package, injects `TF_CONFIG`, streams the agent's tagged messages, and gives a REPL over all `rpc.exports`. `--offline-decrypt <hex>` decrypts captured ciphertext **with no phone at all** by driving the agent's JS under Node (with a self-contained pure-Python AES fallback whose S-box is *computed*, not transcribed) |
+| `frida/run_frida.py` | the runner: USB/remote/local device, attach-by-name (`Gadget`) or spawn-by-package, injects `TF_CONFIG` (which **both** scripts now honour), streams the script's tagged messages, and gives a REPL over all `rpc.exports`. **Revision 6:** `--script agent|capture|<path>` picks which JS to inject (`capture` = `topfollow_capture.js`). `--offline-decrypt <hex>` decrypts captured ciphertext **with no phone at all** by driving the agent's JS under Node (with a self-contained pure-Python AES fallback whose S-box is *computed*, not transcribed) |
 | `frida/libgadget.config.so` | Gadget config, `listen 127.0.0.1:27042`, **`on_load: wait`** — the app blocks at `System.loadLibrary("gadget")` until you attach, so nothing in `JNI_OnLoad` runs before the hooks are armed |
 | `frida/libgadget.config.resume.so` | same but `on_load: resume` — app runs immediately, attach later |
 | `frida/libgadget.config.script.so` | `type: script`, `path: ./libgadget.script.so` — the agent is baked into the APK and runs with no PC attached |
@@ -2051,9 +2068,12 @@ including on a **non-rooted** one. Full walkthrough: `frida/README_frida_gadget.
 ```bash
 # no phone required — re-proves the agent's crypto against the real .so bytes
 node frida/test_agent_offline.js                        # -> PASS 138 FAIL 0
+node frida/test_capture_offline.js                      # -> PASS 324 FAIL 0   (rev 6, real .so bytes)
 node frida/selftest_real_so.js                          # -> passed=26/26 skipped=0, liveMatchesPin=true
 python3 frida/clone_signer.py                           # -> asserts SHA-256(cert) == pin
 python3 frida/repack_apk.py --dry-run                   # -> manifest + DEX-patch status
+python3 frida/run_frida.py --script capture             # -> read-only capture, 25 rpc exports
+python3 frida/run_frida.py --script capture --rpc calibrate   # live JNI table vs static recovery
 python3 frida/run_frida.py --offline-decrypt \
         f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549c\
 fc144d3ce97d67ecc55475f0dfeec781                          # -> {"order_id":12345,...}
@@ -2210,6 +2230,25 @@ test in `work/analysis/verify_all.txt`.
     is reached by exactly two paths (`#157 → #177 → #191` and `#241 → #191`, the latter from
     `func#67`), so the JNI natives that can reach it are **slot 6 `q.v` (`#57`), slot 13 `q.b`
     (`#64`) and slot 16 `q.p` (`#67`)** — response handling included.
+    **Correction (revision 6): the *path list* was wrong; the slot list was right.**
+    Re-deriving the reachability from `work/analysis/callgraph.json` (which records `calls` **and**
+    `callers` per function, so both directions agree) gives the complete picture:
+
+    | fact | evidence |
+    |---|---|
+    | `func#191`'s **only** caller is `func#177` @`0x13d2fc` (824 B), called twice | `func#191.callers = {func#177: 2}` |
+    | `func#177` is called by exactly `func#156`, `func#157`, `func#158` | `func#177.callers = {func#156: 1, func#157: 1, func#158: 1}` |
+    | `func#156` and `func#158` are each called **only** by `func#57` | reverse edge sets |
+    | `func#157` is called by `func#57` and `func#64` | reverse edge sets |
+    | **`func#241` does *not* call `func#191`** | `func#241.calls = {#172:2, #674:2, #79:2, #173:1, #682:1}` — identical *callee set* to `#191`, which is what fooled the earlier reading |
+    | `func#241`'s only caller is `func#67` | `func#241.callers = {func#67: 1}` |
+
+    So the four call paths into the GCM core are `#57 → #156 → #177 → #191`, `#57 → #157 → #177 → #191`,
+    `#57 → #158 → #177 → #191` and `#64 → #157 → #177 → #191`, and `#241` is `#191`'s **sibling**, not
+    its caller: the same five-callee GCM body, independently flattened, reached from `func#67`
+    (slot 16 `q.p`, response handling) — 4,440 B vs 4,672 B, differing in 4,193 bytes (§11.11(e)).
+    The set of JNI natives that can reach GCM arithmetic is therefore still exactly
+    **slot 6 `q.v` (`#57`), slot 13 `q.b` (`#64`) and slot 16 `q.p` (`#67`)**, unchanged.
     **Correction (revision 5):** the sentence that used to follow here — *"`func#172` is the GF
     arithmetic core: it loads the S-box and inverse S-box through the GOT slots `0x1bb638 →
     0x128b0` and `0x1bb640 → 0x139b0`"* — **was wrong and is withdrawn.** Those two GOT slots
@@ -2233,7 +2272,7 @@ test in `work/analysis/verify_all.txt`.
     `0143db63ee66b0cdff9f69917680151e`, which is `ECB_enc(0^16, 0^16)` because CBC with a zero
     IV degenerates to ECB on the first block. The 16-char Base64 string `U0dKR01FNW9OV3h3`
     at `0x1606a` — which is **two** layers deep, `U0dKR01FNW9OV3h3 → SGJGME5oNWxw → HbF0Nh5lp`
-    (11 printable ASCII chars; the revision-4 note calling it "12 bytes `53474a474d45356f4e577877`,
+    (9 printable ASCII chars, ASCII `486246304e68356c70`; the revision-4 note calling it "12 bytes `53474a474d45356f4e577877`,
     GCM-nonce shaped" treated the *Base64 text* as if it were the decoded bytes, and is withdrawn)
     — that `func#30` references **never appears on the heap during execution** — it sits on an opaque-predicate
     path, exactly like `func#86`'s `0x17307` (item 22). Do not treat it as `func#30`'s nonce.
@@ -2841,8 +2880,9 @@ will silently miss the other.
 The key is `0^16` for every input and every second argument, the output is lowercase hex, and the
 `b''` case is exactly `ECB_enc(0^16, 0^16)` — CBC with a zero IV degenerates to ECB on the first
 block, which is an independent confirmation of both the mode and the zero key. The 16-char Base64
-string `U0dKR01FNW9OV3h3` at `0x1606a` decodes in **two** layers to the 11 printable characters
-`HbF0Nh5lp` (revision 4 wrongly printed the Base64 text's own bytes, `53474a474d45356f4e577877`,
+string `U0dKR01FNW9OV3h3` at `0x1606a` decodes in **two** layers to the 9 printable characters
+`HbF0Nh5lp` = ASCII `486246304e68356c70`, and `HbF0Nh5lp` is not itself valid Base64, so the chain
+stops there (revision 4 wrongly printed the Base64 text's own bytes, `53474a474d45356f4e577877`,
 as if they were the decoded value) — and it **never appears on the heap in any of these runs**: like `func#86`'s `0x17307` it sits
 on an opaque-predicate path and must not be reported as `func#30`'s nonce.
 
@@ -3267,6 +3307,199 @@ occurrence of that cipher's name anywhere in `.rodata` (no `rijndael`, no lowerc
 | `func#36`'s key | **Not a constant** (rev 4). The key buffer is a slice of its own stack frame; hook `#14` from inside `#36` to capture it per call |
 | `func#7` (252 B, called by `#30 #36 #85 #94`) and `func#9` (1,148 B, called by `#15 #16`) | **Unidentified** shared leaves; no table, no PLT crypto import |
 | Anything on a real device | **Nothing has ever run on a phone or emulator.** Every result above is from the file, via Unicorn or static decode |
+
+---
+
+---
+
+### 11.14 Revision 6 — the harness was tested against the ELF, and two real bugs fell out
+
+Revisions 3–5 produced two Frida scripts and one offline test. Revision 6 did the thing that had
+been missing: it wrote a **second** offline test, aimed at the capture script, whose `NativePointer`
+is backed by the *real* `libtopfollow.so` bytes — and it found two bugs that would have silently
+destroyed the capture on a real phone. Neither is a style issue; both are "the data you came for
+does not arrive" bugs.
+
+#### (a) `readULong()` returns a `UInt64` **object**, not a JS number — every long `std::string` was `null`
+
+Both scripts read a libc++ `std::string` the same way:
+
+```js
+/* BEFORE — broken */
+const size = p.add(8).readULong();          // -> UInt64 object (BigInt-like), NOT a number
+const data = p.add(16).readPointer();
+if (size === 0 || data.isNull()) return '';
+if (size > 64 * 1024 * 1024) return '<implausible size ' + size + '>';
+const n = Math.min(size, CFG.maxDump);      // *** THROWS ***
+```
+
+`Math.min()` on a `BigInt`-backed value throws `TypeError: Cannot convert a BigInt value to a
+number`. That throw was swallowed by the enclosing `try { … } catch (e) { return null; }` — the
+correct thing to do for an unmapped pointer, catastrophic here — so `readStdString()` returned
+`null` for **every long-form string**. libc++ keeps at most **22 bytes** inline (short-string
+optimisation), so "long form" is not an edge case: it is every endpoint URL, every detection token,
+every JSON body, every key, every response. The capture would have produced a stream of `null`
+plaintext fields and looked like the library was passing empty strings.
+
+The fix normalises before any arithmetic, and is now in both `topfollow_capture.js` and
+`topfollow_agent.js`:
+
+```js
+/* AFTER — revision 6 */
+const rawSize = p.add(8).readULong();
+const size = Number(typeof rawSize === 'bigint' ? rawSize
+                    : (rawSize && rawSize.valueOf ? rawSize.valueOf() : rawSize));
+const data = p.add(16).readPointer();
+if (!(size > 0) || data.isNull()) return '';      // !(x>0) also catches NaN
+if (size > 64 * 1024 * 1024) return '<implausible size ' + size + '>';
+const n = Math.min(size, CFG.maxDump);
+```
+
+`!(size > 0)` rather than `size === 0` is deliberate: it is false for `NaN`, so a garbage size
+field still yields `''` instead of falling through to a 512 MB read.
+
+Regression tests (three shapes of `readULong` — `BigInt`, a `valueOf()`-able object like Frida's
+`UInt64`, and the boundary itself):
+
+```
+ok   short-form std::string                       'hello'
+ok   empty short-form std::string                 ''
+ok   long-form std::string                        'hello world'
+ok   22-byte string is short-form (SSO limit)     'x'.repeat(22)
+ok   23-byte string is heap-form and reads back   'y'.repeat(23)
+ok     ...also when readULong returns a UInt64 OBJECT, not a BigInt
+ok   heap-form with size 0 -> empty string
+ok   implausible size is reported, not followed
+```
+
+#### (b) `jtypeToJava()` did not map the raw JNI descriptors — slots 0, 20 and 21 were never hooked
+
+`parseSigParams()` correctly returns *raw JNI field descriptors*: for
+`(ZLjava/lang/String;)Lretrofit2/Retrofit;` it yields `["Z", "java/lang/String"]`. But
+`Java.use(cls)[m].overload(...)` wants **Java type names**, and `jtypeToJava()` only had a lookup
+table of names that were already Java names:
+
+```js
+/* BEFORE — broken */
+const M = { 'int': 'int', 'long': 'long', 'boolean': 'boolean', … ,
+            'java/lang/String': 'java.lang.String', … };
+if (M[t]) return M[t];
+return t.replace(/\//g, '.');          // 'Z' -> 'Z'   *** not a Java type ***
+```
+
+So `overload('Z', 'java.lang.String')` would throw, `hookJava()` catches per-method failures and
+moves on, and **slot 0 `q.j`, slot 20 `q.k` and slot 21 `q.l`** — the three natives whose signature
+contains a `boolean` — would never be hooked on the Java side. Slot 20 is the
+`CertificatePinner`/`OkHttpClient` builder, i.e. the pinning path the report spends §6.5 on.
+
+```js
+const JNI_PRIMITIVE = { Z: 'boolean', B: 'byte', C: 'char', S: 'short',
+                        I: 'int',    J: 'long', F: 'float', D: 'double',
+                        V: 'void' };
+function jtypeToJava(t) {
+    if (t === null || t === undefined) return t;
+    let s = String(t), dims = 0;
+    while (s.slice(-2) === '[]') { dims++; s = s.slice(0, -2); }
+    if (JNI_PRIMITIVE[s] !== undefined) s = JNI_PRIMITIVE[s];
+    else s = s.replace(/^\//, '').replace(/^L/, '').replace(/;$/, '').replace(/\//g, '.');
+    return s + '[]'.repeat(dims);
+}
+```
+
+The array handling matters because `parseSigParams()` rewrites `[B` as `B[]`: the dimensions have to
+be peeled off *before* the element is mapped and re-attached after.
+
+```
+ok   (ZLjava/lang/String;)Lretrofit2/Retrofit; -> raw descriptors   ["Z","java/lang/String"]
+ok     ...and through jtypeToJava -> overload names                 ["boolean","java.lang.String"]
+ok   every JNI primitive descriptor maps to a Java type
+     ["boolean","byte","char","short","int","long","float","double"]
+ok   all 22 signatures survive parseSigParams + jtypeToJava
+ok   none of them would produce a raw descriptor as an overload name
+ok   a String array survives parse + map      'java.lang.String[]'
+ok   a byte array survives parse + map        'byte[]'
+ok   a 2-D int array survives parse + map     'int[][]'
+```
+
+#### (c) `calibrate()`'s `RegisterNatives` anchor was one instruction-pair off
+
+`calibrate()` verifies, on the phone, that the static recovery is still correct by re-reading the
+immediate that carries `nMethods`. It looked for `mov w3, #0x16` at `jni_reg1 − 0x10`. The real
+layout at `0x3e918…0x3e93c` is:
+
+| address | instruction | |
+|---|---|---|
+| `0x3e928` | `mov w3, #0x16` = `0x528002c3` | **the anchor** |
+| `0x3e92c` | `adrp x2, …` | |
+| `0x3e930` | `add x2, x2, …` | the `JNINativeMethod*` pair |
+| `0x3e934` | … | |
+| `0x3e93c` | `blr x8` | `RegisterNatives` |
+
+The `adrp`/`add` pair that materialises the table pointer sits *between* the `mov` and the `blr`,
+so the correct offset is **`jni_reg1 − 0x14`**, not `− 0x10`. At `− 0x10` `calibrate()` read the
+`adrp`, reported a calibration failure, and — worse — reported it as *"the binary does not match the
+static analysis"* rather than *"the anchor offset is wrong"*.
+
+#### (d) Item 35's GCM path list was wrong; the slot list was right
+
+`work/analysis/callgraph.json` stores `calls` **and** `callers` for every function, so the two
+directions can be cross-checked. Doing that shows `func#191` has exactly one caller, `func#177`
+@`0x13d2fc`, and that `func#241` does **not** call `func#191` — the two merely share an identical
+five-callee set `{#79, #172, #173, #674, #682}`, which is what the earlier reading mistook for an
+edge. Full correction table in §10 item 35. The set of JNI natives that can reach GCM arithmetic is
+unchanged: **slot 6 `q.v` (`#57`), slot 13 `q.b` (`#64`), slot 16 `q.p` (`#67`)**.
+
+#### (e) How the offline harness works, and why it can catch this class of bug
+
+`frida/test_capture_offline.js` (637 lines) does not stub the binary — it *is* the binary:
+
+1. `libtopfollow.so` is read into a `Buffer`; `NativePointer` arithmetic and every `read*` method is
+   implemented over that buffer, so `MOD.base + 0x1b6198` really lands on the real table bytes.
+2. The 66 `R_AARCH64_RELATIVE` relocations from `work/analysis/relocs.json` whose targets fall in
+   `0x1b6160…0x1b6470` are applied into the buffer, reproducing what the dynamic linker does at
+   load time. Without this the table is 528 zero bytes and nothing can be checked.
+3. The `.data.rel.ro` segment's file offset is `VA − 0x4000` (`vaddr 0x1b6160` → `file 0x1b2160`).
+   That delta has to live **inside the pointer**, not just in the relocation pass — the script
+   dereferences the table at its virtual address, and the kernel maps segments, it does not subtract
+   `0x4000` for you. Getting this wrong is what produced the first run's 37 failures.
+4. The whole capture script is then executed in a `vm` context with `Process.findModuleByName`
+   stubbed and `NO_AUTOBOOT`, and its internals are reached through the export hook.
+
+That last step is the reason these two bugs were catchable at all: the test runs the **actual
+production source**, not a copy of it, against the **actual file bytes**. A test that re-implements
+the reader would have reproduced the same mistake and passed.
+
+The read-only contract is asserted against the source too, but only after stripping comments and
+string literals — the script legitimately *mentions* `retval.replace()` in its header and in
+`rpc.exports.help()`, documenting the thing it promises not to do:
+
+```js
+const CODE_ONLY = SRC
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')                 /* block comments */
+    .replace(/(^|[^:'"\\])\/\/[^\n]*/g, '$1 ')          /* line comments  */
+    .replace(/'(?:[^'\\\n]|\\.)*'/g, "''")              /* '...' literals */
+    .replace(/"(?:[^"\\\n]|\\.)*"/g, '""')              /* "..." literals */
+    .replace(/`(?:[^`\\]|\\.)*`/g, '``');                /* `...` literals */
+/* then: no Interceptor.replace( , no retval.replace( , no returnValue.replace( */
+```
+
+#### (f) Status after revision 6
+
+| check | result |
+|---|---|
+| `node frida/test_capture_offline.js` | **PASS 324 · FAIL 0** |
+| `node frida/test_agent_offline.js` | **PASS 138 · FAIL 0** |
+| `node frida/selftest_real_so.js` | **26 / 26, 0 skipped, `liveMatchesPin == true`** |
+| `python3 frida/run_frida.py --offline-decrypt <hex>` | recovers `{"order_id":12345,"type":"follower"}` |
+| `node --check` on both scripts | clean |
+| still never run on a phone or emulator | **true** — §11.13(f) is unchanged |
+
+Two smaller changes rode along: `keyLabel()` now returns *name and kind*
+(for the AES-192 key it returns
+`"XOR-0x5A @0x17428 -> Base64  [AES-192 GCM key (24 B)]"`, straight out of `KNOWN_KEYS`) so a captured event is
+self-describing without a trip back to this report, and the capture script now honours **both**
+`TF_CAPTURE_CFG` and `TF_CONFIG`, which is what lets the single runner drive either script
+(`python3 frida/run_frida.py --script capture`).
 
 ---
 
