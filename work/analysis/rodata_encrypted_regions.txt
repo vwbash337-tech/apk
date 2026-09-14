@@ -1,0 +1,20 @@
+=== HIGH-ENTROPY RUNS in .rodata (candidate encrypted blobs) ===
+0x0128b0-0x013ab0  size=  4608  entropy=8.000
+0x013bb0-0x013f30  size=   896  entropy=7.963
+0x013fb0-0x014330  size=   896  entropy=7.963
+0x0143b0-0x014730  size=   896  entropy=7.963
+0x0147b0-0x014b30  size=   896  entropy=7.963
+0x017130-0x017170  size=    64  entropy=5.801
+0x0172f0-0x017370  size=   128  entropy=6.471
+0x0174b0-0x0175b0  size=   256  entropy=7.106
+
+=== LOW/MID entropy runs (plaintext / tables) ===
+0x0118b0-0x0128b0  size=  4096  entropy=8.000
+0x013ab0-0x013bb0  size=   256  entropy=5.469
+0x013f30-0x013fb0  size=   128  entropy=6.488
+0x014330-0x0143b0  size=   128  entropy=6.488
+0x014730-0x0147b0  size=   128  entropy=6.488
+0x014b30-0x017130  size=  9728  entropy=5.462
+0x017170-0x0172f0  size=   384  entropy=5.755
+0x017370-0x0174b0  size=   320  entropy=5.156
+0x0175b0-0x01ab70  size= 13760  entropy=5.041

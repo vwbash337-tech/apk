@@ -1,0 +1,94 @@
+# func#169 @0x13ba30 sz=576 disp=0x13bb44 sreg=w9 blocks=19
+
+; ===== real block 0x13ba30  (34 insns -> 34 meaningful)
+    sub      sp, sp, #0xa0
+    stp      x29, x30, [sp, #0x40]
+    stp      x28, x27, [sp, #0x50]
+    stp      x26, x25, [sp, #0x60]
+    stp      x24, x23, [sp, #0x70]
+    stp      x22, x21, [sp, #0x80]
+    stp      x20, x19, [sp, #0x90]
+    add      x29, sp, #0x40
+    mrs      x8, tpidr_el0
+    adrp     x28, #0x1bb000
+    adrp     x20, #0x1bb000
+    ldr      x28, [x28, #0x5f8]
+    ldr      x20, [x20, #0x600]
+    str      x8, [sp, #8]
+    ldr      x8, [x8, #0x28]
+    mov      w21, #0x42b8
+    mov      w22, #0x31c1
+    mov      w23, #0x589f
+    adrp     x26, #0x1b6000
+    mov      w27, #0x5c27
+    mov      w25, #0x42b7
+    mov      w24, #0x733b
+    movk     w21, #0xe88e, lsl #16
+    movk     w22, #0xc53a, lsl #16
+    movk     w23, #0x7887, lsl #16
+    add      x26, x26, #0x3a8
+    movk     w27, #0xd5ae, lsl #16
+    movk     w25, #0xe88e, lsl #16
+    movk     w24, #0x3966, lsl #16
+    stur     x8, [x29, #-8]
+    ldp      x0, x1, [x26]
+    add      x8, sp, #0x20
+    mov      w2, #0x5a
+    bl       #0x13bc70
+
+; ===== real block 0x13bab8  (2 insns -> 2 meaningful)
+    add      x0, sp, #0x20
+    bl       #0x109cc4
+
+; ===== real block 0x13bac0  (2 insns -> 2 meaningful)
+    mov      w1, wzr
+    bl       #0x1b1d00
+
+; ===== real block 0x13bac8  (6 insns -> 4 meaningful)
+    ldrb     w8, [sp, #0x20]
+    mvn      w8, w8
+    orr      w8, w8, #0xfffffffe
+    b.eq     #0x13bbb8
+    ;; BR @[('b.eq', 1293240), ('else', 1293024)]
+
+; ===== real block 0x13bbb8  (36 insns -> 34 meaningful)
+    ldr      w8, [x28]
+    mvn      w10, w23
+    mov      w11, #0xd777
+    ldr      w9, [x20]
+    add      w12, w8, w23
+    movk     w11, #0x165f, lsl #16
+    add      w10, w10, w12
+    orn      w11, w11, w11
+    mul      w8, w10, w8
+    and      w8, w8, w11
+    cset     w8, eq
+    cset     w9, lt
+    and      w10, w9, w8
+    tbnz     w10, #0, #0x13bc00
+    eor      w8, w9, w8
+    tbz      w8, #0, #0x13bc68
+    adrp     x9, #0x1b6000
+    cmp      w19, #0
+    add      x26, x26, #0x10
+    add      x9, x9, #0x438
+    cset     w8, eq
+    cmp      x26, x9
+    cset     w9, eq
+    and      w10, w8, w9
+    tbnz     w10, #0, #0x13bc2c
+    eor      w8, w8, w9
+    cbz      w8, #0x13baa8
+    ldr      x8, [sp, #8]
+    cmp      w19, #0
+    cset     w0, eq
+    ldr      x8, [x8, #0x28]
+    ldur     x9, [x29, #-8]
+    cmp      x8, x9
+    b.ne     #0x13bc6c
+    ;; BR @[('b.ne', 1293420), ('else', 1293384)]
+
+; ===== real block 0x13bc6c  (1 insns -> 1 meaningful)
+    bl       #0x1b1c30
+
+<<UNRESOLVED [('fall', None)]>>

@@ -1,0 +1,33 @@
+// ===== func#224  @0x157628  size=2320  dispatcher=0x157730 statereg=w14 blocks=86 =====
+
+L0:  // block 0x157628
+    sub      sp, sp, #0xb0
+    stp      x29, x30, [sp, #0x50]
+    stp      x28, x27, [sp, #0x60]
+    stp      x26, x25, [sp, #0x70]
+    stp      x24, x23, [sp, #0x80]
+    stp      x22, x21, [sp, #0x90]
+    stp      x20, x19, [sp, #0xa0]
+    add      x29, sp, #0x50
+    mrs      x20, tpidr_el0
+    mov      x19, x8
+    ldr      x8, [x20, #0x28]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc70]
+    adrp     x9, #0x17000
+    stur     x8, [x29, #-8]
+    add      x9, x9, #0x240
+    ldr      w8, [x10]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xc78]
+    ldr      q0, [x9]
+    ldr      w9, [x10]
+    tst      w10, w8
+    stur     q0, [x29, #-0x20]
+    tbnz     w10, #0, #0x1576b0
+    tbnz     w8, #0, #0x1576b0
+    ; SUCC: fall->L1
+
+L1:  // block 0x1576ac
+    b        #0x1576ac   ; -> L1
+    ; SUCC: go->L1

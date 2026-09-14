@@ -1,0 +1,267 @@
+[
+ {
+  "slot": 0,
+  "wrapper": "q.j",
+  "native": "x0011a4c2",
+  "fnPtr": "0x3eab4",
+  "func": 51,
+  "size": 1408,
+  "calls": [
+   "func#73"
+  ]
+ },
+ {
+  "slot": 1,
+  "wrapper": "q.e",
+  "native": "x0014e2e9",
+  "fnPtr": "0x3f034",
+  "func": 52,
+  "size": 916,
+  "calls": []
+ },
+ {
+  "slot": 2,
+  "wrapper": "q.d",
+  "native": "x0016d3b9",
+  "fnPtr": "0x3f3c8",
+  "func": 53,
+  "size": 704,
+  "calls": []
+ },
+ {
+  "slot": 3,
+  "wrapper": "q.o",
+  "native": "x0012d3e0",
+  "fnPtr": "0x3f688",
+  "func": 54,
+  "size": 6788,
+  "calls": [
+   "func#86",
+   "func#87",
+   "func#85"
+  ]
+ },
+ {
+  "slot": 4,
+  "wrapper": "q.n",
+  "native": "x0011e28b",
+  "fnPtr": "0x4110c",
+  "func": 55,
+  "size": 9388,
+  "calls": [
+   "func#86",
+   "func#87",
+   "func#94"
+  ]
+ },
+ {
+  "slot": 5,
+  "wrapper": "q.i",
+  "native": "x00120b1e",
+  "fnPtr": "0x435b8",
+  "func": 56,
+  "size": 47808,
+  "calls": [
+   "func#87",
+   "func#94",
+   "func#30"
+  ]
+ },
+ {
+  "slot": 6,
+  "wrapper": "q.v",
+  "native": "x0012e5a1",
+  "fnPtr": "0x4f078",
+  "func": 57,
+  "size": 160912,
+  "calls": [
+   "func#85",
+   "func#30",
+   "func#153",
+   "func#200",
+   "func#154",
+   "func#157",
+   "func#158",
+   "func#159",
+   "func#160",
+   "func#161",
+   "func#162",
+   "func#73"
+  ]
+ },
+ {
+  "slot": 7,
+  "wrapper": "q.u",
+  "native": "x00135e2a",
+  "fnPtr": "0x76508",
+  "func": 58,
+  "size": 37668,
+  "calls": [
+   "func#85"
+  ]
+ },
+ {
+  "slot": 8,
+  "wrapper": "q.c",
+  "native": "x00105e9b",
+  "fnPtr": "0x7f82c",
+  "func": 59,
+  "size": 9260,
+  "calls": [
+   "func#30"
+  ]
+ },
+ {
+  "slot": 9,
+  "wrapper": "q.r",
+  "native": "x0015b1e9",
+  "fnPtr": "0x81c58",
+  "func": 60,
+  "size": 179828,
+  "calls": [
+   "func#21",
+   "func#85",
+   "func#153",
+   "func#204",
+   "func#30"
+  ]
+ },
+ {
+  "slot": 10,
+  "wrapper": "q.t",
+  "native": "x0015a3b7",
+  "fnPtr": "0xadacc",
+  "func": 61,
+  "size": 73008,
+  "calls": [
+   "func#153",
+   "func#204",
+   "func#200",
+   "func#30"
+  ]
+ },
+ {
+  "slot": 11,
+  "wrapper": "q.s",
+  "native": "x0017b62c",
+  "fnPtr": "0xbf7fc",
+  "func": 62,
+  "size": 28584,
+  "calls": [
+   "func#85"
+  ]
+ },
+ {
+  "slot": 12,
+  "wrapper": "q.m",
+  "native": "x0011f42b",
+  "fnPtr": "0xc67a4",
+  "func": 63,
+  "size": 22280,
+  "calls": [
+   "func#30"
+  ]
+ },
+ {
+  "slot": 13,
+  "wrapper": "q.b",
+  "native": "x0012f5b7",
+  "fnPtr": "0xcbeac",
+  "func": 64,
+  "size": 34812,
+  "calls": [
+   "func#157"
+  ]
+ },
+ {
+  "slot": 14,
+  "wrapper": "q.a",
+  "native": "x0014b4f3",
+  "fnPtr": "0xd46a8",
+  "func": 65,
+  "size": 14912,
+  "calls": [
+   "func#162",
+   "func#159",
+   "func#160",
+   "func#161",
+   "func#85"
+  ]
+ },
+ {
+  "slot": 15,
+  "wrapper": "q.h",
+  "native": "x0011f1a2",
+  "fnPtr": "0xd80e8",
+  "func": 66,
+  "size": 33020,
+  "calls": []
+ },
+ {
+  "slot": 16,
+  "wrapper": "q.p",
+  "native": "x0015e49c",
+  "fnPtr": "0xe01e4",
+  "func": 67,
+  "size": 117628,
+  "calls": [
+   "func#21",
+   "func#85",
+   "func#241",
+   "func#225",
+   "func#30",
+   "func#226"
+  ]
+ },
+ {
+  "slot": 17,
+  "wrapper": "q.f",
+  "native": "x0010e27f",
+  "fnPtr": "0xfcd60",
+  "func": 68,
+  "size": 688,
+  "calls": []
+ },
+ {
+  "slot": 18,
+  "wrapper": "q.g",
+  "native": "x00113f7a",
+  "fnPtr": "0xfd010",
+  "func": 69,
+  "size": 1328,
+  "calls": []
+ },
+ {
+  "slot": 19,
+  "wrapper": "q.q",
+  "native": "x0014c1f9",
+  "fnPtr": "0xfd540",
+  "func": 70,
+  "size": 3368,
+  "calls": []
+ },
+ {
+  "slot": 20,
+  "wrapper": "q.k",
+  "native": "x00126f7c",
+  "fnPtr": "0xfe268",
+  "func": 71,
+  "size": 12624,
+  "calls": [
+   "func#252",
+   "func#253",
+   "func#254"
+  ]
+ },
+ {
+  "slot": 21,
+  "wrapper": "q.l",
+  "native": "x0018d3f7",
+  "fnPtr": "0x1013b8",
+  "func": 72,
+  "size": 10016,
+  "calls": [
+   "func#254"
+  ]
+ }
+]

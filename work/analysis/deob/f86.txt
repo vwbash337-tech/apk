@@ -1,0 +1,62 @@
+# func#86 @0x10de0c sz=376 disp=0x10deac sreg=w8 blocks=12
+
+; ===== real block 0x10de0c  (40 insns -> 39 meaningful)
+    sub      sp, sp, #0x70
+    stp      x29, x30, [sp, #0x10]
+    stp      x28, x27, [sp, #0x20]
+    stp      x26, x25, [sp, #0x30]
+    stp      x24, x23, [sp, #0x40]
+    stp      x22, x21, [sp, #0x50]
+    stp      x20, x19, [sp, #0x60]
+    add      x29, sp, #0x10
+    adrp     x23, #0x1ba000
+    ldr      x23, [x23, #0xfd0]
+    adrp     x24, #0x1ba000
+    mov      x19, x8
+    ldr      x24, [x24, #0xfd8]
+    ldr      w8, [x23]
+    mov      w21, #0x97cd
+    mov      w22, #0xc00e
+    ldr      w9, [x24]
+    sub      w10, w8, #1
+    mul      w8, w10, w8
+    eor      w10, w8, #0xfffffffe
+    tst      w10, w8
+    cset     w8, eq
+    sturb    w8, [x29, #-2]
+    cset     w8, lt
+    mov      w25, #0xc577
+    mov      w26, #0xe36c
+    adrp     x20, #0x17000
+    mov      w27, #0x5650
+    mov      w28, #0xe36d
+    sturb    w8, [x29, #-1]
+    mov      w8, #0xc577
+    movk     w21, #0xbb9b, lsl #16
+    movk     w22, #0x6fc5, lsl #16
+    movk     w25, #0xd8fc, lsl #16
+    movk     w26, #0x3309, lsl #16
+    add      x20, x20, #0x307
+    movk     w27, #0x1f2a, lsl #16
+    movk     w28, #0x3309, lsl #16
+    movk     w8, #0xd8fc, lsl #16
+
+; ===== real block 0x10deac  (2 insns -> 1 meaningful)
+    b.gt     #0x10dee4
+    ;; BR @[('b.gt', 1105636), ('else', 1105588)]
+
+; ===== real block 0x10dee4  (2 insns -> 1 meaningful)
+    b.eq     #0x10df64
+    ;; BR @[('b.eq', 1105764), ('else', 1105644)]
+
+; ===== real block 0x10df64  (8 insns -> 8 meaningful)
+    ldp      x20, x19, [sp, #0x60]
+    ldp      x22, x21, [sp, #0x50]
+    ldp      x24, x23, [sp, #0x40]
+    ldp      x26, x25, [sp, #0x30]
+    ldp      x28, x27, [sp, #0x20]
+    ldp      x29, x30, [sp, #0x10]
+    add      sp, sp, #0x70
+    ret      
+
+<<RET>>

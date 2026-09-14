@@ -1,0 +1,97 @@
+# func#162 @0x136cb8 sz=10468 disp=0x136ee0 sreg=w10 blocks=414
+
+; ===== real block 0x136cb8  (33 insns -> 29 meaningful)
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x60
+    mrs      x8, tpidr_el0
+    stur     x8, [x29, #-0x58]
+    ldr      x8, [x8, #0x28]
+    adrp     x22, #0x1bb000
+    ldr      x22, [x22, #0x5b8]
+    adrp     x26, #0x1bb000
+    stur     x8, [x29, #-8]
+    mov      w21, #0xb8a5
+    ldr      w8, [x22]
+    ldr      x26, [x26, #0x5c0]
+    movk     w21, #0x874f, lsl #16
+    sub      w10, w8, #1
+    ldr      w9, [x26]
+    mul      w8, w10, w8
+    mvn      w8, w8
+    orr      w8, w8, #0xfffffffe
+    cset     w10, eq
+    cset     w8, ne
+    cset     w11, lt
+    cset     w9, gt
+    b.ne     #0x136d48
+    ;; BR @[('b.ne', 1273160), ('else', 1273148)]
+
+; ===== real block 0x136d48  (36 insns -> 36 meaningful)
+    sub      x27, sp, #0x20
+    mov      sp, x27
+    sub      x25, sp, #0x20
+    mov      sp, x25
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x30]
+    mov      sp, x8
+    sub      x20, sp, #0x20
+    mov      sp, x20
+    sub      x19, sp, #0x20
+    mov      sp, x19
+    sub      x28, sp, #0x20
+    mov      sp, x28
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x38]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x48]
+    mov      sp, x8
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x40]
+    mov      sp, x8
+    sub      x24, sp, #0x20
+    mov      sp, x24
+    sub      x23, sp, #0x20
+    mov      sp, x23
+    sub      x8, sp, #0x20
+    stur     x8, [x29, #-0x28]
+    mov      sp, x8
+    sub      x8, sp, #0x10
+    stur     x8, [x29, #-0x20]
+    mov      sp, x8
+    adrp     x1, #0x15000
+    add      x1, x1, #0xdb5
+    mov      x0, x25
+    bl       #0x35d58
+
+; ===== real block 0x136dd8  (20 insns -> 19 meaningful)
+    ldr      w8, [x22]
+    mvn      w10, w21
+    ldr      w9, [x26]
+    add      w11, w8, w21
+    add      w10, w10, w11
+    mul      w8, w10, w8
+    eor      w10, w8, #0xfffffffe
+    tst      w10, w8
+    cset     w8, eq
+    cset     w9, lt
+    and      w10, w9, w8
+    tbnz     w10, #0, #0x136e2c
+    eor      w8, w9, w8
+    cbnz     w8, #0x136e2c
+    sub      x0, sp, #0x20
+    mov      sp, x0
+    adrp     x1, #0x15000
+    add      x1, x1, #0xdb5
+    bl       #0x35d58
+
+; ===== real block 0x136e28  (1 insns -> 1 meaningful)
+    b        #0x136d48
+
+<<LOOP back to 0x136d48>>

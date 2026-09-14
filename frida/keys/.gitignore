@@ -1,0 +1,4 @@
+# Generated keystores / certificates — regenerable with:
+#   python3 frida/clone_signer.py
+*
+!.gitignore
