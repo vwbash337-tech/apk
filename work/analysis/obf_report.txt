@@ -1,0 +1,203 @@
+### FUNCTION POPULATION (>=20 insns): 679
+### total insns=395331  total bytes=1581324
+
+### ALL (n=679, bytes=1581324, 100.0% of code)
+    n          mean=  582.225 median=  125.000 p90=  767.000 max=44957.000
+    cc         mean=   77.171 median=   18.000 p90=  102.000 max= 5477.000
+    cmp_r      mean=    0.090 median=    0.086 p90=    0.148 max=    0.273
+    movimm_r   mean=    0.188 median=    0.189 p90=    0.278 max=    0.450
+    b_r        mean=    0.127 median=    0.127 p90=    0.188 max=    0.313
+    logic_r    mean=    0.025 median=    0.000 p90=    0.083 max=    0.123
+    csel       mean=   35.785 median=    2.000 p90=   49.000 max= 2796.000
+    ret        mean=    1.016 median=    1.000 p90=    1.000 max=    6.000
+    targets    mean=   43.031 median=   10.000 p90=   53.000 max= 3041.000
+
+### SMALL (<200 insns) = library/runtime baseline (n=442, bytes=153384, 9.7% of code)
+    n          mean=   86.756 median=   76.000 p90=  164.000 max=  199.000
+    cc         mean=   11.952 median=    9.500 p90=   25.000 max=   48.000
+    cmp_r      mean=    0.076 median=    0.070 p90=    0.149 max=    0.273
+    movimm_r   mean=    0.178 median=    0.171 p90=    0.277 max=    0.450
+    b_r        mean=    0.118 median=    0.120 p90=    0.179 max=    0.312
+    logic_r    mean=    0.013 median=    0.000 p90=    0.066 max=    0.106
+    csel       mean=    2.665 median=    1.000 p90=    9.000 max=   20.000
+    ret        mean=    0.982 median=    1.000 p90=    1.000 max=    5.000
+    targets    mean=    7.226 median=    6.000 p90=   13.000 max=   28.000
+
+### LARGE (>=1000 insns) (n=58, bytes=1156516, 73.1% of code)
+    n          mean= 4984.983 median= 1963.000 p90=11502.000 max=44957.000
+    cc         mean=  643.224 median=  253.000 p90= 1482.000 max= 5477.000
+    cmp_r      mean=    0.119 median=    0.127 p90=    0.136 max=    0.143
+    movimm_r   mean=    0.239 median=    0.242 p90=    0.295 max=    0.429
+    b_r        mean=    0.127 median=    0.128 p90=    0.144 max=    0.241
+    logic_r    mean=    0.064 median=    0.073 p90=    0.086 max=    0.090
+    csel       mean=  335.621 median=  133.500 p90=  865.000 max= 2796.000
+    ret        mean=    1.000 median=    1.000 p90=    1.000 max=    1.000
+    targets    mean=  353.121 median=  138.000 p90=  838.000 max= 3041.000
+
+### HUGE (>=5000 insns) (n=12, bytes=802532, 50.8% of code)
+    n          mean=16719.417 median=10459.500 p90=40228.000 max=44957.000
+    cc         mean= 2167.583 median= 1347.000 p90= 5454.000 max= 5477.000
+    cmp_r      mean=    0.129 median=    0.129 p90=    0.135 max=    0.140
+    movimm_r   mean=    0.240 median=    0.239 p90=    0.261 max=    0.278
+    b_r        mean=    0.130 median=    0.129 p90=    0.136 max=    0.142
+    logic_r    mean=    0.079 median=    0.080 p90=    0.082 max=    0.088
+    csel       mean= 1156.167 median=  767.500 p90= 2778.000 max= 2796.000
+    ret        mean=    1.000 median=    1.000 p90=    1.000 max=    1.000
+    targets    mean= 1208.917 median=  760.500 p90= 3033.000 max= 3041.000
+
+### TOP 40 FUNCTIONS BY SIZE
+  func#  60 @0x081c58 size= 179828 insns= 44957 cc= 5454 cmp= 5418 movimm= 12476 cond_b= 3200 uncond_b= 2253 csel=2796 eor= 2086 orn= 500 ret=  1 uniq_br_targets= 3041
+  func#  57 @0x04f078 size= 160912 insns= 40228 cc= 5477 cmp= 5405 movimm= 10222 cond_b= 3205 uncond_b= 2271 csel=2778 eor= 2058 orn= 451 ret=  1 uniq_br_targets= 3033
+  func#  67 @0x0e01e4 size= 117628 insns= 29407 cc= 3885 cmp= 3860 movimm=  6509 cond_b= 2288 uncond_b= 1596 csel=2145 eor= 1529 orn= 298 ret=  1 uniq_br_targets= 2159
+  func#  61 @0x0adacc size=  73008 insns= 18252 cc= 2298 cmp= 2292 movimm=  4388 cond_b= 1353 uncond_b=  944 csel=1234 eor=  890 orn= 216 ret=  1 uniq_br_targets= 1295
+  func#  56 @0x0435b8 size=  47808 insns= 11952 cc= 1534 cmp= 1518 movimm=  3116 cond_b=  918 uncond_b=  615 csel= 870 eor=  593 orn= 139 ret=  1 uniq_br_targets=  860
+  func# 226 @0x159c10 size=  46008 insns= 11502 cc= 1482 cmp= 1385 movimm=  2426 cond_b=  889 uncond_b=  592 csel= 865 eor=  618 orn= 123 ret=  1 uniq_br_targets=  838
+  func#  58 @0x076508 size=  37668 insns=  9417 cc= 1212 cmp= 1243 movimm=  2087 cond_b=  711 uncond_b=  500 csel= 670 eor=  483 orn=  83 ret=  1 uniq_br_targets=  683
+  func#  64 @0x0cbeac size=  34812 insns=  8703 cc= 1184 cmp= 1171 movimm=  2103 cond_b=  697 uncond_b=  486 csel= 602 eor=  446 orn= 104 ret=  1 uniq_br_targets=  664
+  func#  66 @0x0d80e8 size=  33020 insns=  8255 cc= 1101 cmp= 1109 movimm=  1967 cond_b=  645 uncond_b=  455 csel= 593 eor=  414 orn=  98 ret=  1 uniq_br_targets=  602
+  func#  62 @0x0bf7fc size=  28584 insns=  7146 cc= 1015 cmp=  998 movimm=  1598 cond_b=  592 uncond_b=  422 csel= 518 eor=  388 orn=  96 ret=  1 uniq_br_targets=  564
+  func#  63 @0x0c67a4 size=  22280 insns=  5570 cc=  704 cmp=  698 movimm=  1279 cond_b=  428 uncond_b=  275 csel= 430 eor=  296 orn=  60 ret=  1 uniq_br_targets=  390
+  func# 154 @0x12a068 size=  20976 insns=  5244 cc=  665 cmp=  632 movimm=  1356 cond_b=  401 uncond_b=  263 csel= 373 eor=  266 orn=  54 ret=  1 uniq_br_targets=  378
+  func#  73 @0x103ad8 size=  18052 insns=  4513 cc=  605 cmp=  512 movimm=   863 cond_b=  371 uncond_b=  233 csel= 398 eor=  253 orn=  37 ret=  1 uniq_br_targets=  345
+  func# 248 @0x16d0b4 size=  16704 insns=  4176 cc=  493 cmp=  556 movimm=  1181 cond_b=  316 uncond_b=  176 csel= 304 eor=  186 orn=  55 ret=  1 uniq_br_targets=  257
+  func# 204 @0x148bf4 size=  16312 insns=  4078 cc=  575 cmp=  582 movimm=  1055 cond_b=  343 uncond_b=  231 csel= 298 eor=  209 orn=  45 ret=  1 uniq_br_targets=  320
+  func#  65 @0x0d46a8 size=  14912 insns=  3728 cc=  513 cmp=  501 movimm=   835 cond_b=  309 uncond_b=  203 csel= 286 eor=  196 orn=  47 ret=  1 uniq_br_targets=  292
+  func#  71 @0x0fe268 size=  12624 insns=  3156 cc=  348 cmp=  396 movimm=   899 cond_b=  209 uncond_b=  138 csel= 219 eor=  142 orn=  40 ret=  1 uniq_br_targets=  168
+  func# 153 @0x127034 size=  12340 insns=  3085 cc=  408 cmp=  417 movimm=   739 cond_b=  241 uncond_b=  166 csel= 233 eor=  160 orn=  39 ret=  1 uniq_br_targets=  229
+  func# 152 @0x12472c size=  10504 insns=  2626 cc=  257 cmp=  281 movimm=   702 cond_b=  153 uncond_b=  103 csel= 186 eor=  134 orn=  24 ret=  1 uniq_br_targets=  140
+  func# 162 @0x136cb8 size=  10468 insns=  2617 cc=  338 cmp=  335 movimm=   665 cond_b=  201 uncond_b=  136 csel= 182 eor=  150 orn=  37 ret=  1 uniq_br_targets=  188
+  func#  72 @0x1013b8 size=  10016 insns=  2504 cc=  296 cmp=  320 movimm=   716 cond_b=  179 uncond_b=  116 csel= 165 eor=  110 orn=  25 ret=  1 uniq_br_targets=  153
+  func# 156 @0x12f81c size=   9532 insns=  2383 cc=  305 cmp=  303 movimm=   607 cond_b=  182 uncond_b=  122 csel= 168 eor=  113 orn=  25 ret=  1 uniq_br_targets=  172
+  func#  55 @0x04110c size=   9388 insns=  2347 cc=  323 cmp=  323 movimm=   540 cond_b=  191 uncond_b=  131 csel= 170 eor=  136 orn=  35 ret=  1 uniq_br_targets=  182
+  func#  59 @0x07f82c size=   9260 insns=  2315 cc=  324 cmp=  319 movimm=   526 cond_b=  191 uncond_b=  132 csel= 156 eor=  126 orn=  35 ret=  1 uniq_br_targets=  183
+  func#  94 @0x110b70 size=   9140 insns=  2285 cc=  323 cmp=  301 movimm=   619 cond_b=  200 uncond_b=  122 csel= 176 eor=  101 orn=  15 ret=  1 uniq_br_targets=  177
+  func#  14 @0x032158 size=   8908 insns=  2227 cc=  218 cmp=  237 movimm=   658 cond_b=  128 uncond_b=   89 csel= 114 eor=   75 orn=  22 ret=  1 uniq_br_targets=   97
+  func# 200 @0x145f88 size=   8540 insns=  2135 cc=  277 cmp=  275 movimm=   504 cond_b=  164 uncond_b=  112 csel= 145 eor=  108 orn=  31 ret=  1 uniq_br_targets=  143
+  func# 796 @0x19c864 size=   8144 insns=  2036 cc=  314 cmp=  129 movimm=   357 cond_b=  225 uncond_b=   88 csel=   1 eor=    0 orn=   0 ret=  1 uniq_br_targets=  107
+  func#  84 @0x10a5b4 size=   7868 insns=  1967 cc=  244 cmp=  252 movimm=   506 cond_b=  144 uncond_b=   99 csel= 137 eor=   91 orn=  35 ret=  1 uniq_br_targets=  136
+  func#  87 @0x10df84 size=   7836 insns=  1959 cc=  249 cmp=  227 movimm=   376 cond_b=  155 uncond_b=   93 csel= 163 eor=  101 orn=  20 ret=  1 uniq_br_targets=  140
+  func# 225 @0x157f38 size=   7384 insns=  1846 cc=  243 cmp=  246 movimm=   398 cond_b=  143 uncond_b=   99 csel= 137 eor=  104 orn=  22 ret=  1 uniq_br_targets=  134
+  func# 157 @0x131d58 size=   7192 insns=  1798 cc=  238 cmp=  244 movimm=   488 cond_b=  139 uncond_b=   98 csel= 123 eor=   85 orn=  18 ret=  1 uniq_br_targets=  133
+  func#  54 @0x03f688 size=   6788 insns=  1697 cc=  227 cmp=  217 movimm=   462 cond_b=  133 uncond_b=   93 csel= 106 eor=   85 orn=  21 ret=  1 uniq_br_targets=  127
+  func# 523 @0x18cd24 size=   6784 insns=  1696 cc=  214 cmp=   86 movimm=   104 cond_b=  150 uncond_b=   63 csel=   0 eor=    0 orn=   0 ret=  1 uniq_br_targets=  123
+  func#  99 @0x115770 size=   6752 insns=  1688 cc=  206 cmp=  216 movimm=   366 cond_b=  123 uncond_b=   82 csel= 130 eor=   99 orn=  14 ret=  1 uniq_br_targets=  110
+  func# 254 @0x173c40 size=   6692 insns=  1673 cc=  152 cmp=  190 movimm=   579 cond_b=   93 uncond_b=   58 csel=  99 eor=   48 orn=  25 ret=  1 uniq_br_targets=   72
+  func#  85 @0x10c470 size=   6556 insns=  1639 cc=  242 cmp=  220 movimm=   456 cond_b=  148 uncond_b=   93 csel= 109 eor=   68 orn=  16 ret=  1 uniq_br_targets=  129
+  func# 760 @0x198628 size=   6148 insns=  1537 cc=  222 cmp=  103 movimm=   296 cond_b=  167 uncond_b=   54 csel=   2 eor=    0 orn=   0 ret=  1 uniq_br_targets=   95
+  func# 253 @0x172460 size=   6112 insns=  1528 cc=  172 cmp=  181 movimm=   352 cond_b=  110 uncond_b=   61 csel= 112 eor=   70 orn=  21 ret=  1 uniq_br_targets=   93
+  func# 213 @0x151e68 size=   6080 insns=  1520 cc=  189 cmp=  196 movimm=   398 cond_b=  116 uncond_b=   72 csel= 121 eor=   86 orn=  24 ret=  1 uniq_br_targets=  103
+
+### CFF SIGNATURE: functions where unique-branch-targets << total branches (state dispatcher)
+count: 49
+  func#  66 @0x0d80e8 insns=  8255 branches= 1101 uniq_targets=  602 ratio=0.547 cmp= 1109 movimm=  1967
+  func# 248 @0x16d0b4 insns=  4176 branches=  493 uniq_targets=  257 ratio=0.521 cmp=  556 movimm=  1181
+  func#  71 @0x0fe268 insns=  3156 branches=  348 uniq_targets=  168 ratio=0.483 cmp=  396 movimm=   899
+  func#  94 @0x110b70 insns=  2285 branches=  323 uniq_targets=  177 ratio=0.548 cmp=  301 movimm=   619
+  func# 796 @0x19c864 insns=  2036 branches=  314 uniq_targets=  107 ratio=0.341 cmp=  129 movimm=   357
+  func#  72 @0x1013b8 insns=  2504 branches=  296 uniq_targets=  153 ratio=0.517 cmp=  320 movimm=   716
+  func# 200 @0x145f88 insns=  2135 branches=  277 uniq_targets=  143 ratio=0.516 cmp=  275 movimm=   504
+  func# 152 @0x12472c insns=  2626 branches=  257 uniq_targets=  140 ratio=0.545 cmp=  281 movimm=   702
+  func#  85 @0x10c470 insns=  1639 branches=  242 uniq_targets=  129 ratio=0.533 cmp=  220 movimm=   456
+  func# 760 @0x198628 insns=  1537 branches=  222 uniq_targets=   95 ratio=0.428 cmp=  103 movimm=   296
+  func#  14 @0x032158 insns=  2227 branches=  218 uniq_targets=   97 ratio=0.445 cmp=  237 movimm=   658
+  func#1078 @0x1aeb38 insns=  1197 branches=  214 uniq_targets=   53 ratio=0.248 cmp=  121 movimm=   166
+  func#  99 @0x115770 insns=  1688 branches=  206 uniq_targets=  110 ratio=0.534 cmp=  216 movimm=   366
+  func# 213 @0x151e68 insns=  1520 branches=  189 uniq_targets=  103 ratio=0.545 cmp=  196 movimm=   398
+  func# 870 @0x1a49f4 insns=  1367 branches=  184 uniq_targets=   64 ratio=0.348 cmp=   86 movimm=   255
+  func# 253 @0x172460 insns=  1528 branches=  172 uniq_targets=   93 ratio=0.541 cmp=  181 movimm=   352
+  func# 761 @0x199e2c insns=   722 branches=  168 uniq_targets=   77 ratio=0.458 cmp=   98 movimm=   107
+  func# 158 @0x133970 insns=  1268 branches=  163 uniq_targets=   89 ratio=0.546 cmp=  166 movimm=   345
+  func# 212 @0x1509cc insns=  1319 branches=  158 uniq_targets=   78 ratio=0.494 cmp=  161 movimm=   244
+  func# 254 @0x173c40 insns=  1673 branches=  152 uniq_targets=   72 ratio=0.474 cmp=  190 movimm=   579
+  func# 241 @0x168c58 insns=  1110 branches=  147 uniq_targets=   77 ratio=0.524 cmp=  152 movimm=   305
+  func# 129 @0x11deb0 insns=  1225 branches=  146 uniq_targets=   80 ratio=0.548 cmp=  155 movimm=   337
+  func# 149 @0x122e88 insns=  1197 branches=  142 uniq_targets=   64 ratio=0.451 cmp=  146 movimm=   514
+  func# 759 @0x197974 insns=   813 branches=  141 uniq_targets=   56 ratio=0.397 cmp=   82 movimm=   148
+  func# 797 @0x19e834 insns=   696 branches=  140 uniq_targets=   53 ratio=0.379 cmp=   98 movimm=    66
+  func# 191 @0x13ffb4 insns=  1168 branches=  139 uniq_targets=   72 ratio=0.518 cmp=  149 movimm=   367
+  func#  75 @0x1086b8 insns=   931 branches=  123 uniq_targets=   60 ratio=0.488 cmp=  122 movimm=   372
+  func# 119 @0x11b260 insns=   732 branches=  122 uniq_targets=   61 ratio=0.500 cmp=  128 movimm=   134
+  func# 199 @0x144d84 insns=  1153 branches=  116 uniq_targets=   63 ratio=0.543 cmp=  132 movimm=   336
+  func#  21 @0x03712c insns=   909 branches=  114 uniq_targets=   60 ratio=0.526 cmp=  115 movimm=   153
+  func#  15 @0x034424 insns=  1085 branches=  111 uniq_targets=   46 ratio=0.414 cmp=  142 movimm=   333
+  func# 799 @0x19f5d4 insns=   386 branches=  106 uniq_targets=   49 ratio=0.462 cmp=   71 movimm=    18
+  func#  13 @0x030f18 insns=  1168 branches=  105 uniq_targets=   47 ratio=0.448 cmp=  124 movimm=   284
+  func# 166 @0x13a358 insns=   947 branches=  102 uniq_targets=   49 ratio=0.480 cmp=  122 movimm=   318
+  func#1082 @0x1b0328 insns=   607 branches=  102 uniq_targets=   25 ratio=0.245 cmp=   46 movimm=    77
+  func#  18 @0x035f24 insns=   767 branches=  101 uniq_targets=   54 ratio=0.535 cmp=  103 movimm=   198
+  func# 758 @0x19721c insns=   470 branches=   95 uniq_targets=   50 ratio=0.526 cmp=   59 movimm=    56
+  func#  12 @0x02fdcc insns=  1107 branches=   93 uniq_targets=   37 ratio=0.398 cmp=  110 movimm=   366
+  func# 207 @0x14de64 insns=   678 branches=   93 uniq_targets=   51 ratio=0.548 cmp=   91 movimm=   145
+  func# 222 @0x156470 insns=   617 branches=   84 uniq_targets=   46 ratio=0.548 cmp=   81 movimm=   141
+
+### OPAQUE-PREDICATE / MBA SIGNATURE: high eor+orn+mvn density
+  func# 182 @0x13e5fc insns=   212 eor=   16 orn=   4 mvn=    6 logic_r=0.1226
+  func# 101 @0x11726c insns=   225 eor=   18 orn=   4 mvn=    3 logic_r=0.1111
+  func# 250 @0x17146c insns=   170 eor=   11 orn=   3 mvn=    4 logic_r=0.1059
+  func# 138 @0x120c9c insns=   116 eor=    9 orn=   2 mvn=    1 logic_r=0.1034
+  func#  25 @0x0386d8 insns=   165 eor=    7 orn=   5 mvn=    5 logic_r=0.1030
+  func# 235 @0x167850 insns=   188 eor=   15 orn=   2 mvn=    2 logic_r=0.1011
+  func# 175 @0x13cac0 insns=   374 eor=   27 orn=   5 mvn=    5 logic_r=0.0989
+  func# 193 @0x14193c insns=   456 eor=   36 orn=   7 mvn=    2 logic_r=0.0987
+  func# 223 @0x156e14 insns=   517 eor=   30 orn=   7 mvn=   14 logic_r=0.0986
+  func# 165 @0x139e68 insns=   316 eor=   20 orn=   4 mvn=    7 logic_r=0.0981
+  func#  18 @0x035f24 insns=   767 eor=   48 orn=  19 mvn=    8 logic_r=0.0978
+  func# 146 @0x122304 insns=   246 eor=   15 orn=   5 mvn=    4 logic_r=0.0976
+  func# 237 @0x167d44 insns=   350 eor=   24 orn=   4 mvn=    6 logic_r=0.0971
+  func# 218 @0x154fb0 insns=   606 eor=   26 orn=  13 mvn=   19 logic_r=0.0957
+  func#  17 @0x035d58 insns=   115 eor=    7 orn=   2 mvn=    2 logic_r=0.0957
+  func# 161 @0x136134 insns=   737 eor=   44 orn=  13 mvn=   13 logic_r=0.0950
+  func# 252 @0x171884 insns=   759 eor=   47 orn=  12 mvn=   13 logic_r=0.0949
+  func# 196 @0x1425a8 insns=   507 eor=   31 orn=   7 mvn=   10 logic_r=0.0947
+  func# 170 @0x13bc70 insns=   371 eor=   22 orn=   6 mvn=    7 logic_r=0.0943
+  func#  38 @0x03b63c insns=   128 eor=    9 orn=   1 mvn=    2 logic_r=0.0938
+  func# 145 @0x122058 insns=   171 eor=   12 orn=   2 mvn=    2 logic_r=0.0936
+  func# 205 @0x14cbac insns=   642 eor=   38 orn=  10 mvn=   12 logic_r=0.0935
+  func# 112 @0x11a27c insns=    97 eor=    6 orn=   1 mvn=    2 logic_r=0.0928
+  func# 184 @0x13eb9c insns=    97 eor=    7 orn=   1 mvn=    1 logic_r=0.0928
+  func# 192 @0x1411f4 insns=   466 eor=   26 orn=   8 mvn=    9 logic_r=0.0923
+
+### CONSTANT-BLINDING SIGNATURE: movk density
+  global movk=37017 movz=0 mov=55241  movk/movz=37017.000
+
+### GLOBAL MNEMONIC HISTOGRAM (top 40)
+    mov            55241  13.97%
+    movk           37017  9.36%
+    cmp            36554  9.25%
+    ldr            36548  9.24%
+    b              19812  5.01%
+    eor            16699  4.22%
+    cset           16392  4.15%
+    add            14577  3.69%
+    adrp           12736  3.22%
+    orr            12244  3.10%
+    b.eq           11185  2.83%
+    b.ne            9478  2.40%
+    bl              8962  2.27%
+    sub             8832  2.23%
+    csel            7894  2.00%
+    tst             7853  1.99%
+    ldrb            7537  1.91%
+    and             7447  1.88%
+    str             6790  1.72%
+    mul             5685  1.44%
+    mvn             5169  1.31%
+    ldur            5078  1.28%
+    strb            4222  1.07%
+    orn             3751  0.95%
+    ldurb           3651  0.92%
+    stp             3626  0.92%
+    ldp             3561  0.90%
+    b.gt            3436  0.87%
+    sturb           3290  0.83%
+    cmn             3170  0.80%
+    stur            2752  0.70%
+    tbnz            2411  0.61%
+    cbz             2270  0.57%
+    blr             1556  0.39%
+    ret              881  0.22%
+    ands             800  0.20%
+    bti              775  0.20%
+    tbz              734  0.19%
+    cbnz             666  0.17%
+    lsr              590  0.15%

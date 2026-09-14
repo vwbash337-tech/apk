@@ -1,0 +1,24 @@
+// ===== func#26  @0x3896c  size=68  dispatcher=0x0 statereg=None blocks=2 =====
+
+L0:  // block 0x03896c
+    stp      x29, x30, [sp, #-0x20]!
+    str      x19, [sp, #0x10]
+    mov      x29, sp
+    adrp     x19, #0x1c0000
+    add      x19, x19, #0x320
+    adrp     x1, #0x15000
+    add      x1, x1, #0x1a
+    mov      x0, x19
+    bl       #0x35d58   ; -> func#17
+    ; SUCC: fall->L1
+
+L1:  // block 0x038990
+    adrp     x0, #0x1ba000
+    ldr      x0, [x0, #0x978]
+    mov      x1, x19
+    ldr      x19, [sp, #0x10]
+    adrp     x2, #0x1b6000
+    add      x2, x2, #0x160
+    ldp      x29, x30, [sp], #0x20
+    b        #0x1b1bf0   ; -> __cxa_atexit@plt
+    ; SUCC: go->1776624

@@ -1,0 +1,175 @@
+# func#204 @0x148bf4 sz=16312 disp=0x148cfc sreg=w0 blocks=675
+
+; ===== real block 0x148bf4  (34 insns -> 34 meaningful)
+    sub      sp, sp, #0x1c0
+    stp      x29, x30, [sp, #0x160]
+    stp      x28, x27, [sp, #0x170]
+    stp      x26, x25, [sp, #0x180]
+    stp      x24, x23, [sp, #0x190]
+    stp      x22, x21, [sp, #0x1a0]
+    stp      x20, x19, [sp, #0x1b0]
+    add      x29, sp, #0x160
+    str      x1, [sp, #0x10]
+    str      x8, [sp]
+    mrs      x8, tpidr_el0
+    str      x8, [sp, #8]
+    ldr      x8, [x8, #0x28]
+    mov      x1, x0
+    mov      w22, #0x6a9a
+    mov      w24, #0xaddc
+    mov      w19, #0xc78c
+    mov      w25, #0xc066
+    mov      w20, #0x1080
+    mov      w26, #0xf7f9
+    mov      w27, #0x1c9d
+    mov      w21, #0x8d9
+    add      x0, sp, #0x98
+    add      x23, sp, #0x98
+    movk     w22, #0xe509, lsl #16
+    movk     w24, #0xd585, lsl #16
+    movk     w19, #0xcd67, lsl #16
+    movk     w25, #0xab46, lsl #16
+    movk     w20, #0x6c2d, lsl #16
+    movk     w26, #0x6b08, lsl #16
+    movk     w27, #0x4345, lsl #16
+    stur     x8, [x29, #-0x18]
+    movk     w21, #0xde0, lsl #16
+    bl       #0x19461c
+
+; ===== real block 0x148c7c  (32 insns -> 30 meaningful)
+    adrp     x9, #0x1ba000
+    ldr      x9, [x9, #0xbc0]
+    adrp     x10, #0x1ba000
+    ldr      x10, [x10, #0xbc8]
+    ldrb     w13, [sp, #0x98]
+    ldr      w11, [x9]
+    ldr      x8, [x23, #8]
+    ldr      w9, [x10]
+    mov      w12, #0x1c9c
+    sub      w15, w11, #1
+    mul      w11, w15, w11
+    mvn      w11, w11
+    orr      w11, w11, #0xfffffffe
+    cset     w15, eq
+    cset     w16, lt
+    and      w0, w16, w15
+    eor      w15, w16, w15
+    orr      w15, w0, w15
+    eor      w16, w13, #0xfe
+    cmp      w15, #0
+    mov      w14, #0x6a99
+    lsr      x10, x13, #1
+    csel     w15, w22, w24, ne
+    ands     w13, w16, w13
+    mov      w0, #0x8d9
+    movk     w12, #0x4345, lsl #16
+    movk     w14, #0xe509, lsl #16
+    mvn      w11, w11
+    csel     w16, w27, w25, eq
+    movk     w0, #0xde0, lsl #16
+
+; ===== real block 0x148cfc  (2 insns -> 1 meaningful)
+    b.le     #0x148d18
+    ;; BR @[('b.le', 1346840), ('else', 1346820)]
+
+; ===== real block 0x148d18  (2 insns -> 1 meaningful)
+    b.eq     #0x148d40
+    ;; BR @[('b.eq', 1346880), ('else', 1346848)]
+
+; ===== real block 0x148d40  (8 insns -> 7 meaningful)
+    cset     w17, lt
+    cmp      w11, #0
+    cset     w0, eq
+    strb     w17, [sp, #0xb0]
+    mov      w17, #0xc78c
+    strb     w0, [sp, #0x80]
+    movk     w17, #0xcd67, lsl #16
+
+; ===== real block 0x148d60  (2 insns -> 1 meaningful)
+    b.gt     #0x148d84
+    ;; BR @[('b.gt', 1346948), ('else', 1346920)]
+
+; ===== real block 0x148d84  (2 insns -> 1 meaningful)
+    b.eq     #0x148dc0
+    ;; BR @[('b.eq', 1347008), ('else', 1346956)]
+
+; ===== real block 0x148dc0  (4 insns -> 4 meaningful)
+    ldr      x17, [x23, #0x38]
+    mov      w0, #0x1080
+    movk     w0, #0x6c2d, lsl #16
+    b        #0x148cfc
+
+; ===== real block 0x148dd0  (2 insns -> 2 meaningful)
+    cmp      x17, #0x41
+    b.lo     #0x1493fc
+    ;; BR @[('b.lo', 1348604), ('else', 1347032)]
+
+; ===== real block 0x1493fc  (37 insns -> 35 meaningful)
+    cmp      w11, #0
+    cset     w12, ne
+    cset     w6, eq
+    cset     w7, gt
+    orr      w12, w7, w12
+    cset     w7, lt
+    eor      w7, w7, w6
+    eor      w12, w12, #1
+    orr      w12, w7, w12
+    cmp      w12, #0
+    mov      w14, #0x1c9c
+    mov      w15, #0xc066
+    mov      w16, #0x6a99
+    mov      w17, #0xc78c
+    mov      w0, #0xaddc
+    mov      w1, #0x6a9a
+    mov      w2, #0xf7f9
+    mov      w3, #0x8d9
+    mov      w4, #0x1c9d
+    mov      w5, #0x1080
+    csel     w12, w22, w24, ne
+    tst      w13, #0xff
+    mov      w7, #0x8d9
+    movk     w14, #0x4345, lsl #16
+    movk     w15, #0xab46, lsl #16
+    movk     w16, #0xe509, lsl #16
+    movk     w17, #0xcd67, lsl #16
+    movk     w0, #0xd585, lsl #16
+    movk     w1, #0xe509, lsl #16
+    movk     w2, #0x6b08, lsl #16
+    movk     w3, #0xde0, lsl #16
+    movk     w4, #0x4345, lsl #16
+    movk     w5, #0x6c2d, lsl #16
+    csel     w13, w27, w25, eq
+    movk     w7, #0xde0, lsl #16
+
+; ===== real block 0x149490  (2 insns -> 1 meaningful)
+    b.le     #0x1494ac
+    ;; BR @[('b.le', 1348780), ('else', 1348760)]
+
+; ===== real block 0x1494ac  (2 insns -> 1 meaningful)
+    b.eq     #0x1494d4
+    ;; BR @[('b.eq', 1348820), ('else', 1348788)]
+
+; ===== real block 0x1494d4  (8 insns -> 7 meaningful)
+    cset     w6, lt
+    cmp      w11, #0
+    cset     w7, eq
+    strb     w6, [sp, #0xb0]
+    mov      w6, #0xc78c
+    strb     w7, [sp, #0x80]
+    movk     w6, #0xcd67, lsl #16
+
+; ===== real block 0x1494f4  (2 insns -> 1 meaningful)
+    b.gt     #0x149518
+    ;; BR @[('b.gt', 1348888), ('else', 1348860)]
+
+; ===== real block 0x149518  (2 insns -> 1 meaningful)
+    b.eq     #0x149558
+    ;; BR @[('b.eq', 1348952), ('else', 1348896)]
+
+; ===== real block 0x149558  (4 insns -> 4 meaningful)
+    ldr      x6, [x23, #0x38]
+    mov      w7, #0x1080
+    movk     w7, #0x6c2d, lsl #16
+    b        #0x149490
+
+<<LOOP back to 0x149490>>

@@ -1,0 +1,8 @@
+{
+  "interaction": {
+    "type": "script",
+    "path": "/data/local/tmp/topfollow_agent.js",
+    "on_load": "resume",
+    "on_change": "reload"
+  }
+}

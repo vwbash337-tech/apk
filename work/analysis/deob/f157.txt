@@ -1,0 +1,92 @@
+# func#157 @0x131d58 sz=7192 disp=0x131e6c sreg=w2 blocks=290
+
+; ===== real block 0x131d58  (18 insns -> 18 meaningful)
+    sub      sp, sp, #0x120
+    stp      x29, x30, [sp, #0xc0]
+    stp      x28, x27, [sp, #0xd0]
+    stp      x26, x25, [sp, #0xe0]
+    stp      x24, x23, [sp, #0xf0]
+    stp      x22, x21, [sp, #0x100]
+    stp      x20, x19, [sp, #0x110]
+    add      x29, sp, #0xc0
+    mrs      x19, tpidr_el0
+    mov      x20, x8
+    ldr      x8, [x19, #0x28]
+    mov      x21, x0
+    adrp     x0, #0x17000
+    add      x0, x0, #0x428
+    stur     x8, [x29, #-0x10]
+    sub      x8, x29, #0x28
+    mov      w1, #0x20
+    bl       #0x14193c
+
+; ===== real block 0x131da0  (5 insns -> 5 meaningful)
+    adrp     x0, #0x17000
+    add      x0, x0, #0x448
+    sub      x8, x29, #0x40
+    mov      w1, #0x10
+    bl       #0x14193c
+
+; ===== real block 0x131db4  (46 insns -> 44 meaningful)
+    adrp     x12, #0x1ba000
+    ldr      x12, [x12, #0xbc0]
+    adrp     x14, #0x1ba000
+    ldr      x14, [x14, #0xbc8]
+    ldrb     w0, [x21]
+    ldr      w15, [x12]
+    mov      w3, #0x6a9a
+    ldr      w14, [x14]
+    mov      w4, #0xaddc
+    sub      w16, w15, #1
+    mul      w15, w16, w15
+    mvn      w15, w15
+    orr      w16, w15, #0xfffffffe
+    cset     w15, eq
+    cset     w17, lt
+    and      w2, w17, w15
+    eor      w17, w17, w15
+    ldr      x11, [x21, #8]
+    orr      w17, w2, w17
+    movk     w3, #0xe509, lsl #16
+    movk     w4, #0xd585, lsl #16
+    mov      w5, #0xc066
+    mov      w6, #0x1c9d
+    eor      w2, w0, #0xfe
+    cmp      w17, #0
+    mov      w8, #0xc78c
+    movk     w5, #0xab46, lsl #16
+    mov      w9, #0x1080
+    movk     w6, #0x4345, lsl #16
+    mov      w10, #0x8d9
+    mov      w12, #0x1c9c
+    mov      w13, #0x6a99
+    csel     w17, w3, w4, ne
+    tst      w2, w0
+    mov      w2, #0x8d9
+    movk     w8, #0xcd67, lsl #16
+    movk     w9, #0x6c2d, lsl #16
+    movk     w10, #0xde0, lsl #16
+    movk     w12, #0x4345, lsl #16
+    movk     w13, #0xe509, lsl #16
+    lsr      x15, x0, #1
+    mvn      w16, w16
+    csel     w0, w6, w5, eq
+    movk     w2, #0xde0, lsl #16
+
+; ===== real block 0x131e6c  (2 insns -> 1 meaningful)
+    b.gt     #0x131e94
+    ;; BR @[('b.gt', 1253012), ('else', 1252980)]
+
+; ===== real block 0x131e94  (4 insns -> 3 meaningful)
+    mov      w3, #0x1c9d
+    movk     w3, #0x4345, lsl #16
+    b.eq     #0x131f5c
+    ;; BR @[('b.eq', 1253212), ('else', 1253028)]
+
+; ===== real block 0x131f5c  (4 insns -> 4 meaningful)
+    mov      w2, #0x1080
+    mov      x1, x15
+    movk     w2, #0x6c2d, lsl #16
+    b        #0x131e6c
+
+<<UNRESOLVED [('go', None)]>>

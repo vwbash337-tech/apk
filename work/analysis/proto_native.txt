@@ -1,0 +1,52 @@
+=== 19 decoded plaintext strings from nested Base64 ===
+
+--- ENDPOINT/URL (6) ---
+  L3 0x014bf4 refs=(63, 217)              -> 'create_note/v2/'
+  L2 0x014de8 refs=(66, 67, 219, 796, 799) -> '/save/'
+  L4 0x014eae refs=(67,)                  -> 'https://'
+  L3 0x0159ec refs=(244,)                 -> 'https://i.instagram.com/api/v2/'
+  L2 0x015c02 refs=(67, 255)              -> 'https://www.instagram.com/'
+  L3 0x015de3 refs=(64, 242, 796, 799, 851) -> 'https://www.instagram.com/graphql/query'
+
+--- HEX-SECRET (pin/key) (0) ---
+
+--- DETECTION TOKEN (11) ---
+  L1 0x015541 refs=(60, 61, 67)           -> 'libbridge.so'
+  L1 0x0156e8 refs=(60, 152)              -> 'libcso_substrate'
+  L1 0x015db5 refs=(57, 59, 60, 63, 162, 225) -> '/proc/self/maps'
+  L1 0x015dd4 refs=(58, 60, 61, 63, 66, 67) -> 'substrate'
+  L1 0x01607f refs=(152, 162)             -> 're.frida.server'
+  L1 0x0161eb refs=(56, 57, 58, 60, 162, 796, 799) -> 'gum-js-loop'
+  L1 0x0167a9 refs=(60, 154, 156)         -> 'lsposed'
+  L1 0x016b75 refs=(67, 225)              -> 'libart.so (deleted)'
+  L1 0x016c11 refs=(30, 36, 49, 56, 57, 58, 60, 63, 64, 66, 67, 70, 73, 85, 87, 97, 153, 154, 156, 167, 203, 226, 252, 724, 796, 797) -> 'xposed'
+  L1 0x016d97 refs=(162,)                 -> 'libfrida-gadget'
+  L1 0x016f69 refs=(60, 225)              -> 'libc.so (deleted)'
+
+--- OTHER (2) ---
+  L2 0x01606a refs=(30,)                  -> 'HbF0Nh5lp'
+  L2 0x016b60 refs=(218,)                 -> 'c2Vlbi8='
+
+
+=== XOR-0x5A layer: printable decoded strings (non-base64) ===
+
+=== plaintext literals referenced by the crypto funcs ===
+  func#30: [('0x1606a', 'U0dKR01FNW9OV3h3')]
+  func#36: [('0x163d9', 'Error!')]
+  func#85: [('0x14e8b', 'null')]
+  func#94: [('0x14e8b', 'null')]
+  func#87: [('0x1531f', '()Ljava/lang/String;'), ('0x1535d', '<init>'), ('0x157f1', 'com/nivaroid/topfollow/helper/a0'), ('0x15c8f', '()V'), ('0x162e1', '()Z'), ('0x16df1', '()I')]
+  func#67: [('0x14e96', 'order_stamp'), ('0x14ea2', 'raw'), ('0x14ea6', 'getPath'), ('0x14eae', 'V1ZWb1UwMUhUa2xVVkZwTlpWUm5PUT09'), ('0x1531f', '()Ljava/lang/String;'), ('0x15358', '()[B'), ('0x15538', 'username'), ('0x15701', '()Lokhttp3/Response;')]
+  func#226: [('0x14b88', 'digest'), ('0x14cc4', '([B)[B'), ('0x14e80', 'signatures'), ('0x14ecf', 'sign'), ('0x151e6', 'getPackageName'), ('0x1531f', '()Ljava/lang/String;'), ('0x1533e', 'getContext'), ('0x15349', 'getPackageInfo')]
+  func#73: [('0x14b88', 'digest'), ('0x14cc4', '([B)[B'), ('0x14e80', 'signatures'), ('0x151e6', 'getPackageName'), ('0x1531f', '()Ljava/lang/String;'), ('0x1533e', 'getContext'), ('0x15349', 'getPackageInfo'), ('0x15358', '()[B')]
+  func#71: [('0x14e24', 'build'), ('0x14ee5', '(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;'), ('0x1535d', '<init>'), ('0x15a4a', 'readTimeout'), ('0x15c8f', '()V'), ('0x15e4b', '()Lokhttp3/OkHttpClient;'), ('0x16240', '(Lokhttp3/CertificatePinner;)Lokhttp3/OkHttpClient$Builder;'), ('0x1633f', 'writeTimeout')]
+  func#72: [('0x14e24', 'build'), ('0x14ee5', '(JLjava/util/concurrent/TimeUnit;)Lokhttp3/OkHttpClient$Builder;'), ('0x1535d', '<init>'), ('0x15a4a', 'readTimeout'), ('0x15c8f', '()V'), ('0x15e4b', '()Lokhttp3/OkHttpClient;'), ('0x16240', '(Lokhttp3/CertificatePinner;)Lokhttp3/OkHttpClient$Builder;'), ('0x1633f', 'writeTimeout')]
+  func#253: [('0x14e24', 'build'), ('0x14ed4', 'java/lang/String'), ('0x15113', 'okhttp3/CertificatePinner$Builder'), ('0x1535d', '<init>'), ('0x1536c', '(Ljava/lang/String;[Ljava/lang/String;)Lokhttp3/CertificatePinner$Builder;'), ('0x15c8f', '()V'), ('0x1649a', 'add'), ('0x16a7e', '()Lokhttp3/CertificatePinner;')]
+  func#254: [('0x14e24', 'build'), ('0x15135', '(Lokhttp3/OkHttpClient;)Lretrofit2/Retrofit$Builder;'), ('0x1535d', '<init>'), ('0x153b7', 'baseUrl'), ('0x1585a', 'retrofit2/Retrofit$Builder'), ('0x15c8f', '()V'), ('0x15f1f', 'client'), ('0x164b0', '()Lretrofit2/Retrofit;')]
+  func#255: [('0x15c02', 'YUhSMGNITTZMeTkzZDNjdWFXNXpkR0ZuY21GdExtTnZiUzg9')]
+  func#244: [('0x159ec', 'WVVoU01HTklUVFpNZVRsd1RHMXNkV016VW1oYU0wcG9ZbE0xYW1JeU1IWlpXRUp3VEROWmVVeDNQVDA9')]
+  func#242: [('0x15de3', 'WVVoU01HTklUVFpNZVRrelpETmpkV0ZYTlhwa1IwWnVZMjFHZEV4dFRuWmlVemx1WTIxR2QyRklSbk5N')]
+  func#245: [('0x15084', 'WkRnME5UVTVNV1V3T0RZd016TmhPVEF6Tldaa05tSTJObU16WXpOa056TmhZVE16WVdZNU1EYzVOR1Ey')]
+  func#217: [('0x14bf4', 'V1ROS2JGbFlVbXhZTWpWMlpFZFZkbVJxU1hZPQ==')]
+  func#218: [('0x16b60', 'WXpKV2JHSnBPRDA9')]
+  func#219: [('0x14de8', 'TDNOaGRtVXY=')]

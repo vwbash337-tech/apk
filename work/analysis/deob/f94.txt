@@ -1,0 +1,134 @@
+# func#94 @0x110b70 sz=9140 disp=0x111244 sreg=w24 blocks=388
+
+; ===== real block 0x110b70  (44 insns -> 42 meaningful)
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #0x70
+    stur     w3, [x29, #-0x38]
+    stur     x2, [x29, #-0x40]
+    stur     x1, [x29, #-0x30]
+    mrs      x24, tpidr_el0
+    adrp     x25, #0x1bb000
+    mov      x26, x8
+    ldr      x25, [x25, #0x20]
+    ldr      x8, [x24, #0x28]
+    adrp     x27, #0x1bb000
+    adrp     x11, #0x1ba000
+    adrp     x12, #0x1ba000
+    ldr      x27, [x27, #0x28]
+    ldr      x11, [x11, #0xbc0]
+    ldr      x12, [x12, #0xbc8]
+    stur     x8, [x29, #-8]
+    ldr      w9, [x25]
+    ldr      w10, [x27]
+    ldr      w8, [x12]
+    ldr      w11, [x11]
+    sub      w12, w9, #1
+    mul      w9, w12, w9
+    mvn      w9, w9
+    orr      w9, w9, #0xfffffffe
+    cset     w9, eq
+    cset     w10, lt
+    mov      w30, #0x6a9a
+    and      w12, w10, w9
+    eor      w9, w10, w9
+    movk     w30, #0xe509, lsl #16
+    orr      w12, w12, w9
+    stur     x0, [x29, #-0x50]
+    tbz      w12, #0, #0x1114bc
+    ldrb     w13, [x0]
+    ldr      x14, [x0, #8]
+
+; ===== real block 0x110c20  (55 insns -> 54 meaningful)
+    sub      x23, sp, #0x20
+    mov      sp, x23
+    sub      x28, sp, #0x20
+    mov      sp, x28
+    sub      x9, sp, #0x480
+    stur     x9, [x29, #-0x20]
+    mov      sp, x9
+    sub      x9, sp, #0x20
+    stur     x9, [x29, #-0x28]
+    mov      sp, x9
+    sub      w9, w11, #1
+    mul      w9, w9, w11
+    eor      w19, w9, #0xfffffffe
+    ands     w9, w19, w9
+    cset     w19, eq
+    cset     w20, lt
+    eor      w10, w13, #0xfe
+    and      w21, w20, w19
+    eor      w19, w20, w19
+    and      w22, w10, w13
+    orr      w10, w21, w19
+    cmp      w10, #0
+    mov      w10, #0xaddc
+    movk     w10, #0xd585, lsl #16
+    mov      w19, #0xc066
+    mov      w21, #0x1c9d
+    csel     w10, w30, w10, ne
+    tst      w22, #0xff
+    movk     w19, #0xab46, lsl #16
+    movk     w21, #0x4345, lsl #16
+    mov      w16, #0x1c9c
+    mov      w17, #0xc066
+    mov      w0, #0x6a99
+    mov      w1, #0xc78c
+    mov      w2, #0xaddc
+    mov      w3, #0x6a9a
+    mov      w4, #0xf7f9
+    mov      w5, #0x8d9
+    mov      w6, #0x1c9d
+    mov      w7, #0x1080
+    csel     w19, w21, w19, eq
+    mov      w21, #0x8d9
+    ubfx     w15, w13, #1, #7
+    movk     w16, #0x4345, lsl #16
+    movk     w17, #0xab46, lsl #16
+    movk     w0, #0xe509, lsl #16
+    movk     w1, #0xcd67, lsl #16
+    movk     w2, #0xd585, lsl #16
+    movk     w3, #0xe509, lsl #16
+    movk     w4, #0x6b08, lsl #16
+    movk     w5, #0xde0, lsl #16
+    movk     w6, #0x4345, lsl #16
+    movk     w7, #0x6c2d, lsl #16
+    movk     w21, #0xde0, lsl #16
+
+; ===== real block 0x110cfc  (2 insns -> 1 meaningful)
+    b.le     #0x110d18
+    ;; BR @[('b.le', 1117464), ('else', 1117444)]
+
+; ===== real block 0x110d18  (2 insns -> 1 meaningful)
+    b.eq     #0x110d40
+    ;; BR @[('b.eq', 1117504), ('else', 1117472)]
+
+; ===== real block 0x110d40  (8 insns -> 7 meaningful)
+    cset     w20, lt
+    cmp      w9, #0
+    cset     w21, eq
+    sturb    w20, [x29, #-0x11]
+    mov      w20, #0xc78c
+    sturb    w21, [x29, #-0x12]
+    movk     w20, #0xcd67, lsl #16
+
+; ===== real block 0x110d60  (2 insns -> 1 meaningful)
+    b.gt     #0x110d84
+    ;; BR @[('b.gt', 1117572), ('else', 1117544)]
+
+; ===== real block 0x110d84  (2 insns -> 1 meaningful)
+    b.eq     #0x110dd4
+    ;; BR @[('b.eq', 1117652), ('else', 1117580)]
+
+; ===== real block 0x110dd4  (4 insns -> 4 meaningful)
+    ldur     x20, [x29, #-0x10]
+    mov      w21, #0x1080
+    movk     w21, #0x6c2d, lsl #16
+    b        #0x110cfc
+
+<<LOOP back to 0x110cfc>>

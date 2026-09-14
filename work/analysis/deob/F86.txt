@@ -1,0 +1,91 @@
+// ===== func#86  @0x10de0c  size=376  dispatcher=0x10deac statereg=w8 blocks=12 =====
+
+L0:  // block 0x10de0c
+    sub      sp, sp, #0x70
+    stp      x29, x30, [sp, #0x10]
+    stp      x28, x27, [sp, #0x20]
+    stp      x26, x25, [sp, #0x30]
+    stp      x24, x23, [sp, #0x40]
+    stp      x22, x21, [sp, #0x50]
+    stp      x20, x19, [sp, #0x60]
+    add      x29, sp, #0x10
+    adrp     x23, #0x1ba000
+    ldr      x23, [x23, #0xfd0]
+    adrp     x24, #0x1ba000
+    mov      x19, x8
+    ldr      x24, [x24, #0xfd8]
+    ldr      w8, [x23]
+    mov      w21, #0x97cd
+    mov      w22, #0xc00e
+    ldr      w9, [x24]
+    tst      w10, w8
+    sturb    w8, [x29, #-2]
+    mov      w25, #0xc577
+    mov      w26, #0xe36c
+    adrp     x20, #0x17000
+    mov      w27, #0x5650
+    mov      w28, #0xe36d
+    sturb    w8, [x29, #-1]
+    mov      w8, #0xc577
+    add      x20, x20, #0x307
+    ; SUCC: fall->L1
+
+L1:  // block 0x10deac
+    b.gt     #0x10dee4
+    ; SUCC: b.gt->L2 , else->L3
+
+L2:  // block 0x10dee4
+    b.eq     #0x10df64
+    ; SUCC: b.eq->L4 , else->L5
+
+L3:  // block 0x10deb4
+    b.eq     #0x10df10
+    ; SUCC: b.eq->L6 , else->L7
+
+L4:  // block 0x10df64
+    ldp      x20, x19, [sp, #0x60]
+    ldp      x22, x21, [sp, #0x50]
+    ldp      x24, x23, [sp, #0x40]
+    ldp      x26, x25, [sp, #0x30]
+    ldp      x28, x27, [sp, #0x20]
+    ldp      x29, x30, [sp, #0x10]
+    add      sp, sp, #0x70
+    ret      
+    ; SUCC: ret->None
+
+L5:  // block 0x10deec
+    b.ne     #0x10deac
+    ; SUCC: b.ne->None , else->L8
+
+L6:  // block 0x10df10
+    mov      w1, #0x10
+    mov      x8, x19
+    mov      x0, x20
+    bl       #0x11044c   ; -> func#90
+    ; SUCC: fall->L9
+
+L7:  // block 0x10debc
+    b.ne     #0x10deac
+    ; SUCC: b.ne->None , else->None
+
+L8:  // block 0x10def4
+    mov      w1, #0x10
+    mov      x8, x19
+    mov      x0, x20
+    bl       #0x11044c   ; -> func#90
+    ; SUCC: fall->L10
+
+L9:  // block 0x10df20
+    ldr      w8, [x23]
+    ldr      w9, [x24]
+    add      w10, w8, w10
+    add      w10, w10, w27
+    tst      w10, w8
+    cmp      w8, #0
+    b        #0x10deac   ; -> DISPATCHER
+    ; SUCC: go->None
+
+L10:  // block 0x10df04
+    mov      w8, #0x97cd
+    b        #0x10deac   ; -> DISPATCHER
+    ; SUCC: go->None

@@ -1,0 +1,148 @@
+# func#67 @0xe01e4 sz=117628 disp=0xf33b4 sreg=None blocks=4574
+
+; ===== real block 0x0e01e4  (29 insns -> 29 meaningful)
+    stp      x29, x30, [sp, #-0x60]!
+    stp      x28, x27, [sp, #0x10]
+    stp      x26, x25, [sp, #0x20]
+    stp      x24, x23, [sp, #0x30]
+    stp      x22, x21, [sp, #0x40]
+    stp      x20, x19, [sp, #0x50]
+    mov      x29, sp
+    sub      sp, sp, #1, lsl #12
+    sub      sp, sp, #0x4b0
+    str      x3, [sp, #0x88]
+    str      x2, [sp, #0x68]
+    mrs      x8, tpidr_el0
+    str      x8, [sp, #0x58]
+    ldr      x8, [x8, #0x28]
+    mov      w26, #0x5993
+    mov      w20, #0xadfd
+    mov      w27, #0x2e65
+    stur     x8, [x29, #-0x18]
+    ldr      x8, [x0]
+    mov      w28, #0xb7ea
+    mov      x1, x4
+    mov      x21, x4
+    ldr      x8, [x8, #0xf8]
+    mov      x25, x0
+    movk     w26, #0xd2ab, lsl #16
+    movk     w20, #0x9fa8, lsl #16
+    movk     w27, #0x5b78, lsl #16
+    movk     w28, #0x1fef, lsl #16
+    blr      x8
+
+; ===== real block 0x0e0258  (27 insns -> 25 meaningful)
+    adrp     x8, #0x1ba000
+    ldr      x8, [x8, #0xce0]
+    adrp     x10, #0x1ba000
+    mov      w19, #0xb7e9
+    adrp     x23, #0x16000
+    ldr      w8, [x8]
+    ldr      x10, [x10, #0xce8]
+    adrp     x24, #0x16000
+    mov      x22, x0
+    sub      w9, w8, #1
+    mul      w8, w9, w8
+    ldr      w9, [x10]
+    mvn      w8, w8
+    orr      w8, w8, #0xfffffffe
+    cset     w8, eq
+    strb     w8, [sp, #0x470]
+    cset     w8, lt
+    strb     w8, [sp, #0x1e0]
+    mov      w8, #0xb7ea
+    movk     w19, #0x1fef, lsl #16
+    add      x23, x23, #0x31b
+    add      x24, x24, #0xa63
+    movk     w8, #0x1fef, lsl #16
+    str      x25, [sp, #0x98]
+    str      x0, [sp, #0x60]
+
+; ===== real block 0x0e02c4  (2 insns -> 1 meaningful)
+    b.gt     #0xe0354
+    ;; BR @[('b.gt', 918356), ('else', 918220)]
+
+; ===== real block 0x0e0354  (2 insns -> 1 meaningful)
+    b.eq     #0xe03b4
+    ;; BR @[('b.eq', 918452), ('else', 918364)]
+
+; ===== real block 0x0e03b4  (31 insns -> 30 meaningful)
+    add      x8, sp, #0x130
+    ldr      x23, [x8, #0x360]
+    adrp     x8, #0x1ba000
+    ldr      x8, [x8, #0xd00]
+    adrp     x9, #0x1ba000
+    mov      w24, #0x5d6c
+    mov      w26, #0x1e32
+    ldr      w8, [x8]
+    ldr      x9, [x9, #0xd08]
+    mov      w11, #0xb1a3
+    mov      w19, #0xb1a2
+    sub      w10, w8, #1
+    ldr      w9, [x9]
+    mul      w8, w10, w8
+    eor      w10, w8, #0xfffffffe
+    tst      w10, w8
+    cset     w8, eq
+    strb     w8, [sp, #0x470]
+    cset     w8, lt
+    mov      w22, #0x1959
+    strb     w8, [sp, #0x1e0]
+    mov      w8, #0xb1a3
+    mov      w27, #0x6062
+    movk     w24, #0x9828, lsl #16
+    movk     w26, #0x79ec, lsl #16
+    movk     w11, #0x5486, lsl #16
+    movk     w19, #0x5486, lsl #16
+    movk     w22, #0xe19b, lsl #16
+    movk     w8, #0x5486, lsl #16
+    movk     w27, #0x185e, lsl #16
+
+; ===== real block 0x0e0430  (2 insns -> 2 meaningful)
+    mov      w9, #0x6062
+    movk     w9, #0x185e, lsl #16
+
+; ===== real block 0x0e0438  (2 insns -> 1 meaningful)
+    b.gt     #0xe0454
+    ;; BR @[('b.gt', 918612), ('else', 918592)]
+
+; ===== real block 0x0e0454  (2 insns -> 1 meaningful)
+    b.eq     #0xe0484
+    ;; BR @[('b.eq', 918660), ('else', 918620)]
+
+; ===== real block 0x0e0484  (6 insns -> 6 meaningful)
+    ldr      x8, [x25]
+    ldr      x8, [x8, #0x2f8]
+    mov      x0, x25
+    mov      x1, x21
+    mov      x2, x23
+    blr      x8
+
+; ===== real block 0x0e049c  (26 insns -> 25 meaningful)
+    mov      w11, #0xb1a3
+    movk     w11, #0x5486, lsl #16
+    adrp     x8, #0x1ba000
+    ldr      x8, [x8, #0xd00]
+    add      x9, sp, #0x130
+    str      x0, [x9, #0x360]
+    adrp     x9, #0x1ba000
+    ldr      w8, [x8]
+    ldr      x9, [x9, #0xd08]
+    mvn      w10, w22
+    add      w10, w10, w8
+    ldr      w9, [x9]
+    add      w10, w10, w22
+    mul      w8, w10, w8
+    eor      w10, w8, #0xfffffffe
+    tst      w10, w8
+    cset     w8, ne
+    cset     w9, gt
+    eor      w10, w9, w8
+    orr      w8, w9, w8
+    eor      w8, w8, #1
+    orr      w8, w10, w8
+    cmp      w8, #0
+    csel     w8, w27, w24, ne
+    b        #0xe0430
+
+<<LOOP back to 0x0e0430>>
