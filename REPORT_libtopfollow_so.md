@@ -1,7 +1,7 @@
 # `libtopfollow.so` — Reverse Engineering Report
 
 **Target:** `TopFollow_v845-Beta.apk` → `lib/arm64-v8a/libtopfollow.so`
-**Analysed:** 2026-09-12 → 2026-09-13 (revision 6) · **static analysis + full AArch64 emulation** (Unicorn harness, `work/analysis/emu.py`) · no debugger on a device
+**Analysed:** 2026-09-12 → 2026-09-14 (revision 7) · **static analysis + full AArch64 emulation** (Unicorn harness, `work/analysis/emu.py`) · no debugger on a device
 **Scope:** obfuscation techniques · detection mechanisms · all encryption (AES + everything else) · request/response crypto path end-to-end
 
 > **Revision 2 — everything in §4, §7.7, §7.9 and §11 is backed by _executing_ the code.**
@@ -32,6 +32,19 @@
 > slots 0, 20 and 21. The GCM *path list* in item 35 was wrong too (`#241` is `#191`'s sibling, not
 > its caller); the slot list was right. `frida/test_capture_offline.js` now asserts **324** checks
 > against the real `.so` bytes and passes with 0 failures.
+>
+> **Revision 7 — bypass mode, because a read-only capture never boots on a defended device** (§11.15).
+> The four detection layers (signature pin `#226`/`#73`, maps scanners `#99`/`#162`/`#200`/`#225`/`#60`,
+> root `#169`/`#154`) all fire before the app builds a single request, so "observe only" is a property of
+> the *evidence*, not a usable mode of *operation*. `CFG.bypass` (off by default) now stubs the seven
+> measured detectors at the **entry** — the only safe way, given 148 reachable `b .` traps — beats the
+> signature pin on the **Java** side (hand back the original 864-byte cert; no `.rodata` patch), and
+> rewrites the `read()` maps buffer length-preservingly. Every mutation lives between paired `>>>>>`/`<<<<<`
+> markers, and the offline test strips them to keep "read-only by default" a **tested** property. Building
+> the mock Java that models `frida-java-bridge`'s recursion guard then exposed **five** self-recursion bugs
+> in hooks that predate bypass — including `RealInterceptorChain.proceed`, which would have blown the stack
+> on the first HTTP request and destroyed the very request/response capture asked for. `test_capture_offline.js`
+> is now **412** assertions, 0 failures.
 
 ---
 
@@ -1950,7 +1963,7 @@ pt = unpad(AES.new(key.encode(), AES.MODE_ECB).decrypt(bytes.fromhex(hexstring))
 2. Hook `func#85` (`0x10c470`) and `func#94` (`0x110b70`) at entry/exit: `(x0=pt, x1=key) → sret`.
    That gives you plaintext **and** the live key for every request and response, with no
    cryptanalysis at all.
-3. Force-return `false` from `func#200` (`0x145f88`), `func#99` (`0x115770`), `func#162` (`0x136cb8`), `func#225` (`0x157f38`), `func#169` (`0x13ba30`).
+3. Force-return `0` ("nothing found") from the **seven** measured detectors: `func#60` (`0x81c58`, the 179,828 B Xposed/Riru/Substrate scanner), `func#99` (`0x115770`), `func#162` (`0x136cb8`), `func#200` (`0x145f88`), `func#225` (`0x157f38`), `func#169` (`0x13ba30`) and `func#154` (`0x12a068`, `#169`'s parent). Replace at the **entry** only — see step 7. This exact set, with these exact offsets, is `CFG.bypass.forceReturn` (§11.15a); `func#98`, `func#224`, `func#226`/`func#73` are excluded on purpose.
 4. For TLS interception hook `func#253`/`func#254` to skip `CertificatePinner$Builder.add` — patching `.rodata:0x15084` does **not** help there, because that blob is the **APK-signature** pin, not a TLS SPKI (§10 item 30). For the signature check itself, hand the original certificate back from `PackageManager.getPackageInfo` (§6.5).
 5. Neutralise `func#98` (`0x114fbc`) `clock()` delta.
 6. Only then attach Frida — remember `func#226` calls `func#99` **immediately before** applying pins.
@@ -1959,6 +1972,7 @@ pt = unpad(AES.new(key.encode(), AES.MODE_ECB).decrypt(bytes.fromhex(hexstring))
    erroring. Never "fix" a self-loop you find; work out which predicate guards it and satisfy
    the predicate instead. `func#224 @ 0x157628` traps at `0x1576ac`, the string decryptor
    `func#193` at `0x141ca0`, `0x141d4c` and `0x1420e4`.
+8. **Steps 1–7 are now automated** by `frida/topfollow_capture.js` with `CFG.bypass.enabled` (or `python3 frida/run_frida.py --script capture --bypass`, or the recommended `--script capture --also agent --mode bypass`). The signature pin (step 4) is beaten on the Java side, the maps scanners (step 3) by a length-preserving `read()` rewrite, and root by forcing `access()` to `ENOENT` — all verified against the real `.so` in §11.15 and `test_capture_offline.js` (412 assertions).
 
 ---
 
@@ -2052,13 +2066,13 @@ including on a **non-rooted** one. Full walkthrough: `frida/README_frida_gadget.
 | File | Content |
 |---|---|
 | **`frida/topfollow_agent.js`** | the Frida agent (1,995 lines). Module-wait via `dlopen`/`android_dlopen_ext` hooks + polling; sanity anchors (JNI_OnLoad export, S-box `@0x128b0`, Rcon `@0x13b10`, plaintext key `@0x161ca`); runtime self-calibration against the 22-entry `JNINativeMethod` table `@0x1b6198`; **entry-only** `Interceptor.attach` on `func#85/#94/#30/#36/#14/#193`, the 5 key getters and `func#157/#158`; read-only detection layer — **`/proc/*/maps` fd tracking on `__open_2`/`open` plus a length-preserving rewrite of every `read`/`__read_chk` buffer** (the library imports no `fopen`/`fgets`/`strstr`, item 39), `access()` su-path `ENOENT`, and a 30-token suppression list derived from the Base64-hidden strings — none of which ever touches a flattened body; Java hooks for the 22 natives, `CertificatePinner` neutralisation, trust-all TLS, and the §6.5C **signature forgery**; a from-scratch JS AES-128/192/256 (ECB+CBC, PKCS#7) and SHA-256 for offline decryption and self-verification; 17 `rpc.exports` |
-| **`frida/topfollow_capture.js`** | **(revision 5-6) the read-only capture script, 2,305 lines.** A *separate* script from the agent, deliberately: it hooks and **observes only** - not one `Interceptor.replace`, not one `retval.replace`, not one rewritten buffer (the offline test asserts this against the stripped source, §11.14). It covers the full AES chain (`#14` key schedule with the round keys read *after* return, `#15`/`#16` CBC drivers, `#12`/`#13` ECB dispatchers, `#10`/`#11` `Nr`-leaves), the public ciphers (`#85`/`#94`/`#30`/`#36`), the XOR-`0x5A` decoder `#193`, the string layer (`#17`/`#21`/`#23`, including the 4-layer Base64 chains), `JNI_OnLoad` (`GetEnv` -> `FindClass` -> `RegisterNatives`, dumping the table **as the VM sees it**), all 22 natives on both the native and the Java side, okhttp3 / retrofit2 / Gson request+response, the detection scanners, and `__open_2`/`read`/`__read_chk`/`access`. Every event is appended to a JSONL file (three fallback paths) and kept in a 20,000-event ring; **25 `rpc.exports`**. `func#224` is excluded on purpose (§3.8 trap). The 21-blob Base64 chain table and the 22-row `JNINativeMethod` expectation table are inlined, so `calibrate()` diffs the live table against the static recovery on the phone |
-| **`frida/test_capture_offline.js`** | **(revision 6) `node frida/test_capture_offline.js` -> `PASS 324 FAIL 0`, no phone and no Frida.** Loads the capture script into a Node VM whose `NativePointer` is backed by the **real `libtopfollow.so` bytes**, applies the 66 `R_AARCH64_RELATIVE` relocations into the JNI-table region, and folds the `.data.rel.ro` `VA - 0x4000` file-offset delta *into the pointer itself* - so the script's own table reads see exactly what the kernel would have mapped. Asserts all 22 slots (name, signature, wrapper `func#`, RVA), all 21 Base64 blobs **byte-for-byte against `.rodata`** plus their full decode chains, the `std::string` SSO and heap readers, the JSONL ring, the read-only contract, and the whole `rpc` surface. **This test is what caught the two real bugs in §11.14** |
+| **`frida/topfollow_capture.js`** | **(revision 5-7) the capture script, 2,646 lines — read-only *by default*, with an opt-in bypass.** A *separate* script from the agent, deliberately. Out of the box it hooks and **observes only** - not one `Interceptor.replace`, not one `retval.replace`, not one rewritten buffer (the offline test asserts this against the source with the bypass regions stripped, §11.14). Revision 7 added `CFG.bypass` (`enabled:false` by default): because a read-only capture never boots on a defended device, the four detection layers fire first (§11.15). All bypass code sits between paired `>>>>>`/`<<<<<` markers. It covers the full AES chain (`#14` key schedule with the round keys read *after* return, `#15`/`#16` CBC drivers, `#12`/`#13` ECB dispatchers, `#10`/`#11` `Nr`-leaves), the public ciphers (`#85`/`#94`/`#30`/`#36`), the XOR-`0x5A` decoder `#193`, the string layer (`#17`/`#21`/`#23`, including the 4-layer Base64 chains), `JNI_OnLoad` (`GetEnv` -> `FindClass` -> `RegisterNatives`, dumping the table **as the VM sees it**), all 22 natives on both the native and the Java side, okhttp3 / retrofit2 / Gson request+response, the detection scanners, and `__open_2`/`read`/`__read_chk`/`access`. Every event is appended to a JSONL file (three fallback paths) and kept in a 20,000-event ring; **27 `rpc.exports`**. `func#224` is excluded on purpose (§3.8 trap). Revision 7 also fixed five Java self-recursion bugs (§11.15d), incl. `RealInterceptorChain.proceed`. The 21-blob Base64 chain table and the 22-row `JNINativeMethod` expectation table are inlined, so `calibrate()` diffs the live table against the static recovery on the phone |
+| **`frida/test_capture_offline.js`** | **(revision 6-7) `node frida/test_capture_offline.js` -> `PASS 412 FAIL 0`, no phone and no Frida.** Loads the capture script into a Node VM whose `NativePointer` is backed by the **real `libtopfollow.so` bytes**, applies the 66 `R_AARCH64_RELATIVE` relocations into the JNI-table region, and folds the `.data.rel.ro` `VA - 0x4000` file-offset delta *into the pointer itself* - so the script's own table reads see exactly what the kernel would have mapped. Asserts all 22 slots (name, signature, wrapper `func#`, RVA), all 21 Base64 blobs **byte-for-byte against `.rodata`** plus their full decode chains, the `std::string` SSO and heap readers, the JSONL ring, the read-only contract, and the whole `rpc` surface. **This test caught the two `UInt64`/`jtypeToJava` bugs in §11.14, then — via a mock Java that models `frida-java-bridge`'s recursion guard — the five self-recursion bugs in §11.15d, and it proves both the read-only default and the bypass set (maps filter, su paths, signature-pin SHA-256) against the real `.so`** |
 | **`frida/test_agent_offline.js`** | `node frida/test_agent_offline.js` — loads the agent into a Node VM with the Frida API stubbed and asserts **138 known-answer checks**: FIPS-197 AES vectors, all 11 `func#85` vectors of §11.2, `func#94` round-trips, all 5 `func#30` vectors of §11.3, `rpc.exports.decrypt`, the 3-layer `.rodata` secret decoding against the *real* `libtopfollow.so` bytes, the 9 AES table anchors, all 22 `JNINativeMethod` slots re-derived from `analysis/relocs.json`, **every Base64-hidden detection token decoded live out of the binary and asserted covered by `MAPS_NOISE`**, the Base64 endpoint/pin decodes, and `filterMapsBuffer`'s length-preserving rewrite (§11.12) |
 | **`frida/selftest_real_so.js`** | `node frida/selftest_real_so.js` — runs `rpc.exports.selfTest()` and `rpc.exports.signature()` with the agent's `MOD` resolved against the **real `libtopfollow.so` bytes on disk**: `NativePointer.read*` is backed by the file buffer and `Process.findModuleByName` is stubbed, so the agent resolves `MOD` through its own `findModule()` and the six *live* `.rodata` vectors run exactly as on a device. Exits non-zero unless **26/26 pass with 0 skipped** and `liveMatchesPin == true` |
 | **`frida/clone_signer.py`** | proves and exploits §6.5B: reads the signer certificate out of the APK's v2 Signing Block, reads the pin blob out of `libtopfollow.so @0x15084`, double-Base64-decodes it and asserts `SHA-256(cert DER) == pin`; then rebuilds a structurally identical certificate with a fresh RSA-2048 key and emits `frida/keys/topfollow_clone.p12` + PEMs for `apksigner` |
 | **`frida/repack_apk.py`** | pure-Python APK surgery — **no Java, no apktool, no zipalign, no apksigner**. Copies all 1,266 entries raw (verified: *zero* payload or compression-method changes), injects `lib/arm64-v8a/libgadget.so` + `libgadget.config.so` STORED and **4096-byte aligned** via the `0xd935` extra field (the same trick `zipalign -p 4` uses), drops stale `META-INF` signature files and the APK Signing Block, and re-verifies alignment and CRCs on the result |
-| `frida/run_frida.py` | the runner: USB/remote/local device, attach-by-name (`Gadget`) or spawn-by-package, injects `TF_CONFIG` (which **both** scripts now honour), streams the script's tagged messages, and gives a REPL over all `rpc.exports`. **Revision 6:** `--script` picks which JS to inject — `agent` (default) or `capture`, or any path. `--offline-decrypt <hex>` decrypts captured ciphertext **with no phone at all** by driving the agent's JS under Node (with a self-contained pure-Python AES fallback whose S-box is *computed*, not transcribed) |
+| `frida/run_frida.py` | the runner: USB/remote/local device, attach-by-name (`Gadget`) or spawn-by-package, injects `TF_CONFIG` (which **both** scripts now honour), streams the script's tagged messages, and gives a REPL over all `rpc.exports`. **Revision 6:** `--script` picks which JS to inject — `agent` (default) or `capture`, or any path. **Revision 7:** `--bypass` arms detection bypass, and `--also <script>` injects a second script into the same session (recommended: `--script capture --also agent --mode bypass`, so the 138-tested agent does the bypass and the capture script only observes — no duplicated bypass logic); the REPL resolves rpc names across both. `--offline-decrypt <hex>` decrypts captured ciphertext **with no phone at all** by driving the agent's JS under Node (with a self-contained pure-Python AES fallback whose S-box is *computed*, not transcribed) |
 | `frida/libgadget.config.so` | Gadget config, `listen 127.0.0.1:27042`, **`on_load: wait`** — the app blocks at `System.loadLibrary("gadget")` until you attach, so nothing in `JNI_OnLoad` runs before the hooks are armed |
 | `frida/libgadget.config.resume.so` | same but `on_load: resume` — app runs immediately, attach later |
 | `frida/libgadget.config.script.so` | `type: script`, `path: ./libgadget.script.so` — the agent is baked into the APK and runs with no PC attached |
@@ -2068,12 +2082,14 @@ including on a **non-rooted** one. Full walkthrough: `frida/README_frida_gadget.
 ```bash
 # no phone required — re-proves the agent's crypto against the real .so bytes
 node frida/test_agent_offline.js                        # -> PASS 138 FAIL 0
-node frida/test_capture_offline.js                      # -> PASS 324 FAIL 0   (rev 6, real .so bytes)
+node frida/test_capture_offline.js                      # -> PASS 412 FAIL 0   (rev 7, real .so bytes)
 node frida/selftest_real_so.js                          # -> passed=26/26 skipped=0, liveMatchesPin=true
 python3 frida/clone_signer.py                           # -> asserts SHA-256(cert) == pin
 python3 frida/repack_apk.py --dry-run                   # -> manifest + DEX-patch status
 python3 frida/run_frida.py --script capture             # -> read-only capture, 25 rpc exports
 python3 frida/run_frida.py --script capture --rpc calibrate   # live JNI table vs static recovery
+python3 frida/run_frida.py --script capture --bypass           # capture + its own detection bypass
+python3 frida/run_frida.py --script capture --also agent --mode bypass  # agent bypasses, capture observes
 python3 frida/run_frida.py --offline-decrypt \
         f49288051d7d9decc641ea07eb7ff32cbde7e2be9f3006617f3938a20f63549c\
 fc144d3ce97d67ecc55475f0dfeec781                          # -> {"order_id":12345,...}
@@ -3500,6 +3516,241 @@ Two smaller changes rode along: `keyLabel()` now returns *name and kind*
 self-describing without a trip back to this report, and the capture script now honours **both**
 `TF_CAPTURE_CFG` and `TF_CONFIG`, which is what lets the single runner drive either script
 (`python3 frida/run_frida.py --script capture`).
+
+---
+
+### 11.15 Revision 7 — bypass is not optional, and the read-only capture had five Java recursion bugs
+
+Revision 6 shipped a strictly read-only capture script and proved, with 324 assertions, that it never
+writes. That proof was correct and it was also **beside the point on a real device**, because of a
+gap this section closes:
+
+> **A read-only capture never gets to capture anything, because the app does not start.**
+
+The library is defended at four independent layers, and an instrumented, repackaged APK trips all of
+them before a single request is ever built:
+
+| layer | function(s) | what it sees on a Frida/repack setup | effect if not bypassed |
+|---|---|---|---|
+| APK-signature pin | `func#226 @0x159c10`, `func#73 @0x103ad8` | `SHA-256(signer cert) ≠ d845591e…` because the APK was re-signed to inject the gadget | native compare fails → app aborts or silently disables the panel |
+| anti-Frida / maps | `func#99`, `func#162`, `func#200`, `func#225`, `func#60` | `frida`, `gum-js-loop`, `libfrida-gadget`, `re.frida.server`, `rwxp`, `(deleted)` lines in `/proc/self/maps` | detection returns "instrumented" |
+| Xposed / Riru / Substrate | `func#60 @0x81c58` (179,828 B scanner) | `xposed`, `lsposed`, `edxposed`, `riru`, `libcso_substrate`, `libbridge.so`, `ygsik` | same |
+| root | `func#169 @0x13ba30`, `func#154 @0x12a068` | `access()` succeeds on one of 9 fixed `su` paths | same |
+
+So "observe only" is a property of the *evidence*, not a usable mode of *operation*. Revision 7 adds
+an **opt-in bypass** to the capture script, keeps it **off by default**, and — this is the part that
+matters — keeps "the default is read-only" a **tested** property rather than a promise.
+
+#### (a) `CFG.bypass`: off by default, every mutation inside marked regions
+
+The bypass is a single config object, `enabled: false` out of the box:
+
+```js
+bypass: {
+    enabled: false,
+    forceReturn: {
+        0x081c58: 0,     /* func#60  Xposed/Riru/Substrate scanner (179,828 B) */
+        0x115770: 0,     /* func#99  anti-Frida (XOR-0x37 tokens)              */
+        0x136cb8: 0,     /* func#162 anti-Frida (Base64 tokens)                */
+        0x145f88: 0,     /* func#200 anti-hook /proc/self/maps scan            */
+        0x157f38: 0,     /* func#225 maps integrity (rwxp / "(deleted)")       */
+        0x13ba30: 0,     /* func#169 root check (access() x9 su paths)         */
+        0x12a068: 0      /* func#154 root-check parent (reached from slot 6)   */
+    },
+    spoofSignature: true,   /* beat the pin on the JAVA side — see (c)        */
+    hideMaps: true,         /* length-preserving rewrite of the read() buffer */
+    hideSuPaths: true,      /* access()/stat() on su paths -> -1 (ENOENT)     */
+    fakeClock: false        /* func#98 clock() delta — polarity unproven, off */
+}
+```
+
+Every line of code that writes to the app sits inside a region delimited by paired
+`>>>>>` / `<<<<<` markers — one large implementation block (§7B of the script) and six one-or-two-line
+inline fragments inside otherwise read-only hooks. `BYPASS_ON()` is a *function* reading
+`CFG.bypass.enabled` at call time, so a runner can flip it through `rpc.exports.cfg()` without a
+reload, and so the marked regions come alive (or go dead) as a unit.
+
+`frida/test_capture_offline.js` strips every marked region, then asserts that **nothing outside them**
+ever calls `Interceptor.replace`, `retval.replace`, or any `write*`. The markers are checked for
+balance first (7 `>>>>>` = 7 `<<<<<`), because an unpaired marker would silently strip or keep the
+wrong half of the file. That is what makes "read-only by default" a measured property:
+
+```
+ok   the bypass markers are balanced                          7 == 7
+ok   no retval.replace / Interceptor.replace hides OUTSIDE a marked region
+ok   no Interceptor.replace CALL in the code                  (regions stripped)
+ok   outside the marked regions there is no write of any kind
+ok   BYPASS_ON is false with the shipped defaults
+ok   Interceptor.replace was never invoked at runtime         0
+```
+
+#### (b) Entry-only `Interceptor.replace` is the *only* safe way to stub these
+
+The seven detectors are flattened CFF bodies studded with opaque predicates, and §3.8 counts **148
+reachable `b .` infinite-loop traps** across the library. Patching an instruction *inside* one of
+these bodies perturbs a predicate and lands control flow on a self-loop — the thread hangs silently
+instead of erroring, which is worse than a crash because it looks like the app is merely slow. So the
+stub replaces the function **at its entry**, which means the flattened body — and every trap in it —
+never executes at all:
+
+```js
+function bypassReplace(name, off, ret) {
+    try {
+        Interceptor.replace(A(off), new NativeCallback(function () {
+            emit('bypass', { what: name + ' FORCED', action: 'Interceptor.replace(entry)',
+                             off: '0x' + off.toString(16), forcedRet: ret });
+            return ret;
+        }, 'int', ['pointer', 'pointer', 'pointer']));
+        emit('bypass', { what: 'replaced ' + name, action: 'returns ' + ret,
+                         off: '0x' + off.toString(16) });
+        return true;
+    } catch (e) {
+        emit('warn', { what: 'bypass replace failed', fn: name, err: String(e) });
+        return false;
+    }
+}
+```
+
+Three functions are deliberately **left out** of `forceReturn`:
+
+* `func#224 @0x157628` — holds a reachable `b .` trap at `0x1576ac` and the app apparently never
+  reaches it; touching it is all downside (§3.8).
+* `func#98 @0x114fbc` — the `clock()` timing check; its return polarity was never proven, so forcing
+  a value is a guess, and a wrong guess *tells* the app it is being timed.
+* `func#226` / `func#73` — the signature pin, beaten on the Java side instead (next subsection).
+  Forcing these to 0 would work, but it leaves the native SHA-256 running over a cert that does not
+  match, so any *other* consumer of that result still sees the mismatch.
+
+The cipher and string layers are **never** in the stub set — the test asserts the 18 crypto/AES-layer/
+string-layer functions and the 7 forced detectors are disjoint, so bypassing detection can never
+perturb the very AES path the capture exists to record.
+
+#### (c) The signature pin is beaten on the Java side, not by patching `.rodata`
+
+`func#226`/`func#73` compute `SHA-256(signature[0].toByteArray())` and compare it with the blob at
+`0x15084`. The instinct is to patch that blob, but §10 item 30 established it is **plaintext
+double-Base64 of the expected hex**, and patching it only helps if you also know the new cert's hash
+in advance — and it desyncs every other reference. The clean defeat is to hand the **original**
+864-byte signer certificate back out of `PackageManager`, so the native compare runs *unmodified*
+and passes:
+
+```js
+const Sig = Java.use('android.content.pm.Signature');
+const cert = b64decodeStrict(ORIGINAL_SIGNER_CERT_B64.replace(/\s+/g, ''));
+const origBytes = Java.array('byte', cert.map(x => (x > 127 ? x - 256 : x)));
+…
+[ApplicationPackageManager.getPackageInfo, PackageManager.getPackageInfo,
+ ApplicationPackageManager.getPackageInfoAsUser].forEach(… pi.signatures.value = buildArr() …)
+Sig.toByteArray.implementation = function () { return origBytes; };
+```
+
+The test proves the cert it hands back is *the* pinned one, against the real `.so`:
+
+```
+ok   the forged certificate is 864 bytes of DER               864
+ok   SHA-256(that DER) == the pin blob @0x15084               d845591e…ea6bec5e
+ok   the pin blob in .rodata decodes to exactly that hash
+ok   so a repacked APK can pass func#226/#73 with NO native patch at all
+```
+
+`hideMaps` reuses revision 4's length-preserving buffer rewrite (§11.12): this library imports no
+`fopen`/`fgets`/`strstr`, it reads `/proc/self/maps` through `__open_2` + `read`/`__read_chk` and
+scans with inlined byte loops, so the **`read()` buffer is the detection surface**. The rewrite keeps
+the byte count and the line count identical (a length change is itself a signal) and leaves clean
+lines byte-for-byte untouched:
+
+```
+ok   three suspicious lines were rewritten                    3
+ok   the rewrite is LENGTH-PRESERVING                         len(after) == len(before)
+ok   no frida token survives / no rwxp / no "(deleted)"
+ok   the clean lines are byte-identical afterwards
+ok   a clean maps file is left completely alone               0 changes
+```
+
+#### (d) Five Java self-recursion bugs the read-only capture already had
+
+Building the mock Java for §16 of the test — one whose method wrappers re-dispatch exactly like
+`frida-java-bridge`, *including* its `pendingCalls` thread-id recursion guard — surfaced five bugs in
+hooks that had nothing to do with bypass. These would have fired on the **read-only** path too:
+
+| # | hook | bug | fix |
+|---|---|---|---|
+| 1 | `okhttp3…RealInterceptorChain.proceed` | `this.proceed(req)` inside its own impl | wrapper `chProceed` captured before install, `chProceed.apply(this,[req])` |
+| 2 | `android…Signature.toByteArray` | `this.toByteArray()` inside its own impl | wrapper `sigToByteArray` captured before install |
+| 3 | `android…Signature.hashCode` | `this.hashCode()` inside its own impl | wrapper `sigHashCode` captured before install |
+| 4 | `MessageDigest.getInstance` / `.update`, `Base64.decode` | drop-hook idiom restored `impl.implementation = impl` | restore `null` |
+
+Bugs 1–3 are subtle because Frida's guard *does* route a `this.bar()` made from inside `bar`'s
+replacement straight to the original — so they often appear to work. But that path goes through
+overload resolution, which is the documented `IncompatibleClassChangeError` gotcha, and the captured-
+wrapper form is both correct and unambiguous. Bug 4 is the nastier one: a method wrapper's
+`.implementation` **getter** returns the JS function currently installed, so from inside the hook the
+wrapper *is* the hook, and `impl.implementation = impl` re-hooks the hook — the first call works, the
+second recurses until `RangeError`. All three drop-hook sites now restore `null`:
+
+```js
+                const chProceed = CH.proceed.overload('okhttp3.Request');
+                chProceed.implementation = function (req) {
+                    …
+                    /* chProceed.apply, NEVER this.proceed(req): calling the
+                       method on `this` re-dispatches into this very hook, so
+                       the first HTTP request the app makes blows the stack. */
+                    const resp = chProceed.apply(this, [req]);   /* untouched */
+```
+
+The mock drives this dynamically: `hookJava()` is installed against it, then **every** hooked method
+is called twice and asserted to (i) not overflow the stack and (ii) still reach the original:
+
+```
+ok   the script loads AND hookJava() installs against the mock without throwing
+ok   hookJava() installed a real set of hooks                 >= 8
+ok     including okhttp3 RealInterceptorChain.proceed (the request/response capture)
+ok     including Signature.toByteArray (the signature-pin capture)
+ok   no hooked method overflows the stack when called twice   []
+ok   every hooked method still reaches the ORIGINAL implementation   []
+ok   RealInterceptorChain.proceed specifically survives 10 repeated calls
+ok   Signature.toByteArray specifically survives 10 repeated calls
+```
+
+Bug #1 alone would have destroyed the request/response capture the user asked for: the first HTTP
+round-trip would have blown the stack inside `proceed()`.
+
+#### (e) The runner: one command, bypass armed first, capture second
+
+`run_frida.py` gained two flags:
+
+```bash
+# capture script with its own bypass on:
+python3 frida/run_frida.py --script capture --bypass
+
+# OR the recommended split — the agent does the 138-tested bypass, the capture
+# script only observes, so no bypass logic is duplicated:
+python3 frida/run_frida.py --script capture --also agent --mode bypass
+```
+
+`--also` injects a second script into the same session (Frida gives each its own JS context but they
+share the process), and the load order arms the bypass before the capture. `--bypass` sets
+`CFG.bypass.enabled` *and* the agent's `stubDetection`, so it works whichever script is primary. The
+REPL now resolves an rpc name across both scripts, so `calibrate`, `keys`, `strings`, `net` and the
+agent's `selftest`/`signature` all work from one prompt. Every bypassed event is tagged `kind:"bypass"`
+and the boot event carries `readOnly:false` plus the full stub list, so a bypassed capture can never be
+mistaken for an unmodified one after the fact.
+
+#### (f) Status after revision 7
+
+| check | result |
+|---|---|
+| `node frida/test_capture_offline.js` | **PASS 412 · FAIL 0** |
+| `node frida/test_agent_offline.js` | **PASS 138 · FAIL 0** |
+| `node frida/selftest_real_so.js` | **26 / 26, 0 skipped, `liveMatchesPin == true`** |
+| read-only by default | **tested** — markers stripped, 0 writes outside them |
+| bypass actually defeats all four detection layers | **tested** against the real `.so` bytes (maps filter, su paths, sig pin SHA-256, the 7-entry stub set) |
+| still never run on a phone or emulator | **true** — §11.13(f) is unchanged |
+
+The honest caveat that survives every revision: all of this is verified against the file and a mock
+VM, **not** a live `libtopfollow.so` in a running app. The bypass set is derived from the measured
+polarities in §6 and §8; on a real device the order in §8 ("neutralisation order") still applies, and
+`func#98`'s timing check is the one whose polarity has never been proven.
 
 ---
 
